@@ -1,14 +1,20 @@
 module FmLayout
-  class FmLayoutEmisor
+  class FmLayoutDomicilioFiscal
     def initialize
       @datos = {}
     end
 
     def self.campos_vs_metodos
       {
-        'rfc'           => 'rfc',
-        'nombre'        => 'nombre',
-        'RegimenFiscal' => 'regimen_fiscal',
+        'calle'           => 'calle',
+        'noExterior'      => 'numero_exterior',
+        'noInterior'      => 'numero_interior',
+        'colonia'         => 'colonia',
+        'localidad'       => 'localidad',
+        'municipio'       => 'municipio',
+        'estado'          => 'estado',
+        'pais'            => 'pais',
+        'codigoPostal'    => 'codigo_postal',
       }
     end
 
@@ -24,7 +30,7 @@ module FmLayout
     end
 
     def to_s
-      salida = "[Emisor]\r\n\r\n"
+      salida = "[DomicilioFiscal]\r\n\r\n"
       @datos.each do |k,v|
         salida += "#{k}|#{v}\r\n"
       end

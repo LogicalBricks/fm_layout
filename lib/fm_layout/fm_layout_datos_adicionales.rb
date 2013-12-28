@@ -1,7 +1,7 @@
 module FmLayout
   class FmLayoutDatosAdicionales
     def initialize
-      @datos_adicionales = {}
+      @datos= {}
     end
 
     def self.campos_vs_metodos
@@ -15,17 +15,17 @@ module FmLayout
     # Creación de los métodos de acceso dinámicamente
     campos_vs_metodos.each do |campo, metodo|
       define_method(metodo) do |dato|
-        @datos_adicionales[campo] = dato
+        @datos[campo] = dato
       end
     end
 
     def to_h
-      @datos_adicionales
+      @datos
     end
 
     def to_s
       salida = "[Datos Adicionales]\r\n\r\n"
-      @datos_adicionales.each do |k,v|
+      @datos.each do |k,v|
         salida += "#{k}|#{v}\r\n"
       end
       salida

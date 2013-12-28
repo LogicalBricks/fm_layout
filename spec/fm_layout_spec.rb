@@ -34,6 +34,17 @@ describe 'DSL para generar el layout de Facturación moderna' do
             e.nombre 'FACTURACION MODERNA S.A de C.V.'
             e.regimen_fiscal 'REGIMEN GENERAL DE LEY PERSONAS MORALES'
           end
+          f.domicilio_fiscal do |d|
+            d.calle 'Calle 1'
+            d.numero_exterior 'Número Exterior'
+            d.numero_interior 'Número Interior'
+            d.colonia 'Colonia'
+            d.localidad 'Localidad'
+            d.municipio 'Municipio'
+            d.estado 'NUEVO LEON'
+            d.pais 'México'
+            d.codigo_postal '66260'
+          end
         end
       end
 
@@ -63,6 +74,17 @@ describe 'DSL para generar el layout de Facturación moderna' do
         it{ expect(prueba.to_h['Emisor']['rfc']).to eq('TUMG620310R95') }
         it{ expect(prueba.to_h['Emisor']['nombre']).to eq('FACTURACION MODERNA S.A de C.V.') }
         it{ expect(prueba.to_h['Emisor']['RegimenFiscal']).to eq('REGIMEN GENERAL DE LEY PERSONAS MORALES') }
+      end
+
+      context 'domicilio fiscal' do
+        it{ expect(prueba.to_h['DomicilioFiscal']['calle']).to eq('Calle 1') }
+        it{ expect(prueba.to_h['DomicilioFiscal']['noExterior']).to eq('Número Exterior') }
+        it{ expect(prueba.to_h['DomicilioFiscal']['noInterior']).to eq('Número Interior') }
+        it{ expect(prueba.to_h['DomicilioFiscal']['colonia']).to eq('Colonia') }
+        it{ expect(prueba.to_h['DomicilioFiscal']['localidad']).to eq('Localidad') }
+        it{ expect(prueba.to_h['DomicilioFiscal']['municipio']).to eq('Municipio') }
+        it{ expect(prueba.to_h['DomicilioFiscal']['estado']).to eq('NUEVO LEON') }
+        it{ expect(prueba.to_h['DomicilioFiscal']['codigoPostal']).to eq('66260') }
       end
 
     end

@@ -1,7 +1,7 @@
 module FmLayout
   class FmLayoutEncabezado
     def initialize
-      @encabezado = {}
+      @datos= {}
       valores_iniciales
     end
 
@@ -28,17 +28,17 @@ module FmLayout
     # Creación de los métodos de acceso dinámicamente
     campos_vs_metodos.each do |campo, metodo|
       define_method(metodo) do |dato|
-        @encabezado[campo] = dato
+        @datos[campo] = dato
       end
     end
 
     def to_h
-      @encabezado
+      @datos
     end
 
     def to_s
       salida = "[Encabezado]\r\n\r\n"
-      @encabezado.each do |k,v|
+      @datos.each do |k,v|
         salida += "#{k}|#{v}\r\n"
       end
       salida
@@ -47,8 +47,8 @@ module FmLayout
     private
 
     def valores_iniciales
-      @encabezado['fecha'] = 'asignarFecha'
-      @encabezado['folio'] = 'asignarFolio'
+      @datos['fecha'] = 'asignarFecha'
+      @datos['folio'] = 'asignarFolio'
     end
   end
 
