@@ -3,21 +3,22 @@ lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'fm_layout/version'
 
-Gem::Specification.new do |spec|
-  spec.name          = "fm_layout"
-  spec.version       = FmLayout::VERSION
-  spec.authors       = ["hermes-logicalbricks"]
-  spec.email         = ["hermes.ojeda@logicalbricks.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
-  spec.homepage      = ""
-  spec.license       = "MIT"
+Gem::Specification.new do |gem|
+  gem.name          = "fm_layout"
+  gem.version       = FmLayout::VERSION
+  gem.authors       = ["Hermes Ojeda Ruiz"]
+  gem.email         = ["hermes.ojeda@logicalbricks.com"]
+  gem.description   = %q{Generador del Layout para la conexión con Facturación Moderna a través de un DSL}
+  gem.summary       = %q{Generador del Layout para la conexión con Facturación Moderna a través de un DSL}
+  gem.homepage      = ""
+  gem.license       = "MIT"
 
-  spec.files         = `git ls-files`.split($/)
-  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
-  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
-  spec.require_paths = ["lib"]
+  gem.files         = `git ls-files`.split($/)
+  gem.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
+  gem.test_files    = spec.files.grep(%r{^(test|spec|features)/})
+  gem.require_paths = ["lib"]
 
-  spec.add_development_dependency "bundler", "~> 1.3"
-  spec.add_development_dependency "rake"
+  gem.add_development_dependency "bundler", "~> 1.3"
+  gem.add_development_dependency "rake"
+  gem.add_development_dependency "rspec"
 end

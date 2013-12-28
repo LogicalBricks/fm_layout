@@ -1,5 +1,10 @@
 require "fm_layout/version"
+require "fm_layout/fm_layout"
 
 module FmLayout
-  # Your code goes here...
+  def self.define_layout
+    layout = FmLayout.new
+    yield(layout) if block_given?
+    layout
+  end
 end
