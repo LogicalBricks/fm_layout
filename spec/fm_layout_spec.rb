@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'spec_helper'
 
 describe 'DSL para generar el layout de Facturación moderna' do
