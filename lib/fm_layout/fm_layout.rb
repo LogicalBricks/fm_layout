@@ -74,6 +74,16 @@ module FmLayout
       end
     end
 
+    def concepto
+      concepto = FmLayoutConcepto.new
+      if block_given?
+        yield(concepto)
+        @conceptos << concepto
+      else
+        concepto
+      end
+    end
+
     def to_s
       salida = @encabezado.to_s
       salida += @datos_adicionales.to_s if @datos_adicionales
@@ -82,6 +92,9 @@ module FmLayout
       salida += @expedido_en.to_s if @expedido_en
       salida += @receptor.to_s if @receptor
       salida += @domicilio.to_s if @domicilio
+      @concepto.each do |c|
+        salida += c.to_s
+      end
       salida
     end
 
@@ -94,7 +107,19 @@ module FmLayout
       hash.merge!({ @expedido_en.titulo => @expedido_en.to_h}) if @expedido_en
       hash.merge!({ @receptor.titulo => @receptor.to_h}) if @receptor
       hash.merge!({ @domicilio.titulo => @domicilio.to_h}) if @domicilio
+      hash.merge!(obtener_hash_conceptos)
       hash
+    end
+
+    private
+
+    def obtener_hash_conceptos
+      conceptos = {}
+      conceptos['Conceptos'] = []
+      @conceptos.each do |c|
+        conceptos['Conceptos'] << { c.titulo => c.to_h }
+      end
+      conceptos
     end
   end
 end

@@ -74,7 +74,23 @@ describe 'DSL para generar el layout de Facturación moderna' do
             d.pais 'México'
             d.codigo_postal '72500'
           end
-
+          f.concepto do |c|
+            c.cantidad 1
+            c.unidad 'No Aplica'
+            c.numero_de_identificacion '111222333'
+            c.descripcion 'Caja Hojas Blancas Tamaño Carta'
+            c.valor_unitario 100.00
+            c.importe 100.00
+            c.cuenta_predial '123-132123'
+          end
+          f.concepto do |c|
+            c.cantidad 2
+            c.unidad 'mts'
+            c.numero_de_identificacion '1111'
+            c.descripcion 'Plástico para forrar libros'
+            c.valor_unitario 10.00
+            c.importe 20.00
+          end
         end
       end
 
@@ -154,6 +170,28 @@ describe 'DSL para generar el layout de Facturación moderna' do
         it{ expect(domicilio['estado']).to eq('PUEBLA') }
         it{ expect(domicilio['pais']).to eq('México') }
         it{ expect(domicilio['codigoPostal']).to eq('72500') }
+      end
+
+      context 'primer concepto' do
+        let(:concepto){ prueba.to_h['Conceptos'].first['Concepto'] }
+        it{ expect(concepto['cantidad']).to eq(1) }
+        it{ expect(concepto['unidad']).to eq('No Aplica') }
+        it{ expect(concepto['noIdentificacion']).to eq('111222333') }
+        it{ expect(concepto['descripcion']).to eq('Caja Hojas Blancas Tamaño Carta') }
+        it{ expect(concepto['valorUnitario']).to eq(100.00) }
+        it{ expect(concepto['importe']).to eq(100.00) }
+        it{ expect(concepto['CuentaPredial']).to eq('123-132123') }
+      end
+
+      context 'segundo concepto' do
+        let(:concepto){ prueba.to_h['Conceptos'].last['Concepto'] }
+        it{ expect(concepto['cantidad']).to eq(2) }
+        it{ expect(concepto['unidad']).to eq('mts') }
+        it{ expect(concepto['noIdentificacion']).to eq('1111') }
+        it{ expect(concepto['descripcion']).to eq('Plástico para forrar libros') }
+        it{ expect(concepto['valorUnitario']).to eq(10.00) }
+        it{ expect(concepto['importe']).to eq(20.00) }
+        it{ expect(concepto['CuentaPredial']).to eq(nil) }
       end
 
 
