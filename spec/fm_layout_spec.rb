@@ -45,7 +45,7 @@ describe 'DSL para generar el layout de Facturación moderna' do
             d.pais 'México'
             d.codigo_postal '66260'
           end
-f.expedido_en do |d|
+          f.expedido_en do |d|
             d.calle 'Calle 2'
             d.numero_exterior 'Número Exterior 2'
             d.numero_interior 'Número Interior 2'
@@ -55,6 +55,12 @@ f.expedido_en do |d|
             d.estado 'OAXACA'
             d.pais 'México'
             d.codigo_postal '68000'
+          end
+          f.receptor do |r|
+            r.rfc 'XAXX010101000'
+            r.nombre 'PUBLICO EN GENERAL'
+            r.numero_de_cliente '987654'
+            r.email 'soporte@facturacionmoderna.com'
           end
 
         end
@@ -110,6 +116,13 @@ f.expedido_en do |d|
         it{ expect(prueba.to_h['ExpedidoEn']['estado']).to eq('OAXACA') }
         it{ expect(prueba.to_h['ExpedidoEn']['pais']).to eq('México') }
         it{ expect(prueba.to_h['ExpedidoEn']['codigoPostal']).to eq('68000') }
+      end
+
+      context 'receptor' do
+        it{ expect(prueba.to_h['Receptor']['rfc']).to eq('XAXX010101000') }
+        it{ expect(prueba.to_h['Receptor']['nombre']).to eq('PUBLICO EN GENERAL') }
+        it{ expect(prueba.to_h['Receptor']['NumCliente']).to eq('987654') }
+        it{ expect(prueba.to_h['Receptor']['emailCliente']).to eq('soporte@facturacionmoderna.com') }
       end
 
     end
