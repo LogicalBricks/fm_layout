@@ -1,6 +1,11 @@
+require 'fm_layout/fm_seccion'
+
 module FmLayout
   class FmLayoutDomicilioFiscal
-    def initialize
+    include FmSeccion
+
+    def initialize(titulo = 'DomicilioFiscal')
+      @titulo = titulo
       @datos = {}
     end
 
@@ -25,16 +30,5 @@ module FmLayout
       end
     end
 
-    def to_h
-      @datos
-    end
-
-    def to_s
-      salida = "[DomicilioFiscal]\r\n\r\n"
-      @datos.each do |k,v|
-        salida += "#{k}|#{v}\r\n"
-      end
-      salida
-    end
   end
 end

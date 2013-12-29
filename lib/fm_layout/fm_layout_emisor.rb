@@ -1,6 +1,11 @@
+require 'fm_layout/fm_seccion'
+
 module FmLayout
   class FmLayoutEmisor
+    include FmSeccion
+
     def initialize
+      @titulo = 'Emisor'
       @datos = {}
     end
 
@@ -19,16 +24,5 @@ module FmLayout
       end
     end
 
-    def to_h
-      @datos
-    end
-
-    def to_s
-      salida = "[Emisor]\r\n\r\n"
-      @datos.each do |k,v|
-        salida += "#{k}|#{v}\r\n"
-      end
-      salida
-    end
   end
 end

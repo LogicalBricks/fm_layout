@@ -1,6 +1,11 @@
+require 'fm_layout/fm_seccion'
+
 module FmLayout
   class FmLayoutDatosAdicionales
+    include FmSeccion
+
     def initialize
+      @titulo = "Datos Adicionales"
       @datos= {}
     end
 
@@ -17,18 +22,6 @@ module FmLayout
       define_method(metodo) do |dato|
         @datos[campo] = dato
       end
-    end
-
-    def to_h
-      @datos
-    end
-
-    def to_s
-      salida = "[Datos Adicionales]\r\n\r\n"
-      @datos.each do |k,v|
-        salida += "#{k}|#{v}\r\n"
-      end
-      salida
     end
   end
 end

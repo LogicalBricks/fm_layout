@@ -44,19 +44,32 @@ module FmLayout
       end
     end
 
+    def expedido_en
+      @expedido_en = FmLayoutDomicilioFiscal.new('ExpedidoEn')
+      if block_given?
+        yield(@expedido_en)
+      else
+        @expedido_en
+      end
+    end
+
     def to_s
-      @encabezado.to_s +
-        @datos_adicionales.to_s +
-        @emisor.to_s +
-        @domicilio_fiscal.to_s
+      salida = @encabezado.to_s
+      salida += @datos_adicionales.to_s if @datos_adicionales
+      salida +=  @emisor.to_s if @emisor
+      salida +=  @domicilio_fiscal.to_s if @domicilio_fiscal
+      salida += @expedido_en.to_s if @expedido_en
+      salida
     end
 
     def to_h
-      { 'Encabezado' => @encabezado.to_h,
-        'Datos Adicionales' => @datos_adicionales.to_h,
-        'Emisor' => @emisor.to_h,
-        'DomicilioFiscal' => @domicilio_fiscal.to_h
-      }
+      hash = {}
+      hash.merge!({ @encabezado.titulo => @encabezado.to_h}) if @encabezado
+      hash.merge!({ @datos_adicionales.titulo => @datos_adicionales.to_h}) if @datos_adicionales
+      hash.merge!({ @emisor.titulo => @emisor.to_h}) if @emisor
+      hash.merge!({ @domicilio_fiscal.titulo => @domicilio_fiscal.to_h}) if @domicilio_fiscal
+      hash.merge!({ @expedido_en.titulo => @expedido_en.to_h}) if @expedido_en
+      hash
     end
   end
 end
