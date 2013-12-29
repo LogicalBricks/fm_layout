@@ -1,6 +1,6 @@
 # FmLayout
 
-TODO: Write a gem description
+Generador del Layout para la conexión con Facturación Moderna a través de un DSL
 
 ## Installation
 
