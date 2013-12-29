@@ -3,6 +3,7 @@ require 'fm_layout/fm_layout_datos_adicionales'
 require 'fm_layout/fm_layout_emisor'
 require 'fm_layout/fm_layout_receptor'
 require 'fm_layout/fm_layout_domicilio'
+require 'fm_layout/fm_layout_concepto'
 
 module FmLayout
   class FmLayout
@@ -13,6 +14,7 @@ module FmLayout
       @domicilio_fiscal = FmLayoutDomicilio.new('DomicilioFiscal')
       @domicilio= FmLayoutDomicilio.new
       @receptor= FmLayoutReceptor.new
+      @conceptos = []
     end
 
     def encabezado
@@ -46,7 +48,6 @@ module FmLayout
         @receptor
       end
     end
-
 
     def domicilio_fiscal
       if block_given?
