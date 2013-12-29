@@ -1,5 +1,7 @@
 # FmLayout
-
+[![Build Status](https://travis-ci.org/LogicalBricks/fm_layout.png?branch=master)](https://travis-ci.org/LogicalBricks/fm_layout)
+[![Code Climate](https://codeclimate.com/github/LogicalBricks/fm_layout.png)](https://codeclimate.com/github/LogicalBricks/fm_layout)
+[![Coverage Status](https://coveralls.io/repos/LogicalBricks/fm_layout/badge.png)](https://coveralls.io/r/LogicalBricks/fm_layout)
 Generador del Layout para la conexión con Facturación Moderna a través de un DSL
 
 ## Installation
