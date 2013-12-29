@@ -45,6 +45,18 @@ describe 'DSL para generar el layout de Facturación moderna' do
             d.pais 'México'
             d.codigo_postal '66260'
           end
+f.expedido_en do |d|
+            d.calle 'Calle 2'
+            d.numero_exterior 'Número Exterior 2'
+            d.numero_interior 'Número Interior 2'
+            d.colonia 'Colonia 2'
+            d.localidad 'Localidad 2'
+            d.municipio 'Municipio 2'
+            d.estado 'OAXACA'
+            d.pais 'México'
+            d.codigo_postal '68000'
+          end
+
         end
       end
 
@@ -84,7 +96,20 @@ describe 'DSL para generar el layout de Facturación moderna' do
         it{ expect(prueba.to_h['DomicilioFiscal']['localidad']).to eq('Localidad') }
         it{ expect(prueba.to_h['DomicilioFiscal']['municipio']).to eq('Municipio') }
         it{ expect(prueba.to_h['DomicilioFiscal']['estado']).to eq('NUEVO LEON') }
+        it{ expect(prueba.to_h['DomicilioFiscal']['pais']).to eq('México') }
         it{ expect(prueba.to_h['DomicilioFiscal']['codigoPostal']).to eq('66260') }
+      end
+
+      context 'expedido en' do
+        it{ expect(prueba.to_h['ExpedidoEn']['calle']).to eq('Calle 2') }
+        it{ expect(prueba.to_h['ExpedidoEn']['noExterior']).to eq('Número Exterior 2') }
+        it{ expect(prueba.to_h['ExpedidoEn']['noInterior']).to eq('Número Interior 2') }
+        it{ expect(prueba.to_h['ExpedidoEn']['colonia']).to eq('Colonia 2') }
+        it{ expect(prueba.to_h['ExpedidoEn']['localidad']).to eq('Localidad 2') }
+        it{ expect(prueba.to_h['ExpedidoEn']['municipio']).to eq('Municipio 2') }
+        it{ expect(prueba.to_h['ExpedidoEn']['estado']).to eq('OAXACA') }
+        it{ expect(prueba.to_h['ExpedidoEn']['pais']).to eq('México') }
+        it{ expect(prueba.to_h['ExpedidoEn']['codigoPostal']).to eq('68000') }
       end
 
     end
