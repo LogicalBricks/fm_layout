@@ -4,6 +4,8 @@ require 'fm_layout/fm_layout_emisor'
 require 'fm_layout/fm_layout_receptor'
 require 'fm_layout/fm_layout_domicilio'
 require 'fm_layout/fm_layout_concepto'
+require 'fm_layout/fm_layout_impuesto_trasladado'
+require 'fm_layout/fm_layout_impuesto_retenido'
 
 module FmLayout
   class FmLayout
@@ -15,6 +17,8 @@ module FmLayout
       @domicilio= FmLayoutDomicilio.new
       @receptor= FmLayoutReceptor.new
       @conceptos = []
+      @impuestos_trasladados =  []
+      @impuestos_retenidos =  []
     end
 
     def encabezado
@@ -84,6 +88,26 @@ module FmLayout
       end
     end
 
+    def impuesto_trasladado
+      impuesto = FmLayoutImpuestoTrasladado.new
+      if block_given?
+        yield(impuesto)
+        @impuestos_trasladados << impuesto
+      else
+       impuesto
+      end
+    end
+
+    def impuesto_retenido
+      impuesto = FmLayoutImpuestoRetenido.new
+      if block_given?
+        yield(impuesto)
+        @impuestos_retenidos << impuesto
+      else
+       impuesto
+      end
+    end
+
     def to_s
       salida = @encabezado.to_s
       salida += @datos_adicionales.to_s if @datos_adicionales
@@ -92,8 +116,14 @@ module FmLayout
       salida += @expedido_en.to_s if @expedido_en
       salida += @receptor.to_s if @receptor
       salida += @domicilio.to_s if @domicilio
-      @concepto.each do |c|
+      @conceptos.each do |c|
         salida += c.to_s
+      end
+      @impuestos_trasladados.each do |i|
+        salida += i.to_s
+      end
+      @impuestos_retenidos.each do |i|
+        salida += i.to_s
       end
       salida
     end
@@ -108,6 +138,8 @@ module FmLayout
       hash.merge!({ @receptor.titulo => @receptor.to_h}) if @receptor
       hash.merge!({ @domicilio.titulo => @domicilio.to_h}) if @domicilio
       hash.merge!(obtener_hash_conceptos)
+      hash.merge!(obtener_hash_traslados)
+      hash.merge!(obtener_hash_retenciones)
       hash
     end
 
@@ -121,5 +153,24 @@ module FmLayout
       end
       conceptos
     end
+
+    def obtener_hash_retenciones
+      retenciones = {}
+      retenciones['ImpuestosRetenidos'] = []
+      @impuestos_retenidos.each do |c|
+        retenciones['ImpuestosRetenidos'] << { c.titulo => c.to_h }
+      end
+      retenciones
+    end
+
+    def obtener_hash_traslados
+      traslados = {}
+      traslados['ImpuestosTrasladados'] = []
+      @impuestos_trasladados.each do |c|
+        traslados['ImpuestosTrasladados'] << { c.titulo => c.to_h }
+      end
+      traslados
+    end
+
   end
 end

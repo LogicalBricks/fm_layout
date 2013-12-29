@@ -91,6 +91,21 @@ describe 'DSL para generar el layout de Facturación moderna' do
             c.valor_unitario 10.00
             c.importe 20.00
           end
+          f.impuesto_trasladado do |i|
+            i.impuesto 'IVA'
+            i.importe  150.00
+            i.tasa 16.00
+          end
+
+          f.impuesto_retenido do |i|
+            i.impuesto 'IVA'
+            i.importe 100.00
+          end
+
+          f.impuesto_retenido do |i|
+            i.impuesto 'ISR'
+            i.importe 10.00
+          end
         end
       end
 
@@ -192,6 +207,25 @@ describe 'DSL para generar el layout de Facturación moderna' do
         it{ expect(concepto['valorUnitario']).to eq(10.00) }
         it{ expect(concepto['importe']).to eq(20.00) }
         it{ expect(concepto['CuentaPredial']).to eq(nil) }
+      end
+
+      context 'primer impuesto trasladado' do
+        let(:traslado){ prueba.to_h['ImpuestosTrasladados'].first['ImpuestoTrasladado'] }
+        it{ expect(traslado['impuesto']).to eq('IVA') }
+        it{ expect(traslado['importe']).to eq(150.00) }
+        it{ expect(traslado['tasa']).to eq(16.00) }
+      end
+
+      context 'primer impuesto retenido' do
+        let(:retencion){ prueba.to_h['ImpuestosRetenidos'].first['ImpuestoRetenido'] }
+        it{ expect(retencion['impuesto']).to eq('IVA') }
+        it{ expect(retencion['importe']).to eq(100.00) }
+      end
+
+      context 'segundo impuesto retenido' do
+        let(:retencion){ prueba.to_h['ImpuestosRetenidos'].last['ImpuestoRetenido'] }
+        it{ expect(retencion['impuesto']).to eq('ISR') }
+        it{ expect(retencion['importe']).to eq(10.00) }
       end
 
 
