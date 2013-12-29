@@ -4,7 +4,7 @@ module FmLayout
   class FmLayoutDomicilio
     include FmSeccion
 
-    def initialize(titulo = 'DomicilioFiscal')
+    def initialize(titulo = 'Domicilio')
       @titulo = titulo
       @datos = {}
     end

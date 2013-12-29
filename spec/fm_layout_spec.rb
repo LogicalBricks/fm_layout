@@ -62,6 +62,17 @@ describe 'DSL para generar el layout de Facturación moderna' do
             r.numero_de_cliente '987654'
             r.email 'soporte@facturacionmoderna.com'
           end
+f.domicilio do |d|
+            d.calle 'Calle 3'
+            d.numero_exterior 'Número Exterior 3'
+            d.numero_interior 'Número Interior 3'
+            d.colonia 'Colonia 3'
+            d.localidad 'Localidad 3'
+            d.municipio 'Municipio 3'
+            d.estado 'PUEBLA'
+            d.pais 'México'
+            d.codigo_postal '72500'
+          end
 
         end
       end
@@ -124,6 +135,19 @@ describe 'DSL para generar el layout de Facturación moderna' do
         it{ expect(prueba.to_h['Receptor']['NumCliente']).to eq('987654') }
         it{ expect(prueba.to_h['Receptor']['emailCliente']).to eq('soporte@facturacionmoderna.com') }
       end
+
+      context 'domilicio' do
+        it{ expect(prueba.to_h['Domicilio']['calle']).to eq('Calle 3') }
+        it{ expect(prueba.to_h['Domicilio']['noExterior']).to eq('Número Exterior 3') }
+        it{ expect(prueba.to_h['Domicilio']['noInterior']).to eq('Número Interior 3') }
+        it{ expect(prueba.to_h['Domicilio']['colonia']).to eq('Colonia 3') }
+        it{ expect(prueba.to_h['Domicilio']['localidad']).to eq('Localidad 3') }
+        it{ expect(prueba.to_h['Domicilio']['municipio']).to eq('Municipio 3') }
+        it{ expect(prueba.to_h['Domicilio']['estado']).to eq('PUEBLA') }
+        it{ expect(prueba.to_h['Domicilio']['pais']).to eq('México') }
+        it{ expect(prueba.to_h['Domicilio']['codigoPostal']).to eq('72500') }
+      end
+
 
     end
   end

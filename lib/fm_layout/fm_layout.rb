@@ -2,7 +2,7 @@ require 'fm_layout/fm_layout_encabezado'
 require 'fm_layout/fm_layout_datos_adicionales'
 require 'fm_layout/fm_layout_emisor'
 require 'fm_layout/fm_layout_receptor'
-require 'fm_layout/fm_layout_domicilio_fiscal'
+require 'fm_layout/fm_layout_domicilio'
 
 module FmLayout
   class FmLayout
@@ -10,7 +10,8 @@ module FmLayout
       @encabezado = FmLayoutEncabezado.new
       @datos_adicionales = FmLayoutDatosAdicionales.new
       @emisor = FmLayoutEmisor.new
-      @domicilio_fiscal = FmLayoutDomicilioFiscal.new
+      @domicilio_fiscal = FmLayoutDomicilio.new('DomicilioFiscal')
+      @domicilio= FmLayoutDomicilio.new
       @receptor= FmLayoutReceptor.new
     end
 
@@ -55,8 +56,16 @@ module FmLayout
       end
     end
 
+    def domicilio
+      if block_given?
+        yield(@domicilio)
+      else
+        @domicilio
+      end
+    end
+
     def expedido_en
-      @expedido_en = FmLayoutDomicilioFiscal.new('ExpedidoEn')
+      @expedido_en = FmLayoutDomicilio.new('ExpedidoEn')
       if block_given?
         yield(@expedido_en)
       else
@@ -71,6 +80,7 @@ module FmLayout
       salida +=  @domicilio_fiscal.to_s if @domicilio_fiscal
       salida += @expedido_en.to_s if @expedido_en
       salida += @receptor.to_s if @receptor
+      salida += @domicilio.to_s if @domicilio
       salida
     end
 
@@ -82,6 +92,7 @@ module FmLayout
       hash.merge!({ @domicilio_fiscal.titulo => @domicilio_fiscal.to_h}) if @domicilio_fiscal
       hash.merge!({ @expedido_en.titulo => @expedido_en.to_h}) if @expedido_en
       hash.merge!({ @receptor.titulo => @receptor.to_h}) if @receptor
+      hash.merge!({ @domicilio.titulo => @domicilio.to_h}) if @domicilio
       hash
     end
   end
