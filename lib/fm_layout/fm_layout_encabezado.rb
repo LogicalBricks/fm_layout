@@ -42,6 +42,9 @@ module FmLayout
     def valores_iniciales
       @datos['fecha'] = 'asignarFecha'
       @datos['folio'] = 'asignarFolio'
+      @datos['subTotal'] = nil
+      @datos['descuento'] = nil
+      @datos['total'] = nil
     end
   end
 

@@ -15,6 +15,9 @@ module FmLayout
         'tipoDocumento'       => 'tipo_de_documento',
         'numeropedido'        => 'numero_de_pedido',
         'observaciones'       => 'observaciones',
+        'idNomina'            => 'id_de_nomina',
+        'idTrabajador'        => 'id_de_trabajador',
+        'leyenda'             => 'leyenda',
       }
     end
 

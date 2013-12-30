@@ -7,6 +7,7 @@ module FmLayout
     def initialize
       @titulo = 'Concepto'
       @datos = {}
+      valores_iniciales
     end
 
     def self.campos_vs_metodos
@@ -28,5 +29,10 @@ module FmLayout
       end
     end
 
+    private
+
+    def valores_iniciales
+      @datos['cantidad'] = 1
+    end
   end
 end

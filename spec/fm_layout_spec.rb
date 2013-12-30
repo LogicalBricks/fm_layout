@@ -282,6 +282,11 @@ describe 'DSL para generar el layout de Facturación moderna' do
         it{ expect(domicilio['pais']).to eq('México') }
       end
 
+      context 'primer concepto' do
+        let(:concepto){ prueba.to_h['Conceptos'].first['Concepto'] }
+        it{ expect(concepto['cantidad']).to eq(1) }
+      end
+
       context 'salida en texto' do
         let(:salida){ prueba.to_s }
         it{ expect(salida).to match(/\[Encabezado\]/) }
