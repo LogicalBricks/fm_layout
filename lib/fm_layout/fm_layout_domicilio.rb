@@ -7,6 +7,7 @@ module FmLayout
     def initialize(titulo = 'Domicilio')
       @titulo = titulo
       @datos = {}
+      valores_iniciales
     end
 
     def self.campos_vs_metodos
@@ -30,5 +31,10 @@ module FmLayout
       end
     end
 
+    private
+
+    def valores_iniciales
+      @datos['pais'] = 'México'
+    end
   end
 end

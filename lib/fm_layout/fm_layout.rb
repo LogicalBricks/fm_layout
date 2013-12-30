@@ -13,8 +13,6 @@ module FmLayout
       @encabezado = FmLayoutEncabezado.new
       @datos_adicionales = FmLayoutDatosAdicionales.new
       @emisor = FmLayoutEmisor.new
-      @domicilio_fiscal = FmLayoutDomicilio.new('DomicilioFiscal')
-      @domicilio= FmLayoutDomicilio.new
       @receptor= FmLayoutReceptor.new
       @conceptos = []
       @impuestos_trasladados =  []
@@ -54,6 +52,7 @@ module FmLayout
     end
 
     def domicilio_fiscal
+      @domicilio_fiscal ||= FmLayoutDomicilio.new('DomicilioFiscal')
       if block_given?
         yield(@domicilio_fiscal)
       else
@@ -62,6 +61,7 @@ module FmLayout
     end
 
     def domicilio
+      @domicilio ||= FmLayoutDomicilio.new
       if block_given?
         yield(@domicilio)
       else
@@ -70,7 +70,7 @@ module FmLayout
     end
 
     def expedido_en
-      @expedido_en = FmLayoutDomicilio.new('ExpedidoEn')
+      @expedido_en ||= FmLayoutDomicilio.new('ExpedidoEn')
       if block_given?
         yield(@expedido_en)
       else

@@ -228,6 +228,73 @@ describe 'DSL para generar el layout de Facturación moderna' do
         it{ expect(retencion['importe']).to eq(10.00) }
       end
 
+      context 'salida en texto' do
+        let(:salida){ prueba.to_s }
+        it{ expect(salida).to match(/\[Encabezado\]/) }
+        it{ expect(salida).to match(/\[Datos Adicionales\]/) }
+        it{ expect(salida).to match(/\[Emisor\]/) }
+        it{ expect(salida).to match(/\[DomicilioFiscal\]/) }
+        it{ expect(salida).to match(/\[ExpedidoEn\]/) }
+        it{ expect(salida).to match(/\[Receptor\]/) }
+        it{ expect(salida).to match(/\[Domicilio\]/) }
+        it{ expect(salida).to match(/\[Concepto\]/) }
+        it{ expect(salida).to match(/\[ImpuestoTrasladado\]/) }
+        it{ expect(salida).to match(/\[ImpuestoRetenido\]/) }
+      end
+    end
+
+    context 'llenado sin campos' do
+      let(:prueba) do
+        # DSL
+        FmLayout.define_layout do |f|
+          f.encabezado do |e|
+          end
+          f.datos_adicionales do |d|
+          end
+          f.emisor do |e|
+          end
+          f.receptor do |r|
+          end
+          f.domicilio do |d|
+          end
+          f.concepto do |c|
+          end
+          f.impuesto_trasladado do |i|
+          end
+          f.impuesto_retenido do |i|
+          end
+        end
+      end
+
+      context 'encabezado' do
+        let(:encabezado){ prueba.to_h['Encabezado'] }
+        it{ expect(encabezado['fecha']).to eq('asignarFecha') }
+        it{ expect(encabezado['folio']).to eq('asignarFolio') }
+      end
+
+      context 'datos adicionales' do
+        let(:datos_adicionales){ prueba.to_h['Datos Adicionales'] }
+        it{ expect(datos_adicionales['tipoDocumento']).to eq('Factura') }
+      end
+
+      context 'domicilio fiscal' do
+        let(:domicilio){ prueba.to_h['Domicilio'] }
+        it{ expect(domicilio['pais']).to eq('México') }
+      end
+
+      context 'salida en texto' do
+        let(:salida){ prueba.to_s }
+        it{ expect(salida).to match(/\[Encabezado\]/) }
+        it{ expect(salida).to match(/\[Datos Adicionales\]/) }
+        it{ expect(salida).to match(/\[Emisor\]/) }
+        it{ expect(salida).not_to match(/\[DomicilioFiscal\]/) }
+        it{ expect(salida).not_to match(/\[ExpedidoEn\]/) }
+        it{ expect(salida).to match(/\[Receptor\]/) }
+        it{ expect(salida).to match(/\[Domicilio\]/) }
+        it{ expect(salida).to match(/\[Concepto\]/) }
+        it{ expect(salida).to match(/\[ImpuestoTrasladado\]/) }
+        it{ expect(salida).to match(/\[ImpuestoRetenido\]/) }
+      end
 
     end
   end
