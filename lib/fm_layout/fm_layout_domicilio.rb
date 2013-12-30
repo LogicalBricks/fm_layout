@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'fm_layout/fm_seccion'
 
 module FmLayout
