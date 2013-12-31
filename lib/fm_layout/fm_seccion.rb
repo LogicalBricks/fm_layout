@@ -5,7 +5,7 @@ module FmLayout
    end
 
    def to_h
-      @datos
+     { @titulo => @datos }
    end
 
     def to_s

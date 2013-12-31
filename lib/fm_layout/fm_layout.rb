@@ -119,69 +119,30 @@ module FmLayout
     end
 
     def to_s
-      salida = @encabezado.to_s
-      salida += @datos_adicionales.to_s if @datos_adicionales
-      salida +=  @emisor.to_s if @emisor
-      salida +=  @domicilio_fiscal.to_s if @domicilio_fiscal
-      salida += @expedido_en.to_s if @expedido_en
-      salida += @receptor.to_s if @receptor
-      salida += @domicilio.to_s if @domicilio
-      @conceptos.each do |c|
-        salida += c.to_s
-      end
-      @impuestos_trasladados.each do |i|
-        salida += i.to_s
-      end
-      @impuestos_retenidos.each do |i|
-        salida += i.to_s
-      end
-      salida += @nomina.to_s if @nomina
+      salida = @encabezado.to_s + @datos_adicionales.to_s + @emisor.to_s + @domicilio_fiscal.to_s + @expedido_en.to_s + @receptor.to_s + @domicilio.to_s
+      salida += @conceptos.map(&:to_s).reduce(:+).to_s
+      salida += @impuestos_trasladados.map(&:to_s).reduce(:+).to_s
+      salida += @impuestos_retenidos.map(&:to_s).reduce(:+).to_s
+      salida += @nomina.to_s
       salida
     end
 
     def to_h
-      hash = {}
-      hash.merge!({ @encabezado.titulo => @encabezado.to_h}) if @encabezado
-      hash.merge!({ @datos_adicionales.titulo => @datos_adicionales.to_h}) if @datos_adicionales
-      hash.merge!({ @emisor.titulo => @emisor.to_h}) if @emisor
-      hash.merge!({ @domicilio_fiscal.titulo => @domicilio_fiscal.to_h}) if @domicilio_fiscal
-      hash.merge!({ @expedido_en.titulo => @expedido_en.to_h}) if @expedido_en
-      hash.merge!({ @receptor.titulo => @receptor.to_h}) if @receptor
-      hash.merge!({ @domicilio.titulo => @domicilio.to_h}) if @domicilio
-      hash.merge!(obtener_hash_conceptos)
-      hash.merge!(obtener_hash_traslados)
-      hash.merge!(obtener_hash_retenciones)
-      hash.merge!({ 'Nomina' => @nomina.to_h}) if @nomina
-      hash
+      {}.merge(@encabezado.to_h).merge(@datos_adicionales.to_h).merge(@emisor.to_h).merge(@domicilio_fiscal.to_h).merge(@expedido_en.to_h).merge(@receptor.to_h).merge(@domicilio.to_h).merge(obtener_hash_conceptos).merge(obtener_hash_traslados).merge(obtener_hash_retenciones).merge(@nomina.to_h)
     end
 
     private
 
     def obtener_hash_conceptos
-      conceptos = {}
-      conceptos['Conceptos'] = []
-      @conceptos.each do |c|
-        conceptos['Conceptos'] << { c.titulo => c.to_h }
-      end
-      conceptos
+      { 'Conceptos' => @conceptos.map(&:to_h) }
     end
 
     def obtener_hash_retenciones
-      retenciones = {}
-      retenciones['ImpuestosRetenidos'] = []
-      @impuestos_retenidos.each do |c|
-        retenciones['ImpuestosRetenidos'] << { c.titulo => c.to_h }
-      end
-      retenciones
+      {'ImpuestosRetenidos' => @impuestos_retenidos.map(&:to_h) }
     end
 
     def obtener_hash_traslados
-      traslados = {}
-      traslados['ImpuestosTrasladados'] = []
-      @impuestos_trasladados.each do |c|
-        traslados['ImpuestosTrasladados'] << { c.titulo => c.to_h }
-      end
-      traslados
+      { 'ImpuestosTrasladados' => @impuestos_trasladados.map(&:to_h) }
     end
 
   end

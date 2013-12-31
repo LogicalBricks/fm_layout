@@ -66,68 +66,29 @@ module FmLayout
 
 
       def to_h
-        hash = {}
-        hash.merge!({ @complemento_nomina.titulo => @complemento_nomina.to_h}) if @complemento_nomina
-        hash.merge!(obtener_hash_percepciones)
-        hash.merge!(obtener_hash_deducciones)
-        hash.merge!(obtener_hash_incapacidades)
-        hash.merge!(obtener_hash_horas_extra)
-        hash
+        { 'Nomina' => {}.merge( @complemento_nomina.to_h).merge(obtener_hash_percepciones).merge(obtener_hash_deducciones).merge(obtener_hash_incapacidades).merge(obtener_hash_horas_extra) }
       end
 
       def to_s
-        salida = @complemento_nomina.to_s
-        @percepciones.each do |d|
-          salida += d.to_s
-        end
-        @deducciones.each do |d|
-          salida += d.to_s
-        end
-        @incapacidades.each do |d|
-          salida += d.to_s
-        end
-        @horas_extras.each do |d|
-          salida += d.to_s
-        end
-        salida
+        @complemento_nomina.to_s + @percepciones.map(&:to_s).inject(:+).to_s + @deducciones.map(&:to_s).inject(:+).to_s + @incapacidades.map(&:to_s).inject(:+).to_s + @horas_extras.map(&:to_s).inject(:+).to_s
       end
 
       private
 
       def obtener_hash_percepciones
-        percepciones = {}
-        percepciones['Percepciones'] = []
-        @percepciones.each do |c|
-          percepciones['Percepciones'] << { c.titulo => c.to_h }
-        end
-        percepciones
+        { 'Percepciones' => @percepciones.map(&:to_h) }
       end
 
       def obtener_hash_deducciones
-        deducciones = {}
-        deducciones['Deducciones'] = []
-        @deducciones.each do |c|
-          deducciones['Deducciones'] << { c.titulo => c.to_h }
-        end
-        deducciones
+        { 'Deducciones' => @deducciones.map(&:to_h) }
       end
 
       def obtener_hash_incapacidades
-        incapacidades = {}
-        incapacidades['Incapacidades'] = []
-        @incapacidades.each do |c|
-          incapacidades['Incapacidades'] << { c.titulo => c.to_h }
-        end
-        incapacidades
+        { 'Incapacidades' => @incapacidades.map(&:to_h) }
       end
 
       def obtener_hash_horas_extra
-        horas_extra = {}
-        horas_extra['InformacionHorasExtra'] = []
-        @horas_extras.each do |c|
-          horas_extra['InformacionHorasExtra'] << { c.titulo => c.to_h }
-        end
-        horas_extra
+        { 'InformacionHorasExtra' => @horas_extras.map(&:to_h) }
       end
 
     end
