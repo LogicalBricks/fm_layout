@@ -8,3 +8,12 @@ module FmLayout
     layout
   end
 end
+
+# Monkeypatch
+if RUBY_VERSION < '2.0'
+  class NilClass
+    def to_h
+      {}
+    end
+  end
+end
