@@ -2,7 +2,7 @@
 require 'fm_layout/fm_seccion'
 
 module FmLayout
-  class FmLayoutDomicilio
+  class Domicilio
     include FmSeccion
 
     def initialize(titulo = 'Domicilio')

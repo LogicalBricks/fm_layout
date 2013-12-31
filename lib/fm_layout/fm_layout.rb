@@ -1,19 +1,20 @@
-require 'fm_layout/fm_layout_encabezado'
-require 'fm_layout/fm_layout_datos_adicionales'
-require 'fm_layout/fm_layout_emisor'
-require 'fm_layout/fm_layout_receptor'
-require 'fm_layout/fm_layout_domicilio'
-require 'fm_layout/fm_layout_concepto'
-require 'fm_layout/fm_layout_impuesto_trasladado'
-require 'fm_layout/fm_layout_impuesto_retenido'
+require 'fm_layout/encabezado'
+require 'fm_layout/datos_adicionales'
+require 'fm_layout/emisor'
+require 'fm_layout/receptor'
+require 'fm_layout/domicilio'
+require 'fm_layout/concepto'
+require 'fm_layout/impuesto_trasladado'
+require 'fm_layout/impuesto_retenido'
+require 'fm_layout/nomina/nomina'
 
 module FmLayout
   class FmLayout
     def initialize
-      @encabezado = FmLayoutEncabezado.new
-      @datos_adicionales = FmLayoutDatosAdicionales.new
-      @emisor = FmLayoutEmisor.new
-      @receptor= FmLayoutReceptor.new
+      @encabezado = Encabezado.new
+      @datos_adicionales = DatosAdicionales.new
+      @emisor = Emisor.new
+      @receptor= Receptor.new
       @conceptos = []
       @impuestos_trasladados =  []
       @impuestos_retenidos =  []
@@ -52,7 +53,7 @@ module FmLayout
     end
 
     def domicilio_fiscal
-      @domicilio_fiscal ||= FmLayoutDomicilio.new('DomicilioFiscal')
+      @domicilio_fiscal ||= Domicilio.new('DomicilioFiscal')
       if block_given?
         yield(@domicilio_fiscal)
       else
@@ -61,7 +62,7 @@ module FmLayout
     end
 
     def domicilio
-      @domicilio ||= FmLayoutDomicilio.new
+      @domicilio ||= Domicilio.new
       if block_given?
         yield(@domicilio)
       else
@@ -70,7 +71,7 @@ module FmLayout
     end
 
     def expedido_en
-      @expedido_en ||= FmLayoutDomicilio.new('ExpedidoEn')
+      @expedido_en ||= Domicilio.new('ExpedidoEn')
       if block_given?
         yield(@expedido_en)
       else
@@ -79,7 +80,7 @@ module FmLayout
     end
 
     def concepto
-      concepto = FmLayoutConcepto.new
+      concepto = Concepto.new
       if block_given?
         yield(concepto)
         @conceptos << concepto
@@ -89,7 +90,7 @@ module FmLayout
     end
 
     def impuesto_trasladado
-      impuesto = FmLayoutImpuestoTrasladado.new
+      impuesto = ImpuestoTrasladado.new
       if block_given?
         yield(impuesto)
         @impuestos_trasladados << impuesto
@@ -99,12 +100,21 @@ module FmLayout
     end
 
     def impuesto_retenido
-      impuesto = FmLayoutImpuestoRetenido.new
+      impuesto = ImpuestoRetenido.new
       if block_given?
         yield(impuesto)
         @impuestos_retenidos << impuesto
       else
        impuesto
+      end
+    end
+
+    def nomina
+      @nomina = Nomina::Nomina.new
+      if block_given?
+        yield(@nomina)
+      else
+        @nomina
       end
     end
 
@@ -125,6 +135,7 @@ module FmLayout
       @impuestos_retenidos.each do |i|
         salida += i.to_s
       end
+      salida += @nomina.to_s if @nomina
       salida
     end
 
@@ -140,6 +151,7 @@ module FmLayout
       hash.merge!(obtener_hash_conceptos)
       hash.merge!(obtener_hash_traslados)
       hash.merge!(obtener_hash_retenciones)
+      hash.merge!({ 'Nomina' => @nomina.to_h}) if @nomina
       hash
     end
 

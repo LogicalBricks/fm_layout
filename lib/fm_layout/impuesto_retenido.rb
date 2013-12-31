@@ -1,11 +1,11 @@
 require 'fm_layout/fm_seccion'
 
 module FmLayout
-  class FmLayoutImpuestoTrasladado
+  class ImpuestoRetenido
     include FmSeccion
 
     def initialize
-      @titulo = 'ImpuestoTrasladado'
+      @titulo = 'ImpuestoRetenido'
       @datos = {}
     end
 
@@ -13,7 +13,6 @@ module FmLayout
       {
         'impuesto'       => 'impuesto',
         'importe'        => 'importe',
-        'tasa'           => 'tasa',
       }
     end
 

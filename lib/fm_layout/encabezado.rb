@@ -1,6 +1,6 @@
 require 'fm_layout/fm_seccion'
 module FmLayout
-  class FmLayoutEncabezado
+  class Encabezado
     include FmSeccion
 
     def initialize
@@ -21,6 +21,7 @@ module FmLayout
         'NumCtaPago'          => 'numero_de_cuenta_de_pago',
         'subTotal'            => 'subtotal',
         'descuento'           => 'descuento',
+        'motivoDescuento'     => 'motivo_de_descuento',
         'total'               => 'total',
         'Moneda'              => 'moneda',
         'TipoCambio'          => 'tipo_de_cambio',
@@ -42,6 +43,8 @@ module FmLayout
     def valores_iniciales
       @datos['fecha'] = 'asignarFecha'
       @datos['folio'] = 'asignarFolio'
+      @datos['NumCtaPago'] = 'No identificado'
+      @datos['noCertificado'] = nil
       @datos['subTotal'] = nil
       @datos['descuento'] = nil
       @datos['total'] = nil

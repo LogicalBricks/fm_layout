@@ -1,7 +1,7 @@
 require 'fm_layout/fm_seccion'
 
 module FmLayout
-  class FmLayoutConcepto
+  class Concepto
     include FmSeccion
 
     def initialize

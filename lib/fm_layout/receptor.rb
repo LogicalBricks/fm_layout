@@ -1,7 +1,7 @@
 require 'fm_layout/fm_seccion'
 
 module FmLayout
-  class FmLayoutReceptor
+  class Receptor
     include FmSeccion
 
     def initialize

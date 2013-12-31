@@ -13,6 +13,7 @@ module FmLayout
       @datos.each do |k,v|
         salida += "#{k}|#{v}\r\n"
       end
+      salida += "\r\n"
       salida
     end
 
