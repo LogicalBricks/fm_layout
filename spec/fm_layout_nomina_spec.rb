@@ -211,7 +211,7 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
         context 'deducciones' do
           context 'primera deduccion' do
             let(:deduccion) { nomina['Deducciones'][0]['Deduccion'] }
-            it{ expect(deduccion['TipoPercepcion']).to eq('002')}
+            it{ expect(deduccion['TipoDeduccion']).to eq('002')}
             it{ expect(deduccion['Clave']).to eq('001')}
             it{ expect(deduccion['Concepto']).to eq('ISR')}
             it{ expect(deduccion['ImporteGravado']).to eq(0.00)}
@@ -220,7 +220,7 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
 
           context 'segunda deduccion' do
             let(:deduccion) { nomina['Deducciones'][1]['Deduccion'] }
-            it{ expect(deduccion['TipoPercepcion']).to eq('001')}
+            it{ expect(deduccion['TipoDeduccion']).to eq('001')}
             it{ expect(deduccion['Clave']).to eq('002')}
             it{ expect(deduccion['Concepto']).to eq('IMSS')}
             it{ expect(deduccion['ImporteGravado']).to eq(0.00)}
@@ -229,7 +229,7 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
 
           context 'tercera deduccion' do
             let(:deduccion) { nomina['Deducciones'][2]['Deduccion'] }
-            it{ expect(deduccion['TipoPercepcion']).to eq('006')}
+            it{ expect(deduccion['TipoDeduccion']).to eq('006')}
             it{ expect(deduccion['Clave']).to eq('006')}
             it{ expect(deduccion['Concepto']).to eq('Descuento por incapacidad')}
             it{ expect(deduccion['ImporteGravado']).to eq(0.00)}

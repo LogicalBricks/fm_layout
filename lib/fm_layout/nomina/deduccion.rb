@@ -12,7 +12,7 @@ module FmLayout
 
       def self.campos_vs_metodos
         {
-          'TipoPercepcion'       => 'tipo',
+          'TipoDeduccion'       => 'tipo',
           'Clave'                => 'clave',
           'Concepto'             => 'concepto',
           'ImporteGravado'       => 'importe_gravado',
