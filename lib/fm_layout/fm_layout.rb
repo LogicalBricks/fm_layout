@@ -5,6 +5,7 @@ require 'fm_layout/receptor'
 require 'fm_layout/domicilio'
 require 'fm_layout/concepto'
 require 'fm_layout/impuesto_trasladado'
+require 'fm_layout/impuesto_trasladado_local'
 require 'fm_layout/impuesto_retenido'
 require 'fm_layout/nomina/nomina'
 
@@ -17,6 +18,7 @@ module FmLayout
       @receptor= Receptor.new
       @conceptos = []
       @impuestos_trasladados =  []
+      @impuestos_trasladados_locales =  []
       @impuestos_retenidos =  []
     end
 
@@ -99,6 +101,16 @@ module FmLayout
       end
     end
 
+    def impuesto_trasladado_local
+      impuesto = ImpuestoTrasladadoLocal.new
+      if block_given?
+        yield(impuesto)
+        @impuestos_trasladados_locales << impuesto
+      else
+       impuesto
+      end
+    end
+
     def impuesto_retenido
       impuesto = ImpuestoRetenido.new
       if block_given?
@@ -123,12 +135,24 @@ module FmLayout
       salida += @conceptos.map(&:to_s).reduce(:+).to_s
       salida += @impuestos_trasladados.map(&:to_s).reduce(:+).to_s
       salida += @impuestos_retenidos.map(&:to_s).reduce(:+).to_s
+      salida += @impuestos_trasladados_locales.map(&:to_s).reduce(:+).to_s
       salida += @nomina.to_s
       salida
     end
 
     def to_h
-      {}.merge(@encabezado.to_h).merge(@datos_adicionales.to_h).merge(@emisor.to_h).merge(@domicilio_fiscal.to_h).merge(@expedido_en.to_h).merge(@receptor.to_h).merge(@domicilio.to_h).merge(obtener_hash_conceptos).merge(obtener_hash_traslados).merge(obtener_hash_retenciones).merge(@nomina.to_h)
+      encabezado.to_h
+        .merge(@datos_adicionales.to_h)
+        .merge(@emisor.to_h)
+        .merge(@domicilio_fiscal.to_h)
+        .merge(@expedido_en.to_h)
+        .merge(@receptor.to_h)
+        .merge(@domicilio.to_h)
+        .merge(obtener_hash_conceptos)
+        .merge(obtener_hash_traslados)
+        .merge(obtener_hash_retenciones)
+        .merge(@nomina.to_h)
+        .merge(obtener_hash_traslados_locales)
     end
 
     private
@@ -143,6 +167,10 @@ module FmLayout
 
     def obtener_hash_traslados
       { 'ImpuestosTrasladados' => @impuestos_trasladados.map(&:to_h) }
+    end
+
+    def obtener_hash_traslados_locales
+      { 'ImpuestosTrasladadosLocales' => @impuestos_trasladados_locales.map(&:to_h) }
     end
 
   end

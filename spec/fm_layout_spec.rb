@@ -96,6 +96,11 @@ describe 'DSL para generar el layout de Facturación moderna' do
             i.importe  150.00
             i.tasa 16.00
           end
+          f.impuesto_trasladado_local do |i|
+            i.impuesto 'ISH'
+            i.importe  110.00
+            i.tasa 11.00
+          end
 
           f.impuesto_retenido do |i|
             i.impuesto 'IVA'
@@ -228,6 +233,13 @@ describe 'DSL para generar el layout de Facturación moderna' do
         it{ expect(retencion['importe']).to eq(10.00) }
       end
 
+      context 'primer impuesto trasladado local' do
+        let(:traslado_local){ prueba.to_h['ImpuestosTrasladadosLocales'].first['TrasladoLocal'] }
+        it{ expect(traslado_local['ImpLocTrasladado']).to eq('ISH') }
+        it{ expect(traslado_local['Importe']).to eq(110.00) }
+        it{ expect(traslado_local['TasadeTraslado']).to eq(11.00) }
+      end
+
       context 'salida en texto' do
         let(:salida){ prueba.to_s }
         it{ expect(salida).to match(/\[Encabezado\]/) }
@@ -240,6 +252,7 @@ describe 'DSL para generar el layout de Facturación moderna' do
         it{ expect(salida).to match(/\[Concepto\]/) }
         it{ expect(salida).to match(/\[ImpuestoTrasladado\]/) }
         it{ expect(salida).to match(/\[ImpuestoRetenido\]/) }
+        it{ expect(salida).to match(/\[TrasladoLocal\]/) }
       end
     end
 
