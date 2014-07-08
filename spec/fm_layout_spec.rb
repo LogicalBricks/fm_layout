@@ -111,6 +111,37 @@ describe 'DSL para generar el layout de Facturación moderna' do
             i.impuesto 'ISR'
             i.importe 10.00
           end
+
+          f.impuesto_retenido_local do |i|
+            i.impuesto 'IVA LOCAL'
+            i.importe 110.00
+            i.tasa 16.00
+          end
+
+          f.impuesto_retenido_local do |i|
+            i.impuesto 'ISR LOCAL'
+            i.importe 110.00
+            i.tasa 16.00
+          end
+
+          f.estimacion do |e|
+            e.nombre 'Estimacion'
+            e.importe_estimacion 10.00
+            e.amortizacion_anticipo 10.00
+            e.retencion 10.00
+            e.devolucion 10.00
+          end
+
+          f.ajuste_constructora do |a|
+            a.nombre 'Primer Ajuste'
+            a.importe 10.00
+          end
+
+          f.ajuste_constructora do |a|
+            a.nombre 'Segundo Ajuste'
+            a.importe 10.00
+          end
+
         end
       end
 
@@ -213,6 +244,15 @@ describe 'DSL para generar el layout de Facturación moderna' do
         it{ expect(concepto['importe']).to eq(20.00) }
         it{ expect(concepto['CuentaPredial']).to eq(nil) }
       end
+     
+      context 'estimacion' do
+        let(:estimacion){ prueba.to_h['Estimaciones'].first['Estimacion'] }
+        it{ expect(estimacion['nombre']).to eq('Estimacion') }
+        it{ expect(estimacion['importeEstimacion']).to eq(10.00) }
+        it{ expect(estimacion['amortizacionAnticipo']).to eq(10.00) }
+        it{ expect(estimacion['retencion']).to eq(10.00) }
+        it{ expect(estimacion['devolucion']).to eq(10.00) }
+      end
 
       context 'primer impuesto trasladado' do
         let(:traslado){ prueba.to_h['ImpuestosTrasladados'].first['ImpuestoTrasladado'] }
@@ -240,6 +280,32 @@ describe 'DSL para generar el layout de Facturación moderna' do
         it{ expect(traslado_local['TasadeTraslado']).to eq(11.00) }
       end
 
+      context 'primer impuesto retenido local' do
+        let(:retencion_local){ prueba.to_h['ImpuestosRetenidosLocales'].first['RetencionLocal'] }
+        it{ expect(retencion_local['ImpLocRetenido']).to eq('IVA LOCAL') }
+        it{ expect(retencion_local['Importe']).to eq(110.00) }
+        it{ expect(retencion_local['TasadeTraslado']).to eq(16.00) }
+      end
+     
+      context 'segundo impuesto retenido local' do
+        let(:retencion_local){ prueba.to_h['ImpuestosRetenidosLocales'].last['RetencionLocal'] }
+        it{ expect(retencion_local['ImpLocRetenido']).to eq('ISR LOCAL') }
+        it{ expect(retencion_local['Importe']).to eq(110.00) }
+        it{ expect(retencion_local['TasadeTraslado']).to eq(16.00) }
+      end
+      
+      context 'primer ajuste constructora' do
+        let(:ajuste){ prueba.to_h['Ajustes'].first['Ajuste'] }
+        it{ expect(ajuste['nombre']).to eq('Primer Ajuste') }
+        it{ expect(ajuste['importe']).to eq(10.00) }
+      end
+      
+      context 'segundo ajuste constructora' do
+        let(:ajuste){ prueba.to_h['Ajustes'].last['Ajuste'] }
+        it{ expect(ajuste['nombre']).to eq('Segundo Ajuste') }
+        it{ expect(ajuste['importe']).to eq(10.00) }
+      end
+      
       context 'salida en texto' do
         let(:salida){ prueba.to_s }
         it{ expect(salida).to match(/\[Encabezado\]/) }
@@ -253,6 +319,9 @@ describe 'DSL para generar el layout de Facturación moderna' do
         it{ expect(salida).to match(/\[ImpuestoTrasladado\]/) }
         it{ expect(salida).to match(/\[ImpuestoRetenido\]/) }
         it{ expect(salida).to match(/\[TrasladoLocal\]/) }
+        it{ expect(salida).to match(/\[Estimacion\]/) }
+        it{ expect(salida).to match(/\[RetencionLocal\]/) }
+        it{ expect(salida).to match(/\[Ajuste\]/) }
       end
     end
 
@@ -275,6 +344,10 @@ describe 'DSL para generar el layout de Facturación moderna' do
           f.impuesto_trasladado do |i|
           end
           f.impuesto_retenido do |i|
+          end
+          f.estimacion do |e|
+          end
+          f.ajuste_constructora do |a|
           end
         end
       end
@@ -312,6 +385,8 @@ describe 'DSL para generar el layout de Facturación moderna' do
         it{ expect(salida).to match(/\[Concepto\]/) }
         it{ expect(salida).to match(/\[ImpuestoTrasladado\]/) }
         it{ expect(salida).to match(/\[ImpuestoRetenido\]/) }
+        it{ expect(salida).to match(/\[Estimacion\]/) }
+        it{ expect(salida).to match(/\[Ajuste\]/) }
       end
 
     end
