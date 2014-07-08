@@ -8,8 +8,6 @@ require 'fm_layout/impuesto_trasladado'
 require 'fm_layout/impuesto_trasladado_local'
 require 'fm_layout/impuesto_retenido'
 require 'fm_layout/impuesto_retenido_local'
-require 'fm_layout/ajuste_constructora'
-require 'fm_layout/estimacion'
 require 'fm_layout/nomina/nomina'
 
 module FmLayout
@@ -97,16 +95,6 @@ module FmLayout
       end
     end
 
-    def estimacion
-      estimacion = Estimacion.new
-      if block_given?
-        yield(estimacion)
-        @estimacion << estimacion
-      else
-        estimacion
-      end
-    end
-
     def impuesto_trasladado
       impuesto = ImpuestoTrasladado.new
       if block_given?
@@ -147,16 +135,6 @@ module FmLayout
       end
     end
 
-    def ajuste_constructora
-      ajuste_constructora = AjusteConstructora.new
-      if block_given?
-        yield(ajuste_constructora)
-        @ajuste_constructora << ajuste_constructora
-      else
-        ajuste_constructora
-      end
-    end
-
     def nomina
       @nomina = Nomina::Nomina.new
       if block_given?
@@ -172,9 +150,7 @@ module FmLayout
       salida += @impuestos_trasladados.map(&:to_s).reduce(:+).to_s
       salida += @impuestos_retenidos.map(&:to_s).reduce(:+).to_s
       salida += @impuestos_trasladados_locales.map(&:to_s).reduce(:+).to_s
-      salida += @estimacion.map(&:to_s).reduce(:+).to_s
       salida += @impuestos_retenidos_locales.map(&:to_s).reduce(:+).to_s
-      salida += @ajuste_constructora.map(&:to_s).reduce(:+).to_s
       salida += @nomina.to_s
       salida
     end
@@ -193,8 +169,6 @@ module FmLayout
         .merge(@nomina.to_h)
         .merge(obtener_hash_traslados_locales)
         .merge(obtener_hash_retenciones_locales)
-        .merge(obtener_hash_ajuste_constructora)
-        .merge(obtener_hash_estimacion)
     end
 
     private
@@ -215,17 +189,8 @@ module FmLayout
       { 'ImpuestosTrasladadosLocales' => @impuestos_trasladados_locales.map(&:to_h) }
     end
 
-    def obtener_hash_estimacion
-      { 'Estimaciones' => @estimacion.map(&:to_h) }
-    end
-
     def obtener_hash_retenciones_locales
       { 'ImpuestosRetenidosLocales' => @impuestos_retenidos_locales.map(&:to_h) }
     end
-
-    def obtener_hash_ajuste_constructora
-      { 'Ajustes' => @ajuste_constructora.map(&:to_h) }
-    end
-
   end
 end
