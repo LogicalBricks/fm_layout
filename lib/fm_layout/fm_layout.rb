@@ -22,8 +22,6 @@ module FmLayout
       @impuestos_trasladados_locales =  []
       @impuestos_retenidos =  []
       @impuestos_retenidos_locales = []
-      @estimacion = []
-      @ajuste_constructora = []
     end
 
     def encabezado
