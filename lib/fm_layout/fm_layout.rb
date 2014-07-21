@@ -7,6 +7,7 @@ require 'fm_layout/concepto'
 require 'fm_layout/impuesto_trasladado'
 require 'fm_layout/impuesto_trasladado_local'
 require 'fm_layout/impuesto_retenido'
+require 'fm_layout/impuesto_retenido_local'
 require 'fm_layout/nomina/nomina'
 
 module FmLayout
@@ -20,6 +21,7 @@ module FmLayout
       @impuestos_trasladados =  []
       @impuestos_trasladados_locales =  []
       @impuestos_retenidos =  []
+      @impuestos_retenidos_locales = []
     end
 
     def encabezado
@@ -121,6 +123,16 @@ module FmLayout
       end
     end
 
+    def impuesto_retenido_local 
+      impuesto = ImpuestoRetenidoLocal.new
+      if block_given?
+        yield(impuesto)
+        @impuestos_retenidos_locales << impuesto
+      else
+        impuesto
+      end
+    end
+
     def nomina
       @nomina = Nomina::Nomina.new
       if block_given?
@@ -136,6 +148,7 @@ module FmLayout
       salida += @impuestos_trasladados.map(&:to_s).reduce(:+).to_s
       salida += @impuestos_retenidos.map(&:to_s).reduce(:+).to_s
       salida += @impuestos_trasladados_locales.map(&:to_s).reduce(:+).to_s
+      salida += @impuestos_retenidos_locales.map(&:to_s).reduce(:+).to_s
       salida += @nomina.to_s
       salida
     end
@@ -153,6 +166,7 @@ module FmLayout
         .merge(obtener_hash_retenciones)
         .merge(@nomina.to_h)
         .merge(obtener_hash_traslados_locales)
+        .merge(obtener_hash_retenciones_locales)
     end
 
     private
@@ -173,5 +187,8 @@ module FmLayout
       { 'ImpuestosTrasladadosLocales' => @impuestos_trasladados_locales.map(&:to_h) }
     end
 
+    def obtener_hash_retenciones_locales
+      { 'ImpuestosRetenidosLocales' => @impuestos_retenidos_locales.map(&:to_h) }
+    end
   end
 end
