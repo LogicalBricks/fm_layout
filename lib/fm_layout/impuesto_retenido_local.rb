@@ -13,7 +13,7 @@ module FmLayout
       {
         'ImpLocRetenido'    => 'impuesto',
         'Importe'           => 'importe',
-        'TasadeTraslado'    => 'tasa',
+        'TasadeRetencion'    => 'tasa',
       }
     end
 
