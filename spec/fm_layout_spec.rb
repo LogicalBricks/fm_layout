@@ -257,14 +257,14 @@ describe 'DSL para generar el layout de Facturación moderna' do
         let(:retencion_local){ prueba.to_h['ImpuestosRetenidosLocales'].first['RetencionLocal'] }
         it{ expect(retencion_local['ImpLocRetenido']).to eq('IVA LOCAL') }
         it{ expect(retencion_local['Importe']).to eq(110.00) }
-        it{ expect(retencion_local['TasadeTraslado']).to eq(16.00) }
+        it{ expect(retencion_local['TasadeRetencion']).to eq(16.00) }
       end
      
       context 'segundo impuesto retenido local' do
         let(:retencion_local){ prueba.to_h['ImpuestosRetenidosLocales'].last['RetencionLocal'] }
         it{ expect(retencion_local['ImpLocRetenido']).to eq('ISR LOCAL') }
         it{ expect(retencion_local['Importe']).to eq(110.00) }
-        it{ expect(retencion_local['TasadeTraslado']).to eq(16.00) }
+        it{ expect(retencion_local['TasadeRetencion']).to eq(16.00) }
       end
       
       context 'salida en texto' do
