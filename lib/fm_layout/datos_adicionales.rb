@@ -18,6 +18,7 @@ module FmLayout
         'idNomina'            => 'id_de_nomina',
         'idTrabajador'        => 'id_de_trabajador',
         'leyenda'             => 'leyenda',
+        'TransID'             => 'id_transaccion',
       }
     end
 
