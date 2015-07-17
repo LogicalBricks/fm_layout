@@ -29,6 +29,7 @@ describe 'DSL para generar el layout de Facturación moderna' do
             d.tipo_de_documento 'Factura'
             d.numero_de_pedido '123456'
             d.observaciones 'Efectos Fiscales al Pago'
+            d.id_transaccion 5
           end
           f.emisor do |e|
             e.rfc 'TUMG620310R95'
@@ -149,6 +150,7 @@ describe 'DSL para generar el layout de Facturación moderna' do
         it{ expect(datos_adicionales['tipoDocumento']).to eq('Factura') }
         it{ expect(datos_adicionales['numeropedido']).to eq('123456') }
         it{ expect(datos_adicionales['observaciones']).to eq('Efectos Fiscales al Pago') }
+        it{ expect(datos_adicionales['TransID']).to eq(5) }
       end
 
       context 'emisor' do
@@ -226,7 +228,7 @@ describe 'DSL para generar el layout de Facturación moderna' do
         it{ expect(concepto['importe']).to eq(20.00) }
         it{ expect(concepto['CuentaPredial']).to eq(nil) }
       end
-     
+
       context 'primer impuesto trasladado' do
         let(:traslado){ prueba.to_h['ImpuestosTrasladados'].first['ImpuestoTrasladado'] }
         it{ expect(traslado['impuesto']).to eq('IVA') }
@@ -259,14 +261,14 @@ describe 'DSL para generar el layout de Facturación moderna' do
         it{ expect(retencion_local['Importe']).to eq(110.00) }
         it{ expect(retencion_local['TasadeRetencion']).to eq(16.00) }
       end
-     
+
       context 'segundo impuesto retenido local' do
         let(:retencion_local){ prueba.to_h['ImpuestosRetenidosLocales'].last['RetencionLocal'] }
         it{ expect(retencion_local['ImpLocRetenido']).to eq('ISR LOCAL') }
         it{ expect(retencion_local['Importe']).to eq(110.00) }
         it{ expect(retencion_local['TasadeRetencion']).to eq(16.00) }
       end
-      
+
       context 'salida en texto' do
         let(:salida){ prueba.to_s }
         it{ expect(salida).to match(/\[Encabezado\]/) }
@@ -291,6 +293,7 @@ describe 'DSL para generar el layout de Facturación moderna' do
           f.encabezado do |e|
           end
           f.datos_adicionales do |d|
+            d.id_transaccion 5
           end
           f.emisor do |e|
           end
@@ -332,6 +335,7 @@ describe 'DSL para generar el layout de Facturación moderna' do
         let(:salida){ prueba.to_s }
         it{ expect(salida).to match(/\[Encabezado\]/) }
         it{ expect(salida).to match(/\[Datos Adicionales\]/) }
+        it{ expect(salida).to match("TransID|5") }
         it{ expect(salida).to match(/\[Emisor\]/) }
         it{ expect(salida).not_to match(/\[DomicilioFiscal\]/) }
         it{ expect(salida).not_to match(/\[ExpedidoEn\]/) }
