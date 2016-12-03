@@ -5,18 +5,16 @@ module FmLayout
       include ::FmLayout::FmSeccion
 
       def initialize
-        @titulo= 'Deduccion'
-        @datos= {}
-        #valores_iniciales
+        @titulo = 'Deduccion'
+        @datos  = {}
       end
 
       def self.campos_vs_metodos
         {
-          'TipoDeduccion'       => 'tipo',
-          'Clave'                => 'clave',
-          'Concepto'             => 'concepto',
-          'ImporteGravado'       => 'importe_gravado',
-          'ImporteExento'        => 'importe_exento',
+          'TipoDeduccion' => 'tipo',
+          'Clave'         => 'clave',
+          'Concepto'      => 'concepto',
+          'Importe'       => 'importe',
         }
       end
 
