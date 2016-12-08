@@ -21,6 +21,7 @@ module FmLayout
           'FechaInicialPago'       => 'fecha_inicial_de_pago',
           'FechaFinalPago'         => 'fecha_final_de_pago',
           'NumDiasPagados'         => 'dias_pagados',
+          'TotalPercepciones'      => 'total_percepciones',
           'Departamento'           => 'departamento',
           'CLABE'                  => 'clabe',
           'Banco'                  => 'banco',
