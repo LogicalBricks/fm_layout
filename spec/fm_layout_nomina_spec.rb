@@ -10,14 +10,14 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
       let(:inicio_relacion_laboral){ Date.today - 48*7 }
       let(:prueba) do
         # DSL
-        FmLayout.define_layout do |f|
-          f.encabezado do |e|
-            e.tipo_de_comprobante 'egreso'
-            e.forma_de_pago 'PAGO EN UNA SOLA EXHIBICIÓN'
-            e.metodo_de_pago 'Transferencia Electrónica'
-            e.condiciones_de_pago 'Contado'
-            e.motivo_de_descuento 'Deducciones de nómina'
-            e.lugar_de_expedicion 'Nuevo León, México'
+        FmLayout.define_layout_nomina do |f|
+          f.recibo_nomina do |e|
+            e.serie 'RN'
+            e.folio '105'
+            e.fecha '2016-11-29T16:07:43'
+            e.subtotal '4420.00'
+            e.descuento '193.43'
+            e.total '4226.57'
           end
           f.datos_adicionales do |d|
             d.tipo_de_documento 'RECIBO DE NOMINA'
@@ -80,6 +80,12 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
               p.concepto 'Horas extra'
               p.importe_gravado 0.0
               p.importe_exento 100.0
+              p.horas_extra do |h|
+                h.dias 1
+                h.tipo 'Dobles'
+                h.horas_extra 1
+                h.importe 100.0
+              end
             end
 
             n.deduccion do |d|
@@ -112,24 +118,18 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
               i.descuento 200.00
             end
 
-            n.horas_extra do |h|
-              h.dias 1
-              h.tipo 'Dobles'
-              h.horas_extra 1
-              h.importe 100.00
-            end
           end
         end
       end
 
-      context 'encabezado' do
-        let(:encabezado){ prueba.to_h['Encabezado'] }
-        it{ expect(encabezado['fecha']).to eq('asignarFecha') }
-        it{ expect(encabezado['tipoDeComprobante']).to eq('egreso') }
-        it{ expect(encabezado['formaDePago']).to eq('PAGO EN UNA SOLA EXHIBICIÓN') }
-        it{ expect(encabezado['condicionesDePago']).to eq('Contado') }
-        it{ expect(encabezado['motivoDescuento']).to eq('Deducciones de nómina') }
-        it{ expect(encabezado['LugarExpedicion']).to eq('Nuevo León, México') }
+      context 'recibo_nomina' do
+        let(:recibo_nomina){ prueba.to_h['ReciboNomina'] }
+        it{ expect(recibo_nomina['serie']).to eq('RN') }
+        it{ expect(recibo_nomina['folio']).to eq('105') }
+        it{ expect(recibo_nomina['fecha']).to eq('2016-11-29T16:07:43') }
+        it{ expect(recibo_nomina['subTotal']).to eq('4420.00') }
+        it{ expect(recibo_nomina['descuento']).to eq('193.43') }
+        it{ expect(recibo_nomina['total']).to eq('4226.57') }
       end
 
       context 'datos adicionales' do
@@ -248,11 +248,11 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
 
         context 'horas extra' do
           context 'primera hora extra' do
-            let(:hora_extra) { nomina['InformacionHorasExtra'].first['HorasExtra'] }
-            it{ expect(hora_extra['Dias']).to eq(1)}
-            it{ expect(hora_extra['TipoHoras']).to eq('Dobles')}
-            it{ expect(hora_extra['HorasExtra']).to eq(1)}
-            it{ expect(hora_extra['ImportePagado']).to eq(100.00)}
+            let(:percepcion) { nomina['Percepciones'].last['Percepcion']}
+            it{ expect(percepcion[:"HorasExtra.Dias"]).to eq('[1]')}
+            it{ expect(percepcion[:"HorasExtra.TipoHoras"]).to eq('[Dobles]')}
+            it{ expect(percepcion[:"HorasExtra.HorasExtra"]).to eq('[1]')}
+            it{ expect(percepcion[:"HorasExtra.ImportePagado"]).to eq('[100.0]')}
           end
         end
 
@@ -260,7 +260,7 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
 
       context 'salida en texto' do
         let(:salida){ prueba.to_s }
-        it{ expect(salida).to match(/\[Encabezado\]/) }
+        it{ expect(salida).to match(/\[ReciboNomina\]/) }
         it{ expect(salida).to match(/\[Datos Adicionales\]/) }
         it{ expect(salida).to match(/\[Emisor\]/) }
         it{ expect(salida).to match(/\[Receptor\]/) }
@@ -269,7 +269,6 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
         it{ expect(salida).to match(/\[Percepcion\]/) }
         it{ expect(salida).to match(/\[Deduccion\]/) }
         it{ expect(salida).to match(/\[Incapacidad\]/) }
-        it{ expect(salida).to match(/\[HorasExtra\]/) }
       end
     end
   end

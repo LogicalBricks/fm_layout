@@ -4,7 +4,8 @@ module FmLayout
   class Receptor
     include FmSeccion
 
-    def initialize
+    def initialize separador = '|'
+      @separador = separador
       @titulo = 'Receptor'
       @datos = {}
     end
