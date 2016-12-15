@@ -3,8 +3,9 @@ module FmLayout
   class Encabezado
     include FmSeccion
 
-    def initialize
-      @titulo= 'Encabezado'
+    def initialize separador = '|', titulo = 'Encabezado'
+      @separador = separador
+      @titulo= titulo
       @datos= {}
       valores_iniciales
     end

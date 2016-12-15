@@ -13,7 +13,6 @@ module FmLayout
         @percepciones =  []
         @deducciones =  []
         @incapacidades =  []
-        @horas_extras =  []
       end
 
       def complemento_nomina
@@ -54,23 +53,12 @@ module FmLayout
         end
       end
 
-      def horas_extra
-        horas_extra = HorasExtra.new
-        if block_given?
-          yield(horas_extra)
-          @horas_extras << horas_extra
-        else
-          horas_extra
-        end
-      end
-
-
       def to_h
-        { 'Nomina' => {}.merge( @complemento_nomina.to_h).merge(obtener_hash_percepciones).merge(obtener_hash_deducciones).merge(obtener_hash_incapacidades).merge(obtener_hash_horas_extra) }
+        { 'Nomina' => {}.merge( @complemento_nomina.to_h).merge(obtener_hash_percepciones).merge(obtener_hash_deducciones).merge(obtener_hash_incapacidades) }
       end
 
       def to_s
-        @complemento_nomina.to_s + @percepciones.map(&:to_s).inject(:+).to_s + @deducciones.map(&:to_s).inject(:+).to_s + @incapacidades.map(&:to_s).inject(:+).to_s + @horas_extras.map(&:to_s).inject(:+).to_s
+        @complemento_nomina.to_s + @percepciones.map(&:to_s).inject(:+).to_s + @deducciones.map(&:to_s).inject(:+).to_s + @incapacidades.map(&:to_s).inject(:+).to_s
       end
 
       private

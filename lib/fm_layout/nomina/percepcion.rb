@@ -2,11 +2,15 @@ module FmLayout
   module Nomina
     class Percepcion
 
-      include ::FmLayout::FmSeccion
+      include ::FmLayout::FmSeccionNomina
 
       def initialize
         @titulo= 'Percepcion'
         @datos= {}
+        @horas_extras_dias = []
+        @horas_extras_tipo_horas = []
+        @horas_extras_horas_extras = []
+        @horas_extras_importe_pagado = []
         #valores_iniciales
       end
 
@@ -20,11 +24,32 @@ module FmLayout
         }
       end
 
+      def horas_extra
+        horas_extra = HorasExtra.new
+        if block_given?
+          yield(horas_extra)
+          @horas_extras_dias << horas_extra.datos["Dias"]
+          @horas_extras_tipo_horas << horas_extra.datos["TipoHoras"]
+          @horas_extras_horas_extras << horas_extra.datos["HorasExtra"]
+          @horas_extras_importe_pagado << horas_extra.datos["ImportePagado"]
+          formato_horas_extras
+        else
+          horas_extra
+        end
+      end
+
       # Creación de los métodos de acceso dinámicamente
       campos_vs_metodos.each do |campo, metodo|
         define_method(metodo) do |dato|
           @datos[campo] = dato
         end
+      end
+
+      def formato_horas_extras
+        @datos[:"HorasExtra.Dias"] = "[#{@horas_extras_dias.join(',')}]"
+        @datos[:"HorasExtra.TipoHoras"] = "[#{@horas_extras_tipo_horas.join(',')}]"
+        @datos[:"HorasExtra.HorasExtra"] = "[#{@horas_extras_horas_extras.join(',')}]"
+        @datos[:"HorasExtra.ImportePagado"] = "[#{@horas_extras_importe_pagado.join(',')}]"
       end
 
     end

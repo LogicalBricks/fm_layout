@@ -4,7 +4,8 @@ module FmLayout
   class Concepto
     include FmSeccion
 
-    def initialize
+    def initialize separador = '|'
+      @separador = separador
       @titulo = 'Concepto'
       @datos = {}
       valores_iniciales

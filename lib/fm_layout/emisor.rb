@@ -4,7 +4,8 @@ module FmLayout
   class Emisor
     include FmSeccion
 
-    def initialize
+    def initialize separador = '|'
+      @separador = separador
       @titulo = 'Emisor'
       @datos = {}
       valores_iniciales
