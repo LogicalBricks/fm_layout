@@ -92,6 +92,16 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
               end
             end
 
+            n.percepcion do |p|
+              p.tipo '045'
+              p.clave '045'
+              p.concepto 'Acción o Título'
+              p.importe_gravado 3000
+              p.importe_exento 0
+              p.valor_mercado 200
+              p.precio_al_otorgarse 20
+            end
+
             n.deduccion do |d|
               d.tipo '002'
               d.clave '001'
@@ -207,13 +217,25 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
           end
 
           context 'segunda percepcion' do
-            let(:percepcion) { nomina['Percepciones'].last['Percepcion'] }
+            let(:percepcion) { nomina['Percepciones'][1]['Percepcion'] }
 
             it { expect(percepcion['TipoPercepcion']).to eq('019')}
             it { expect(percepcion['Clave']).to eq('019')}
             it { expect(percepcion['Concepto']).to eq('Horas extra')}
             it { expect(percepcion['ImporteGravado']).to eq(0.00)}
             it { expect(percepcion['ImporteExento']).to eq(100.00)}
+          end
+
+          context 'tercera percepcion' do
+            let(:percepcion) { nomina['Percepciones'].last['Percepcion'] }
+
+            it { expect(percepcion['TipoPercepcion']).to eq('045')}
+            it { expect(percepcion['Clave']).to eq('045')}
+            it { expect(percepcion['Concepto']).to eq('Acción o Título')}
+            it { expect(percepcion['ImporteGravado']).to eq(3000.00)}
+            it { expect(percepcion['ImporteExento']).to eq(0.00)}
+            it { expect(percepcion['AccionesOTitulos.ValorMercado']).to eq 200  }
+            it { expect(percepcion['AccionesOTitulos.PrecioAlOtorgarse']).to eq 20  }
           end
         end
 
@@ -258,7 +280,7 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
 
         context 'horas extra' do
           context 'primera hora extra' do
-            let(:percepcion) { nomina['Percepciones'].last['Percepcion']}
+            let(:percepcion) { nomina['Percepciones'][1]['Percepcion']}
             it{ expect(percepcion[:"HorasExtra.Dias"]).to eq('[1]')}
             it{ expect(percepcion[:"HorasExtra.TipoHoras"]).to eq('[Dobles]')}
             it{ expect(percepcion[:"HorasExtra.HorasExtra"]).to eq('[1]')}

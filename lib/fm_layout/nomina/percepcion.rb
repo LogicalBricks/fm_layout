@@ -16,11 +16,11 @@ module FmLayout
 
       def self.campos_vs_metodos
         {
-          'TipoPercepcion'       => 'tipo',
-          'Clave'                => 'clave',
-          'Concepto'             => 'concepto',
-          'ImporteGravado'       => 'importe_gravado',
-          'ImporteExento'        => 'importe_exento',
+          'TipoPercepcion' => 'tipo',
+          'Clave'          => 'clave',
+          'Concepto'       => 'concepto',
+          'ImporteGravado' => 'importe_gravado',
+          'ImporteExento'  => 'importe_exento',
         }
       end
 
@@ -50,6 +50,14 @@ module FmLayout
         @datos[:"HorasExtra.TipoHoras"] = "[#{@horas_extras_tipo_horas.join(',')}]"
         @datos[:"HorasExtra.HorasExtra"] = "[#{@horas_extras_horas_extras.join(',')}]"
         @datos[:"HorasExtra.ImportePagado"] = "[#{@horas_extras_importe_pagado.join(',')}]"
+      end
+
+      def valor_mercado dato
+        @datos["AccionesOTitulos.ValorMercado"] = dato
+      end
+
+      def precio_al_otorgarse dato
+        @datos["AccionesOTitulos.PrecioAlOtorgarse"] = dato
       end
 
     end
