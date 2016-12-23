@@ -3,6 +3,7 @@ require 'fm_layout/nomina/percepcion'
 require 'fm_layout/nomina/deduccion'
 require 'fm_layout/nomina/incapacidad'
 require 'fm_layout/nomina/horas_extra'
+require 'fm_layout/nomina/jubilacion_pension_retiro'
 
 module FmLayout
   module Nomina
@@ -11,6 +12,7 @@ module FmLayout
       def initialize
         @complemento_nomina = ComplementoNomina.new
         @percepciones =  []
+        @jubilacion_pension_retiro = []
         @deducciones =  []
         @incapacidades =  []
       end
@@ -30,6 +32,16 @@ module FmLayout
           @percepciones << percepcion
         else
           percepcion
+        end
+      end
+
+      def jubilacion_pension_retiro
+        jubilacion_pension_retiro = JubilacionPensionRetiro.new
+        if block_given?
+          yield(jubilacion_pension_retiro)
+          @jubilacion_pension_retiro << jubilacion_pension_retiro
+        else
+          jubilacion_pension_retiro
         end
       end
 
@@ -54,17 +66,21 @@ module FmLayout
       end
 
       def to_h
-        { 'Nomina' => {}.merge( @complemento_nomina.to_h).merge(obtener_hash_percepciones).merge(obtener_hash_deducciones).merge(obtener_hash_incapacidades) }
+        { 'Nomina' => {}.merge( @complemento_nomina.to_h).merge(obtener_hash_percepciones).merge(obtener_hash_jubilacion_pension_retiro).merge(obtener_hash_deducciones).merge(obtener_hash_incapacidades) }
       end
 
       def to_s
-        @complemento_nomina.to_s + @percepciones.map(&:to_s).inject(:+).to_s + @deducciones.map(&:to_s).inject(:+).to_s + @incapacidades.map(&:to_s).inject(:+).to_s
+        @complemento_nomina.to_s + @percepciones.map(&:to_s).inject(:+).to_s + @jubilacion_pension_retiro.map(&:to_s).inject(:+).to_s + @deducciones.map(&:to_s).inject(:+).to_s + @incapacidades.map(&:to_s).inject(:+).to_s
       end
 
       private
 
       def obtener_hash_percepciones
         { 'Percepciones' => @percepciones.map(&:to_h) }
+      end
+
+      def obtener_hash_jubilacion_pension_retiro
+        @jubilacion_pension_retiro.map(&:to_h).first
       end
 
       def obtener_hash_deducciones

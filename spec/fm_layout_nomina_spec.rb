@@ -71,9 +71,9 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
             end
 
             n.percepcion do |p|
-              p.tipo '001'
-              p.clave '001'
-              p.concepto 'Sueldos'
+              p.tipo '039'
+              p.clave '039'
+              p.concepto 'Jubilaciones, pensiones o haberes de retiro'
               p.importe_gravado 3000
               p.importe_exento 0
             end
@@ -100,6 +100,12 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
               p.importe_exento 0
               p.valor_mercado 200
               p.precio_al_otorgarse 20
+            end
+
+            n.jubilacion_pension_retiro do |j|
+              j.total_una_exhibicion 500
+              j.ingreso_acumulable 200
+              j.ingreso_no_acumulable 20
             end
 
             n.deduccion do |d|
@@ -209,9 +215,9 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
           context 'primera percepcion' do
             let(:percepcion) { nomina['Percepciones'].first['Percepcion'] }
 
-            it { expect(percepcion['TipoPercepcion']).to eq('001')}
-            it { expect(percepcion['Clave']).to eq('001')}
-            it{ expect(percepcion['Concepto']).to eq('Sueldos')}
+            it { expect(percepcion['TipoPercepcion']).to eq('039')}
+            it { expect(percepcion['Clave']).to eq('039')}
+            it{ expect(percepcion['Concepto']).to eq('Jubilaciones, pensiones o haberes de retiro')}
             it { expect(percepcion['ImporteGravado']).to eq(3000.00)}
             it { expect(percepcion['ImporteExento']).to eq(0.00)}
           end
@@ -241,6 +247,15 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
             it { expect(percepcion['AccionesOTitulos.ValorMercado']).to eq 200  }
             it { expect(percepcion['AccionesOTitulos.PrecioAlOtorgarse']).to eq 20  }
           end
+        end
+
+        context 'jubilación pensión retiro' do
+
+          let(:jubilacion) { nomina['JubilacionPensionRetiro']}
+
+          it { expect(jubilacion['TotalUnaExhibicion']).to eq 500  }
+          it { expect(jubilacion['IngresoAcumulable']).to eq 200  }
+          it { expect(jubilacion['IngresoNoAcumulable']).to eq 20  }
         end
 
         context 'deducciones' do
@@ -293,6 +308,7 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
         it{ expect(salida).to match(/\[Concepto\]/) }
         it{ expect(salida).to match(/\[ComplementoNomina\]/) }
         it{ expect(salida).to match(/\[Percepcion\]/) }
+        it{ expect(salida).to match(/\[JubilacionPensionRetiro\]/) }
         it{ expect(salida).to match(/\[Deduccion\]/) }
         it{ expect(salida).to match(/\[Incapacidad\]/) }
       end
