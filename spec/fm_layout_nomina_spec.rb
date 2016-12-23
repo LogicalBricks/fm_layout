@@ -224,6 +224,10 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
             it { expect(percepcion['Concepto']).to eq('Horas extra')}
             it { expect(percepcion['ImporteGravado']).to eq(0.00)}
             it { expect(percepcion['ImporteExento']).to eq(100.00)}
+            it { expect(percepcion["HorasExtra.Dias"]).to eq('[1]')}
+            it { expect(percepcion["HorasExtra.TipoHoras"]).to eq('[Dobles]')}
+            it { expect(percepcion["HorasExtra.HorasExtra"]).to eq('[1]')}
+            it { expect(percepcion["HorasExtra.ImportePagado"]).to eq('[100.0]')}
           end
 
           context 'tercera percepcion' do
@@ -275,16 +279,6 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
             it { expect(incapacidad['DiasIncapacidad']).to eq(1)}
             it { expect(incapacidad['TipoIncapacidad']).to eq(2)}
             it { expect(incapacidad['ImporteMonetario']).to eq(200.00)}
-          end
-        end
-
-        context 'horas extra' do
-          context 'primera hora extra' do
-            let(:percepcion) { nomina['Percepciones'][1]['Percepcion']}
-            it{ expect(percepcion[:"HorasExtra.Dias"]).to eq('[1]')}
-            it{ expect(percepcion[:"HorasExtra.TipoHoras"]).to eq('[Dobles]')}
-            it{ expect(percepcion[:"HorasExtra.HorasExtra"]).to eq('[1]')}
-            it{ expect(percepcion[:"HorasExtra.ImportePagado"]).to eq('[100.0]')}
           end
         end
 

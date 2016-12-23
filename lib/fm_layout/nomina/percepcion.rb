@@ -46,10 +46,10 @@ module FmLayout
       end
 
       def formato_horas_extras
-        @datos[:"HorasExtra.Dias"] = "[#{@horas_extras_dias.join(',')}]"
-        @datos[:"HorasExtra.TipoHoras"] = "[#{@horas_extras_tipo_horas.join(',')}]"
-        @datos[:"HorasExtra.HorasExtra"] = "[#{@horas_extras_horas_extras.join(',')}]"
-        @datos[:"HorasExtra.ImportePagado"] = "[#{@horas_extras_importe_pagado.join(',')}]"
+        @datos["HorasExtra.Dias"] = "[#{@horas_extras_dias.join(',')}]"
+        @datos["HorasExtra.TipoHoras"] = "[#{@horas_extras_tipo_horas.join(',')}]"
+        @datos["HorasExtra.HorasExtra"] = "[#{@horas_extras_horas_extras.join(',')}]"
+        @datos["HorasExtra.ImportePagado"] = "[#{@horas_extras_importe_pagado.join(',')}]"
       end
 
       def valor_mercado dato
