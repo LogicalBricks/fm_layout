@@ -129,6 +129,31 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
               d.importe 0.0
             end
 
+            n.otro_pago do |op|
+              op.tipo '002'
+              op.clave '002'
+              op.concepto 'Un concepto'
+              op.importe 250.5
+              op.subsidio_causado 20.3
+            end
+
+            n.otro_pago do |op|
+              op.tipo '004'
+              op.clave '004'
+              op.concepto 'Un concepto'
+              op.importe 350.5
+              op.saldo 200.0
+              op.anio 2016
+              op.remanente_saldo 100.0
+            end
+
+            n.otro_pago do |op|
+              op.tipo '001'
+              op.clave '001'
+              op.concepto 'Un concepto'
+              op.importe 150.5
+            end
+
             n.incapacidad do |i|
               i.dias 1
               i.tipo 2
@@ -286,6 +311,40 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
             it { expect(deduccion['Importe']).to eq(0.00)}
           end
         end
+
+        context "otro pago" do
+          context "primer otro pago" do
+           let(:otro_pago) { nomina['OtroPagos'][0]['OtroPago#1'] }
+
+           it { expect(otro_pago['TipoOtroPago']).to eq '002' }
+           it { expect(otro_pago['Clave']).to eq '002' }
+           it { expect(otro_pago['Concepto']).to eq 'Un concepto' }
+           it { expect(otro_pago['Importe']).to eq 250.5 }
+           it { expect(otro_pago['SubsidioAlEmpleo.SubsidioCausado']).to eq 20.3 }
+          end # context primer otro pago
+
+          context "segundo otro pago" do
+           let(:otro_pago) { nomina['OtroPagos'][1]['OtroPago#2'] }
+
+           it { expect(otro_pago['TipoOtroPago']).to eq '004' }
+           it { expect(otro_pago['Clave']).to eq '004' }
+           it { expect(otro_pago['Concepto']).to eq 'Un concepto' }
+           it { expect(otro_pago['Importe']).to eq 350.5 }
+           it { expect(otro_pago['CompensacionSaldosAFavor.SaldoAFavor']).to eq "[200.0]" }
+           it { expect(otro_pago['CompensacionSaldosAFavor.Año']).to eq "[2016]" }
+           it { expect(otro_pago['CompensacionSaldosAFavor.RemanenteSalFav']).to eq "[100.0]" }
+          end # context segundo otro pago
+
+          context "tercer otro pago" do
+           let(:otro_pago) { nomina['OtroPagos'][2]['OtroPago#3'] }
+
+           it { expect(otro_pago['TipoOtroPago']).to eq '001' }
+           it { expect(otro_pago['Clave']).to eq '001' }
+           it { expect(otro_pago['Concepto']).to eq 'Un concepto' }
+           it { expect(otro_pago['Importe']).to eq 150.5 }
+          end # context tercer otro pago
+
+        end # context otro pago
 
         context 'incapacidades' do
           context 'primera incapacidad' do
