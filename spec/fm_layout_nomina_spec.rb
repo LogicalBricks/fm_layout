@@ -215,6 +215,7 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
         context 'complemento nomina' do
           let(:complemento){ nomina['ComplementoNomina'] }
 
+          it { expect(complemento['Version']).to eq('1.2') }
           it { expect(complemento['TipoNomina']).to eq('O') }
           it { expect(complemento['RegistroPatronal']).to eq('P123456789') }
           it { expect(complemento['NumEmpleado']).to eq('2013001') }

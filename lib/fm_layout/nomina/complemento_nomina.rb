@@ -7,7 +7,7 @@ module FmLayout
       def initialize
         @titulo= 'ComplementoNomina'
         @datos= {}
-        #valores_iniciales
+        valores_iniciales
       end
 
       def self.campos_vs_metodos
@@ -43,6 +43,10 @@ module FmLayout
         define_method(metodo) do |dato|
           @datos[campo] = dato
         end
+      end
+
+      def valores_iniciales
+        @datos['Version'] = '1.2'
       end
 
     end
