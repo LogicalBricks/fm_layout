@@ -47,6 +47,7 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
 
           f.nomina do |n|
             n.complemento_nomina do |c|
+              c.tipo_nomina 'O'
               c.registro_patronal 'P123456789'
               c.numero_de_empleado '2013001'
               c.curp 'XEXX010101MOCNRR02'
@@ -214,6 +215,7 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
         context 'complemento nomina' do
           let(:complemento){ nomina['ComplementoNomina'] }
 
+          it { expect(complemento['TipoNomina']).to eq('O') }
           it { expect(complemento['RegistroPatronal']).to eq('P123456789') }
           it { expect(complemento['NumEmpleado']).to eq('2013001') }
           it { expect(complemento['CURP']).to eq('XEXX010101MOCNRR02') }

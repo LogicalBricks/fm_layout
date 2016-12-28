@@ -12,6 +12,7 @@ module FmLayout
 
       def self.campos_vs_metodos
         {
+          'TipoNomina'             => 'tipo_nomina',
           'RegistroPatronal'       => 'registro_patronal',
           'NumEmpleado'            => 'numero_de_empleado',
           'CURP'                   => 'curp',
