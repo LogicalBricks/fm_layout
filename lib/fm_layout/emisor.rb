@@ -17,6 +17,7 @@ module FmLayout
         'nombre'        => 'nombre',
         'Regimen'       => 'regimen',
         'RegimenFiscal' => 'regimen_fiscal',
+        'Curp'          => 'curp',
       }
     end
 
