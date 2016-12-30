@@ -15,6 +15,7 @@ module FmLayout
       {
         'rfc'           => 'rfc',
         'nombre'        => 'nombre',
+        'Regimen'       => 'regimen',
         'RegimenFiscal' => 'regimen_fiscal',
       }
     end
@@ -31,7 +32,6 @@ module FmLayout
     def valores_iniciales
       @datos['rfc'] = nil
       @datos['nombre'] = nil
-      @datos['RegimenFiscal'] = nil
     end
 
   end

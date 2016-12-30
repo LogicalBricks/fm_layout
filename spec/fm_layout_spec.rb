@@ -34,7 +34,7 @@ describe 'DSL para generar el layout de Facturación moderna' do
           f.emisor do |e|
             e.rfc 'TUMG620310R95'
             e.nombre 'FACTURACION MODERNA S.A de C.V.'
-            e.regimen_fiscal 'REGIMEN GENERAL DE LEY PERSONAS MORALES'
+            e.regimen '612'
           end
           f.domicilio_fiscal do |d|
             d.calle 'Calle 1'
@@ -157,7 +157,7 @@ describe 'DSL para generar el layout de Facturación moderna' do
         let(:emisor){ prueba.to_h['Emisor'] }
         it{ expect(emisor['rfc']).to eq('TUMG620310R95') }
         it{ expect(emisor['nombre']).to eq('FACTURACION MODERNA S.A de C.V.') }
-        it{ expect(emisor['RegimenFiscal']).to eq('REGIMEN GENERAL DE LEY PERSONAS MORALES') }
+        it{ expect(emisor['Regimen']).to eq('612') }
       end
 
       context 'domicilio fiscal' do

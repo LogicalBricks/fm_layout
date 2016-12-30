@@ -30,7 +30,7 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
           f.emisor do |e|
             e.rfc 'ESI920427886'
             e.nombre 'FACTURACION MODERNA S.A de C.V.'
-            e.regimen_fiscal 'REGIMEN GENERAL DE LEY PERSONAS MORALES'
+            e.regimen '612'
           end
 
           f.receptor do |r|
@@ -189,7 +189,7 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
 
         it{ expect(emisor['rfc']).to eq('ESI920427886') }
         it{ expect(emisor['nombre']).to eq('FACTURACION MODERNA S.A de C.V.') }
-        it{ expect(emisor['RegimenFiscal']).to eq('REGIMEN GENERAL DE LEY PERSONAS MORALES') }
+        it{ expect(emisor['Regimen']).to eq('612') }
       end
 
       context 'receptor' do
