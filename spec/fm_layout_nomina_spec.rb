@@ -200,7 +200,7 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
       end
 
       context 'concepto' do
-        let(:concepto){ prueba.to_h['Conceptos'].first['Concepto'] }
+        let(:concepto){ prueba.to_h['Conceptos'].first['Concepto#1'] }
 
         it{ expect(concepto['cantidad']).to eq(1) }
         it{ expect(concepto['unidad']).to eq('Servicio') }
@@ -367,7 +367,7 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
         it{ expect(salida).to match(/\[Datos Adicionales\]/) }
         it{ expect(salida).to match(/\[Emisor\]/) }
         it{ expect(salida).to match(/\[Receptor\]/) }
-        it{ expect(salida).to match(/\[Concepto\]/) }
+        it{ expect(salida).to match(/\[Concepto#1\]/) }
         it{ expect(salida).to match(/\[ComplementoNomina\]/) }
         it{ expect(salida).to match(/\[Percepcion\]/) }
         it{ expect(salida).to match(/\[JubilacionPensionRetiro\]/) }

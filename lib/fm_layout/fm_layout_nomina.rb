@@ -21,6 +21,7 @@ module FmLayout
       @impuestos_trasladados_locales =  []
       @impuestos_retenidos =  []
       @impuestos_retenidos_locales = []
+      @num_concepto = 0
     end
 
     def recibo_nomina
@@ -56,7 +57,8 @@ module FmLayout
     end
 
     def concepto
-      concepto = Concepto.new('=')
+      @num_concepto += 1
+      concepto = Concepto.new('=', @num_concepto)
       if block_given?
         yield(concepto)
         @conceptos << concepto

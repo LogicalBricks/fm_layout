@@ -83,7 +83,7 @@ module FmLayout
     end
 
     def concepto
-      concepto = Concepto.new
+      concepto = Concepto.new '|', nil
       if block_given?
         yield(concepto)
         @conceptos << concepto

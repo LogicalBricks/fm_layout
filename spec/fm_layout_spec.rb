@@ -61,8 +61,6 @@ describe 'DSL para generar el layout de Facturación moderna' do
           f.receptor do |r|
             r.rfc 'XAXX010101000'
             r.nombre 'PUBLICO EN GENERAL'
-            r.numero_de_cliente '987654'
-            r.email 'soporte@facturacionmoderna.com'
           end
           f.domicilio do |d|
             d.calle 'Calle 3'
@@ -190,8 +188,6 @@ describe 'DSL para generar el layout de Facturación moderna' do
         let(:receptor){ prueba.to_h['Receptor'] }
         it{ expect(receptor['rfc']).to eq('XAXX010101000') }
         it{ expect(receptor['nombre']).to eq('PUBLICO EN GENERAL') }
-        it{ expect(receptor['NumCliente']).to eq('987654') }
-        it{ expect(receptor['emailCliente']).to eq('soporte@facturacionmoderna.com') }
       end
 
       context 'domilicio' do
