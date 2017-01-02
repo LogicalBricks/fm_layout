@@ -4,8 +4,8 @@ module FmLayout
 
       include ::FmLayout::FmSeccionNomina
 
-      def initialize
-        @titulo= 'Percepcion'
+      def initialize num_percepcion
+        @titulo= "Percepcion##{num_percepcion}"
         @datos= {}
         @horas_extras_dias = []
         @horas_extras_tipo_horas = []

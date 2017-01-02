@@ -31,6 +31,7 @@ module FmLayout
         'SalarioBaseCotApor'     => 'salario_base',
         'SalarioDiarioIntegrado' => 'salario_diario_integrado',
         'ClaveEntFed'            => 'clave_entidad_federativa',
+        'emailCliente'           => 'email',
       }
     end
 

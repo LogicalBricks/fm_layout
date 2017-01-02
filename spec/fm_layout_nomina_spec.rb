@@ -241,7 +241,7 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
 
         context 'percepciones' do
           context 'primera percepcion' do
-            let(:percepcion) { nomina['Percepciones'].first['Percepcion'] }
+            let(:percepcion) { nomina['Percepciones'].first['Percepcion#1'] }
 
             it { expect(percepcion['TipoPercepcion']).to eq('039')}
             it { expect(percepcion['Clave']).to eq('039')}
@@ -251,7 +251,7 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
           end
 
           context 'segunda percepcion' do
-            let(:percepcion) { nomina['Percepciones'][1]['Percepcion'] }
+            let(:percepcion) { nomina['Percepciones'][1]['Percepcion#2'] }
 
             it { expect(percepcion['TipoPercepcion']).to eq('019')}
             it { expect(percepcion['Clave']).to eq('019')}
@@ -265,7 +265,7 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
           end
 
           context 'tercera percepcion' do
-            let(:percepcion) { nomina['Percepciones'].last['Percepcion'] }
+            let(:percepcion) { nomina['Percepciones'].last['Percepcion#3'] }
 
             it { expect(percepcion['TipoPercepcion']).to eq('045')}
             it { expect(percepcion['Clave']).to eq('045')}
@@ -369,7 +369,7 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
         it{ expect(salida).to match(/\[Receptor\]/) }
         it{ expect(salida).to match(/\[Concepto#1\]/) }
         it{ expect(salida).to match(/\[ComplementoNomina\]/) }
-        it{ expect(salida).to match(/\[Percepcion\]/) }
+        it{ expect(salida).to match(/\[Percepcion#1\]/) }
         it{ expect(salida).to match(/\[JubilacionPensionRetiro\]/) }
         it{ expect(salida).to match(/\[Deduccion\]/) }
         it{ expect(salida).to match(/\[Incapacidad\]/) }

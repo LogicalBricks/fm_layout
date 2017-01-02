@@ -18,6 +18,7 @@ module FmLayout
         @incapacidades = []
         @otro_pagos = []
         @num_otro_pago = 0
+        @num_percepcion = 0
       end
 
       def complemento_nomina
@@ -29,7 +30,8 @@ module FmLayout
       end
 
       def percepcion
-        percepcion = Percepcion.new
+        @num_percepcion += 1
+        percepcion = Percepcion.new @num_percepcion
         if block_given?
           yield(percepcion)
           @percepciones << percepcion
