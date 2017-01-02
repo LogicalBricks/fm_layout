@@ -351,7 +351,7 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
 
         context 'incapacidades' do
           context 'primera incapacidad' do
-            let(:incapacidad) { nomina['Incapacidades'].first['Incapacidad'] }
+            let(:incapacidad) { nomina['Incapacidades'].first['Incapacidad#1'] }
 
             it { expect(incapacidad['DiasIncapacidad']).to eq(1)}
             it { expect(incapacidad['TipoIncapacidad']).to eq(2)}
@@ -372,7 +372,7 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
         it{ expect(salida).to match(/\[Percepcion#1\]/) }
         it{ expect(salida).to match(/\[JubilacionPensionRetiro\]/) }
         it{ expect(salida).to match(/\[Deduccion#1\]/) }
-        it{ expect(salida).to match(/\[Incapacidad\]/) }
+        it{ expect(salida).to match(/\[Incapacidad#1\]/) }
       end
     end
   end

@@ -14,12 +14,13 @@ module FmLayout
         @complemento_nomina = ComplementoNomina.new
         @percepciones = []
         @jubilacion_pension_retiro = []
-        @deducciones = []
-        @incapacidades = []
-        @otro_pagos = []
-        @num_otro_pago = 0
-        @num_percepcion = 0
-        @num_deduccion = 0
+        @deducciones     = []
+        @incapacidades   = []
+        @otro_pagos      = []
+        @num_otro_pago   = 0
+        @num_percepcion  = 0
+        @num_deduccion   = 0
+        @num_incapacidad = 0
       end
 
       def complemento_nomina
@@ -74,7 +75,8 @@ module FmLayout
       end
 
       def incapacidad
-        incapacidad = Incapacidad.new
+        @num_incapacidad += 1
+        incapacidad = Incapacidad.new @num_incapacidad
         if block_given?
           yield(incapacidad)
           @incapacidades << incapacidad
