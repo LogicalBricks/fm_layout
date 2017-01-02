@@ -19,6 +19,7 @@ module FmLayout
         @otro_pagos = []
         @num_otro_pago = 0
         @num_percepcion = 0
+        @num_deduccion = 0
       end
 
       def complemento_nomina
@@ -51,7 +52,8 @@ module FmLayout
       end
 
       def deduccion
-        deduccion = Deduccion.new
+        @num_deduccion += 1
+        deduccion = Deduccion.new @num_deduccion
         if block_given?
           yield(deduccion)
           @deducciones << deduccion

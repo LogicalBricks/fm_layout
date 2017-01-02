@@ -4,8 +4,8 @@ module FmLayout
 
       include ::FmLayout::FmSeccionNomina
 
-      def initialize
-        @titulo = 'Deduccion'
+      def initialize num_deduccion
+        @titulo = "Deduccion##{num_deduccion}"
         @datos  = {}
       end
 

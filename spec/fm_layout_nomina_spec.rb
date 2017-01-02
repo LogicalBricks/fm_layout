@@ -288,7 +288,7 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
 
         context 'deducciones' do
           context 'primera deduccion' do
-            let(:deduccion) { nomina['Deducciones'][0]['Deduccion'] }
+            let(:deduccion) { nomina['Deducciones'][0]['Deduccion#1'] }
 
             it { expect(deduccion['TipoDeduccion']).to eq('002')}
             it { expect(deduccion['Clave']).to eq('001')}
@@ -297,7 +297,7 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
           end
 
           context 'segunda deduccion' do
-            let(:deduccion) { nomina['Deducciones'][1]['Deduccion'] }
+            let(:deduccion) { nomina['Deducciones'][1]['Deduccion#2'] }
 
             it { expect(deduccion['TipoDeduccion']).to eq('001')}
             it { expect(deduccion['Clave']).to eq('002')}
@@ -306,7 +306,7 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
           end
 
           context 'tercera deduccion' do
-            let(:deduccion) { nomina['Deducciones'][2]['Deduccion'] }
+            let(:deduccion) { nomina['Deducciones'][2]['Deduccion#3'] }
 
             it { expect(deduccion['TipoDeduccion']).to eq('006')}
             it { expect(deduccion['Clave']).to eq('006')}
@@ -371,7 +371,7 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
         it{ expect(salida).to match(/\[ComplementoNomina\]/) }
         it{ expect(salida).to match(/\[Percepcion#1\]/) }
         it{ expect(salida).to match(/\[JubilacionPensionRetiro\]/) }
-        it{ expect(salida).to match(/\[Deduccion\]/) }
+        it{ expect(salida).to match(/\[Deduccion#1\]/) }
         it{ expect(salida).to match(/\[Incapacidad\]/) }
       end
     end
