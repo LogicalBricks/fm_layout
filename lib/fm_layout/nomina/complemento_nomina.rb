@@ -12,29 +12,14 @@ module FmLayout
 
       def self.campos_vs_metodos
         {
-          'TipoNomina'             => 'tipo_nomina',
-          'RegistroPatronal'       => 'registro_patronal',
-          'NumEmpleado'            => 'numero_de_empleado',
-          'CURP'                   => 'curp',
-          'TipoRegimen'            => 'tipo_de_regimen',
-          'NumSeguridadSocial'     => 'numero_de_seguridad_social',
-          'FechaPago'              => 'fecha_de_pago',
-          'FechaInicialPago'       => 'fecha_inicial_de_pago',
-          'FechaFinalPago'         => 'fecha_final_de_pago',
-          'NumDiasPagados'         => 'dias_pagados',
-          'TotalPercepciones'      => 'total_percepciones',
-          'Departamento'           => 'departamento',
-          'CLABE'                  => 'clabe',
-          'Banco'                  => 'banco',
-          'FechaInicioRelLaboral'  => 'inicio_de_relacion_laboral',
-          'Antiguedad'             => 'antiguedad',
-          'Puesto'                 => 'puesto',
-          'TipoContrato'           => 'tipo_de_contrato',
-          'TipoJornada'            => 'tipo_de_jornada',
-          'PeriodicidadPago'       => 'periodicidad_de_pago',
-          'SalarioBaseCotApor'     => 'salario_base',
-          'RiesgoPuesto'           => 'riesgo_del_puesto',
-          'SalarioDiarioIntegrado' => 'salario_diario_integrado',
+          'TipoNomina'        => 'tipo_nomina',
+          'FechaPago'         => 'fecha_de_pago',
+          'FechaInicialPago'  => 'fecha_inicial_de_pago',
+          'FechaFinalPago'    => 'fecha_final_de_pago',
+          'NumDiasPagados'    => 'dias_pagados',
+          'TotalPercepciones' => 'total_percepciones',
+          'TotalDeducciones'  => 'total_deducciones',
+          'TotalOtrosPagos'   => 'total_otros_pagos',
         }
       end
 

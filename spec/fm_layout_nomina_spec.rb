@@ -36,6 +36,22 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
           f.receptor do |r|
             r.rfc 'XAXX010101000'
             r.nombre 'RAMIREZ MARTINEZ JUAN JOSE'
+            r.curp 'XEXX010101MOCNRR02'
+            r.numero_seguridad_social '12345678912'
+            r.fecha_inicio_relacion_laboral inicio_relacion_laboral.strftime("%F")
+            r.antiguedad "P52W"
+            r.tipo_contrato '01'
+            r.tipo_jornada '04'
+            r.tipo_regimen '02'
+            r.numero_empleado '2013001'
+            r.departamento 'Desarrollo'
+            r.puesto 'Programador'
+            r.riesgo_puesto 5
+            r.periodicidad_pago '04'
+            r.banco '002'
+            r.salario_base 200
+            r.salario_diario_integrado 209.04
+            r.clave_entidad_federativa 'OAX'
           end
 
           f.concepto do |c|
@@ -48,27 +64,10 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
           f.nomina do |n|
             n.complemento_nomina do |c|
               c.tipo_nomina 'O'
-              c.registro_patronal 'P123456789'
-              c.numero_de_empleado '2013001'
-              c.curp 'XEXX010101MOCNRR02'
-              c.tipo_de_regimen 1
-              c.numero_de_seguridad_social '12345678912'
               c.fecha_de_pago hoy.strftime("%F")
               c.fecha_inicial_de_pago inicio_quincena.strftime("%F")
               c.fecha_final_de_pago fin_quincena.strftime("%F")
               c.dias_pagados 15
-              c.departamento 'Desarrollo'
-              c.clabe '123456789012345678'
-              c.banco '012'
-              c.inicio_de_relacion_laboral inicio_relacion_laboral.strftime("%F")
-              c.antiguedad 48
-              c.puesto 'Programador'
-              c.tipo_de_contrato 'Base'
-              c.tipo_de_jornada 'Mixta'
-              c.periodicidad_de_pago 'Quincenal'
-              c.salario_base 200
-              c.riesgo_del_puesto 5
-              c.salario_diario_integrado 209.04
             end
 
             n.percepcion do |p|
@@ -197,6 +196,22 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
 
         it{ expect(receptor['rfc']).to eq('XAXX010101000') }
         it{ expect(receptor['nombre']).to eq('RAMIREZ MARTINEZ JUAN JOSE') }
+        it{ expect(receptor['Curp']).to eq('XEXX010101MOCNRR02') }
+        it { expect(receptor['NumSeguridadSocial']).to eq('12345678912')}
+        it { expect(receptor['FechaInicioRelLaboral']).to eq(inicio_relacion_laboral.strftime("%F"))}
+        it { expect(receptor['Antigüedad']).to eq("P52W")}
+        it { expect(receptor['TipoContrato']).to eq('01')}
+        it { expect(receptor['TipoJornada']).to eq('04')}
+        it { expect(receptor['TipoRegimen']).to eq('02')}
+        it { expect(receptor['NumEmpleado']).to eq('2013001') }
+        it { expect(receptor['Departamento']).to eq('Desarrollo')}
+        it { expect(receptor['Puesto']).to eq('Programador')}
+        it { expect(receptor['RiesgoPuesto']).to eq(5)}
+        it { expect(receptor['PeriodicidadPago']).to eq('04')}
+        it { expect(receptor['Banco']).to eq('002')}
+        it { expect(receptor['SalarioBaseCotApor']).to eq(200.0)}
+        it { expect(receptor['SalarioDiarioIntegrado']).to eq(209.04)}
+        it { expect(receptor['ClaveEntFed']).to eq('OAX')}
       end
 
       context 'concepto' do
@@ -217,26 +232,10 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
 
           it { expect(complemento['Version']).to eq('1.2') }
           it { expect(complemento['TipoNomina']).to eq('O') }
-          it { expect(complemento['RegistroPatronal']).to eq('P123456789') }
-          it { expect(complemento['NumEmpleado']).to eq('2013001') }
-          it { expect(complemento['CURP']).to eq('XEXX010101MOCNRR02') }
-          it { expect(complemento['TipoRegimen']).to eq(1)}
-          it { expect(complemento['NumSeguridadSocial']).to eq('12345678912')}
           it { expect(complemento['FechaPago']).to eq(hoy.strftime("%F"))}
           it { expect(complemento['FechaInicialPago']).to eq(inicio_quincena.strftime("%F"))}
           it { expect(complemento['FechaFinalPago']).to eq(fin_quincena.strftime("%F"))}
           it { expect(complemento['NumDiasPagados']).to eq(15)}
-          it { expect(complemento['Departamento']).to eq('Desarrollo')}
-          it { expect(complemento['CLABE']).to eq('123456789012345678')}
-          it { expect(complemento['Banco']).to eq('012')}
-          it { expect(complemento['FechaInicioRelLaboral']).to eq(inicio_relacion_laboral.strftime("%F"))}
-          it { expect(complemento['Antiguedad']).to eq(48)}
-          it { expect(complemento['Puesto']).to eq('Programador')}
-          it { expect(complemento['TipoContrato']).to eq('Base')}
-          it { expect(complemento['PeriodicidadPago']).to eq('Quincenal')}
-          it { expect(complemento['SalarioBaseCotApor']).to eq(200.0)}
-          it { expect(complemento['RiesgoPuesto']).to eq(5)}
-          it { expect(complemento['SalarioDiarioIntegrado']).to eq(209.04)}
         end
 
         context 'percepciones' do
