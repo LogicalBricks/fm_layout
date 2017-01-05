@@ -13,11 +13,12 @@ module FmLayout
 
     def self.campos_vs_metodos
       {
-        'rfc'           => 'rfc',
-        'nombre'        => 'nombre',
-        'Regimen'       => 'regimen',
-        'RegimenFiscal' => 'regimen_fiscal',
-        'Curp'          => 'curp',
+        'rfc'              => 'rfc',
+        'nombre'           => 'nombre',
+        'Regimen'          => 'regimen',
+        'RegimenFiscal'    => 'regimen_fiscal',
+        'Curp'             => 'curp',
+        'RegistroPatronal' => 'registro_patronal',
       }
     end
 
