@@ -55,8 +55,6 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
           end
 
           f.concepto do |c|
-            c.unidad 'Servicio'
-            c.descripcion 'Pago de Nómina'
             c.valor_unitario 3100.00
             c.importe 3100.00
           end
@@ -218,8 +216,8 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
         let(:concepto){ prueba.to_h['Conceptos'].first['Concepto#1'] }
 
         it{ expect(concepto['cantidad']).to eq(1) }
-        it{ expect(concepto['unidad']).to eq('Servicio') }
-        it{ expect(concepto['descripcion']).to eq('Pago de Nómina') }
+        it{ expect(concepto['unidad']).to eq('ACT') }
+        it{ expect(concepto['descripcion']).to eq('Pago de nómina') }
         it{ expect(concepto['valorUnitario']).to eq(3100.00) }
         it{ expect(concepto['importe']).to eq(3100.00) }
       end

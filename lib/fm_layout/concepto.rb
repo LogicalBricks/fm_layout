@@ -33,7 +33,9 @@ module FmLayout
     private
 
     def valores_iniciales
-      @datos['cantidad'] = 1
+      @datos['cantidad']    = 1
+      @datos['unidad']      = 'ACT'
+      @datos['descripcion'] = 'Pago de nómina'
     end
   end
 end
