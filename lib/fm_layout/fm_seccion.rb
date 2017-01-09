@@ -9,7 +9,7 @@ module FmLayout
     end
 
     def to_s
-      separador = @separador ? @separador : '|'
+      separador = @separador || '|'
 
       salida = "[#{@titulo}]\r\n\r\n"
       @datos.each do |k,v|

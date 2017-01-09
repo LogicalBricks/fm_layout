@@ -5,7 +5,7 @@ module FmLayout
   class Domicilio
     include FmSeccion
 
-    def initialize(titulo = 'Domicilio',separador = '|')
+    def initialize(titulo = 'Domicilio', separador = '|')
       @separador = separador
       @titulo = titulo
       @datos = {}
