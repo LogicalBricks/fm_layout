@@ -132,15 +132,6 @@ module FmLayout
       end
     end
 
-    def nomina
-      @nomina = Nomina::Nomina.new
-      if block_given?
-        yield(@nomina)
-      else
-        @nomina
-      end
-    end
-
     def to_s
       salida = @encabezado.to_s + @datos_adicionales.to_s + @emisor.to_s + @domicilio_fiscal.to_s + @expedido_en.to_s + @receptor.to_s + @domicilio.to_s
       salida += @conceptos.map(&:to_s).reduce(:+).to_s
@@ -148,7 +139,6 @@ module FmLayout
       salida += @impuestos_retenidos.map(&:to_s).reduce(:+).to_s
       salida += @impuestos_trasladados_locales.map(&:to_s).reduce(:+).to_s
       salida += @impuestos_retenidos_locales.map(&:to_s).reduce(:+).to_s
-      salida += @nomina.to_s
       salida
     end
 
@@ -163,7 +153,6 @@ module FmLayout
         .merge(obtener_hash_conceptos)
         .merge(obtener_hash_traslados)
         .merge(obtener_hash_retenciones)
-        .merge(@nomina.to_h)
         .merge(obtener_hash_traslados_locales)
         .merge(obtener_hash_retenciones_locales)
     end
