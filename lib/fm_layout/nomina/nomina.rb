@@ -4,6 +4,7 @@ require 'fm_layout/nomina/deduccion'
 require 'fm_layout/nomina/incapacidad'
 require 'fm_layout/nomina/horas_extra'
 require 'fm_layout/nomina/jubilacion_pension_retiro'
+require 'fm_layout/nomina/separacion_indemnizacion'
 require 'fm_layout/nomina/otro_pago'
 
 module FmLayout
@@ -14,6 +15,7 @@ module FmLayout
         @complemento_nomina = ComplementoNomina.new
         @percepciones = []
         @jubilacion_pension_retiro = []
+        @separacion_indemnizacion = []
         @deducciones     = []
         @incapacidades   = []
         @otro_pagos      = []
@@ -52,6 +54,16 @@ module FmLayout
         end
       end
 
+      def separacion_indemnizacion
+        separacion_indemnizacion = SeparacionIndemnizacion.new
+        if block_given?
+          yield(separacion_indemnizacion)
+          @separacion_indemnizacion << separacion_indemnizacion
+        else
+          separacion_indemnizacion
+        end
+      end
+
       def deduccion
         @num_deduccion += 1
         deduccion = Deduccion.new @num_deduccion
@@ -86,11 +98,11 @@ module FmLayout
       end
 
       def to_h
-        { 'Nomina' => {}.merge( @complemento_nomina.to_h).merge(obtener_hash_percepciones).merge(obtener_hash_jubilacion_pension_retiro).merge(obtener_hash_deducciones).merge(obtener_hash_otro_pagos).merge(obtener_hash_incapacidades) }
+        { 'Nomina' => {}.merge( @complemento_nomina.to_h).merge(obtener_hash_percepciones).merge(obtener_hash_jubilacion_pension_retiro).merge(obtener_hash_separacion_indemnizacion).merge(obtener_hash_deducciones).merge(obtener_hash_otro_pagos).merge(obtener_hash_incapacidades) }
       end
 
       def to_s
-        @complemento_nomina.to_s + @percepciones.map(&:to_s).inject(:+).to_s + @jubilacion_pension_retiro.map(&:to_s).inject(:+).to_s + @deducciones.map(&:to_s).inject(:+).to_s + @otro_pagos.map(&:to_s).inject(:+).to_s + @incapacidades.map(&:to_s).inject(:+).to_s
+        @complemento_nomina.to_s + @percepciones.map(&:to_s).inject(:+).to_s + @jubilacion_pension_retiro.map(&:to_s).inject(:+).to_s + @separacion_indemnizacion.map(&:to_s).inject(:+).to_s + @deducciones.map(&:to_s).inject(:+).to_s + @otro_pagos.map(&:to_s).inject(:+).to_s + @incapacidades.map(&:to_s).inject(:+).to_s
       end
 
       private
@@ -100,7 +112,11 @@ module FmLayout
       end
 
       def obtener_hash_jubilacion_pension_retiro
-        @jubilacion_pension_retiro.map(&:to_h).first
+        @jubilacion_pension_retiro.map(&:to_h).first || {}
+      end
+
+      def obtener_hash_separacion_indemnizacion
+        @separacion_indemnizacion.map(&:to_h).first || {}
       end
 
       def obtener_hash_deducciones

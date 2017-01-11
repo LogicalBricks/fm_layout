@@ -100,10 +100,26 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
               p.precio_al_otorgarse 20
             end
 
+            n.percepcion do |p|
+              p.tipo '022'
+              p.clave '022'
+              p.concepto 'Separacion Indemnizacion'
+              p.importe_gravado 3000
+              p.importe_exento 0
+            end
+
             n.jubilacion_pension_retiro do |j|
               j.total_una_exhibicion 500
               j.ingreso_acumulable 200
               j.ingreso_no_acumulable 20
+            end
+
+            n.separacion_indemnizacion do |s|
+              s.total_pagado 10000
+              s.numero_anios_servicio 2
+              s.ultimo_sueldo_mensual 20000
+              s.ingreso_acumulable 20000
+              s.ingreso_no_acumulable 500
             end
 
             n.deduccion do |d|
@@ -262,7 +278,7 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
           end
 
           context 'tercera percepcion' do
-            let(:percepcion) { nomina['Percepciones'].last['Percepcion#3'] }
+            let(:percepcion) { nomina['Percepciones'][2]['Percepcion#3'] }
 
             it { expect(percepcion['TipoPercepcion']).to eq('045')}
             it { expect(percepcion['Clave']).to eq('045')}
@@ -272,7 +288,27 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
             it { expect(percepcion['AccionesOTitulos.ValorMercado']).to eq 200  }
             it { expect(percepcion['AccionesOTitulos.PrecioAlOtorgarse']).to eq 20  }
           end
+
+          context 'cuarta percepcion' do
+            let(:percepcion) { nomina['Percepciones'][3]['Percepcion#4'] }
+
+            it { expect(percepcion['TipoPercepcion']).to eq('022')}
+            it { expect(percepcion['Clave']).to eq('022')}
+            it { expect(percepcion['Concepto']).to eq('Separacion Indemnizacion')}
+            it { expect(percepcion['ImporteGravado']).to eq(3000.00)}
+            it { expect(percepcion['ImporteExento']).to eq(0.00)}
+          end
         end
+
+        context "Separación indemnizacion" do
+          let(:separacion) { nomina['SeparacionIndemnizacion'] }
+
+          it { expect(separacion['TotalPagado']).to eq(10000) }
+          it { expect(separacion['NumAñosServicio']).to eq(2) }
+          it { expect(separacion['UltimoSueldoMensOrd']).to eq(20000) }
+          it { expect(separacion['IngresoAcumulable']).to eq(20000) }
+          it { expect(separacion['IngresoNoAcumulable']).to eq(500) }
+        end # context Separación indemnizacion
 
         context 'jubilación pensión retiro' do
 
@@ -368,6 +404,7 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
         it{ expect(salida).to match(/\[ComplementoNomina\]/) }
         it{ expect(salida).to match(/\[Percepcion#1\]/) }
         it{ expect(salida).to match(/\[JubilacionPensionRetiro\]/) }
+        it{ expect(salida).to match(/\[SeparacionIndemnizacion\]/) }
         it{ expect(salida).to match(/\[Deduccion#1\]/) }
         it{ expect(salida).to match(/\[Incapacidad#1\]/) }
       end
