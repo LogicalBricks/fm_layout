@@ -274,6 +274,18 @@ describe 'DSL para generar el layout de Facturación moderna' do
         it{ expect(retencion_local['TasadeRetencion']).to eq(16.00) }
       end
 
+      context 'ComplementoINE' do
+        let(:complementoINE){ prueba.to_h['ComplementoINE'] }
+        it{ expect(complementoINE['TipoProceso']).to eq('Ordinario') }
+        it{ expect(complementoINE['TipoComite']).to eq('Ejecutivo Estatal') }
+      end
+
+      context 'ComplementoINE' do
+        let(:entidadesINE){ prueba.to_h['EntidadesINE'].first['Entidad'] }
+        it{ expect(entidadesINE['ClaveEntidad']).to eq('OAX') }
+        it{ expect(entidadesINE['IdContabilidad']).to eq('000516') }
+      end
+
       context 'salida en texto' do
         let(:salida){ prueba.to_s }
         it{ expect(salida).to match(/\[Encabezado\]/) }
