@@ -123,6 +123,15 @@ describe 'DSL para generar el layout de Facturación moderna' do
             i.tasa 16.00
           end
 
+          f.complemento_ine do |i|
+            i.tipo_proceso 'Ordinario'
+            i.tipo_comite  'Ejecutivo Estatal'
+          end
+
+          f.entidad_ine do |e|
+            e.clave_entidad  'OAX'
+            e.id_contabilidad '000516'
+          end
         end
       end
 
@@ -279,6 +288,8 @@ describe 'DSL para generar el layout de Facturación moderna' do
         it{ expect(salida).to match(/\[ImpuestoRetenido\]/) }
         it{ expect(salida).to match(/\[TrasladoLocal\]/) }
         it{ expect(salida).to match(/\[RetencionLocal\]/) }
+        it{ expect(salida).to match(/\[ComplementoINE\]/) }
+        it{ expect(salida).to match(/\[Entidad\]/) }
       end
     end
 

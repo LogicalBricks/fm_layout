@@ -8,6 +8,8 @@ require 'fm_layout/impuesto_trasladado'
 require 'fm_layout/impuesto_trasladado_local'
 require 'fm_layout/impuesto_retenido'
 require 'fm_layout/impuesto_retenido_local'
+require 'fm_layout/complemento_ine'
+require 'fm_layout/entidad_ine'
 
 module FmLayout
   class FmLayout
@@ -21,6 +23,7 @@ module FmLayout
       @impuestos_trasladados_locales =  []
       @impuestos_retenidos =  []
       @impuestos_retenidos_locales = []
+      @entidades_ine   = []
     end
 
     def encabezado
@@ -132,6 +135,25 @@ module FmLayout
       end
     end
 
+    def complemento_ine
+      @complemento_ine = ComplementoIne.new
+      if block_given?
+        yield(@complemento_ine)
+      else
+        @complemento_ine
+      end
+    end
+
+    def entidad_ine
+      entidad = EntidadINE.new
+      if block_given?
+        yield(entidad)
+        @entidades_ine << entidad
+      else
+        entidad
+      end
+    end
+
     def to_s
       salida = @encabezado.to_s + @datos_adicionales.to_s + @emisor.to_s + @domicilio_fiscal.to_s + @expedido_en.to_s + @receptor.to_s + @domicilio.to_s
       salida += @conceptos.map(&:to_s).reduce(:+).to_s
@@ -139,6 +161,8 @@ module FmLayout
       salida += @impuestos_retenidos.map(&:to_s).reduce(:+).to_s
       salida += @impuestos_trasladados_locales.map(&:to_s).reduce(:+).to_s
       salida += @impuestos_retenidos_locales.map(&:to_s).reduce(:+).to_s
+      salida += @complemento_ine.to_s
+      salida += @entidades_ine.map(&:to_s).reduce(:+).to_s
       salida
     end
 
@@ -155,6 +179,8 @@ module FmLayout
         .merge(obtener_hash_retenciones)
         .merge(obtener_hash_traslados_locales)
         .merge(obtener_hash_retenciones_locales)
+        .merge(@complemento_ine.to_h)
+        .merge(obtener_hash_entidades_ine)
     end
 
     private
@@ -177,6 +203,10 @@ module FmLayout
 
     def obtener_hash_retenciones_locales
       { 'ImpuestosRetenidosLocales' => @impuestos_retenidos_locales.map(&:to_h) }
+    end
+
+    def obtener_hash_entidades_ine
+      { 'EntidadesINE' => @entidades_ine.map(&:to_h) }
     end
   end
 end
