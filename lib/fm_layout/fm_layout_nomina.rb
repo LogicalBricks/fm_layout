@@ -1,5 +1,6 @@
 require 'fm_layout/datos_adicionales'
 require 'fm_layout/emisor'
+require 'fm_layout/entidad_sncf'
 require 'fm_layout/receptor'
 require 'fm_layout/concepto'
 require 'fm_layout/recibo_nomina'
@@ -40,6 +41,15 @@ module FmLayout
       end
     end
 
+    def entidad_sncf
+      @entidad_sncf = EntidadSNCF.new
+      if block_given?
+        yield(@entidad_sncf)
+      else
+        @entidad_sncf
+      end
+    end
+
     def receptor
       if block_given?
         yield(@receptor)
@@ -69,7 +79,7 @@ module FmLayout
     end
 
     def to_s
-      salida = @recibo_nomina.to_s + @datos_adicionales.to_s + @emisor.to_s + @receptor.to_s
+      salida = @recibo_nomina.to_s + @datos_adicionales.to_s + @emisor.to_s + @entidad_sncf.to_s + @receptor.to_s
       salida += @conceptos.map(&:to_s).reduce(:+).to_s
       salida += @nomina.to_s
       salida
@@ -79,6 +89,7 @@ module FmLayout
       recibo_nomina.to_h
         .merge(@datos_adicionales.to_h)
         .merge(@emisor.to_h)
+        .merge(@entidad_sncf.to_h)
         .merge(@expedido_en.to_h)
         .merge(@receptor.to_h)
         .merge(obtener_hash_conceptos)

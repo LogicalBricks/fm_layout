@@ -33,6 +33,11 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
             e.regimen '612'
           end
 
+          f.entidad_sncf do |e|
+            e.origen_recurso 'IM'
+            e.monto_recurso_propio 750
+          end
+
           f.receptor do |r|
             r.rfc 'XAXX010101000'
             r.nombre 'RAMIREZ MARTINEZ JUAN JOSE'
@@ -203,6 +208,13 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
         it{ expect(emisor['rfc']).to eq('ESI920427886') }
         it{ expect(emisor['nombre']).to eq('FACTURACION MODERNA S.A de C.V.') }
         it{ expect(emisor['Regimen']).to eq('612') }
+      end
+
+      context 'entidad_sncf' do
+        let(:entidad){ prueba.to_h['EntidadSNCF'] }
+
+        it{ expect(entidad['OrigenRecurso']).to eq('IM') }
+        it{ expect(entidad['MontoRecursoPropio']).to eq(750) }
       end
 
       context 'receptor' do
@@ -399,6 +411,7 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
         it{ expect(salida).to match(/\[ReciboNomina\]/) }
         it{ expect(salida).to match(/\[Datos Adicionales\]/) }
         it{ expect(salida).to match(/\[Emisor\]/) }
+        it{ expect(salida).to match(/\[EntidadSNCF\]/) }
         it{ expect(salida).to match(/\[Receptor\]/) }
         it{ expect(salida).to match(/\[Concepto#1\]/) }
         it{ expect(salida).to match(/\[ComplementoNomina\]/) }
