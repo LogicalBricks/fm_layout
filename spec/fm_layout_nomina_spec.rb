@@ -378,9 +378,9 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
            it { expect(otro_pago['Clave']).to eq '004' }
            it { expect(otro_pago['Concepto']).to eq 'Un concepto' }
            it { expect(otro_pago['Importe']).to eq 350.5 }
-           it { expect(otro_pago['CompensacionSaldosAFavor.SaldoAFavor']).to eq "[200.0]" }
-           it { expect(otro_pago['CompensacionSaldosAFavor.Año']).to eq "[2016]" }
-           it { expect(otro_pago['CompensacionSaldosAFavor.RemanenteSalFav']).to eq "[100.0]" }
+           it { expect(otro_pago['CompensacionSaldosAFavor.SaldoAFavor']).to eq 200.0 }
+           it { expect(otro_pago['CompensacionSaldosAFavor.Año']).to eq 2016 }
+           it { expect(otro_pago['CompensacionSaldosAFavor.RemanenteSalFav']).to eq 100.0 }
           end # context segundo otro pago
 
           context "tercer otro pago" do

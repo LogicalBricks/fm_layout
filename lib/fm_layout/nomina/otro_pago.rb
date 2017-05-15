@@ -32,15 +32,15 @@ module FmLayout
       end
 
       def saldo dato
-        @datos["CompensacionSaldosAFavor.SaldoAFavor"] = "[#{dato}]"
+        @datos["CompensacionSaldosAFavor.SaldoAFavor"] = dato
       end
 
       def anio dato
-        @datos["CompensacionSaldosAFavor.Año"] = "[#{dato}]"
+        @datos["CompensacionSaldosAFavor.Año"] = dato
       end
 
       def remanente_saldo dato
-        @datos["CompensacionSaldosAFavor.RemanenteSalFav"] = "[#{dato}]"
+        @datos["CompensacionSaldosAFavor.RemanenteSalFav"] = dato
       end
 
     end
