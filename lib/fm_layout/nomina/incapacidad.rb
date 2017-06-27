@@ -2,7 +2,7 @@ module FmLayout
   module Nomina
     class Incapacidad
 
-      include ::FmLayout::FmSeccionNomina
+      include ::FmLayout::FmSeccion
 
       def initialize num_incapacidad
         @titulo = "Incapacidad##{num_incapacidad}"

@@ -4,8 +4,7 @@ module FmLayout
   class ComplementoIne
     include FmSeccion
 
-    def initialize separador = '|'
-      @separador = separador
+    def initialize
       @titulo = 'ComplementoINE'
       @datos = {}
     end

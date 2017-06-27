@@ -2,7 +2,7 @@ module FmLayout
   module Nomina
     class SeparacionIndemnizacion
 
-      include ::FmLayout::FmSeccionNomina
+      include ::FmLayout::FmSeccion
 
       def initialize
         @titulo = 'SeparacionIndemnizacion'

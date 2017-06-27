@@ -194,7 +194,7 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
       end
 
       context 'datos adicionales' do
-        let(:datos_adicionales){ prueba.to_h['Datos Adicionales'] }
+        let(:datos_adicionales){ prueba.to_h['DatosAdicionales'] }
 
         it{ expect(datos_adicionales['tipoDocumento']).to eq('RECIBO DE NOMINA') }
         it{ expect(datos_adicionales['idNomina']).to eq('N-1') }
@@ -409,7 +409,7 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
       context 'salida en texto' do
         let(:salida){ prueba.to_s }
         it{ expect(salida).to match(/\[ReciboNomina\]/) }
-        it{ expect(salida).to match(/\[Datos Adicionales\]/) }
+        it{ expect(salida).to match(/\[DatosAdicionales\]/) }
         it{ expect(salida).to match(/\[Emisor\]/) }
         it{ expect(salida).to match(/\[EntidadSNCF\]/) }
         it{ expect(salida).to match(/\[Receptor\]/) }

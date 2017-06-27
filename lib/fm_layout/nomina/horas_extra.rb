@@ -2,7 +2,7 @@ module FmLayout
   module Nomina
     class HorasExtra
 
-      include ::FmLayout::FmSeccionNomina
+      include ::FmLayout::FmSeccion
       attr_reader :datos
 
       def initialize

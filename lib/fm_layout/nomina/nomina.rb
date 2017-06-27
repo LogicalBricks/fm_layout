@@ -1,3 +1,6 @@
+require 'fm_layout/nomina/emisor'
+require 'fm_layout/nomina/receptor'
+require 'fm_layout/nomina/concepto'
 require 'fm_layout/nomina/complemento_nomina'
 require 'fm_layout/nomina/percepcion'
 require 'fm_layout/nomina/deduccion'

@@ -1,8 +1,5 @@
 require 'fm_layout/datos_adicionales'
-require 'fm_layout/emisor'
 require 'fm_layout/entidad_sncf'
-require 'fm_layout/receptor'
-require 'fm_layout/concepto'
 require 'fm_layout/recibo_nomina'
 require 'fm_layout/nomina/nomina'
 
@@ -10,9 +7,9 @@ module FmLayout
   class FmLayoutNomina
     def initialize
       @recibo_nomina = ReciboNomina.new
-      @datos_adicionales = DatosAdicionales.new('=')
-      @emisor = Emisor.new('=')
-      @receptor= Receptor.new('=')
+      @datos_adicionales = DatosAdicionales.new
+      @emisor = Nomina::Emisor.new
+      @receptor= Nomina::Receptor.new
       @conceptos = []
       @num_concepto = 0
     end
@@ -60,7 +57,7 @@ module FmLayout
 
     def concepto
       @num_concepto += 1
-      concepto = Concepto.new('=', @num_concepto)
+      concepto = Nomina::Concepto.new(@num_concepto)
       if block_given?
         yield(concepto)
         @conceptos << concepto

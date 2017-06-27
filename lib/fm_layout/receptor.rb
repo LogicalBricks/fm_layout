@@ -4,34 +4,16 @@ module FmLayout
   class Receptor
     include FmSeccion
 
-    def initialize separador = '|'
-      @separador = separador
+    def initialize
       @titulo = 'Receptor'
       @datos = {}
     end
 
     def self.campos_vs_metodos
       {
-        'rfc'                    => 'rfc',
-        'nombre'                 => 'nombre',
-        'Curp'                   => 'curp',
-        'NumSeguridadSocial'     => 'numero_seguridad_social',
-        'FechaInicioRelLaboral'  => 'fecha_inicio_relacion_laboral',
-        'Antigüedad'             => 'antiguedad',
-        'TipoContrato'           => 'tipo_contrato',
-        'TipoJornada'            => 'tipo_jornada',
-        'TipoRegimen'            => 'tipo_regimen',
-        'NumEmpleado'            => 'numero_empleado',
-        'Departamento'           => 'departamento',
-        'Puesto'                 => 'puesto',
-        'RiesgoPuesto'           => 'riesgo_puesto',
-        'PeriodicidadPago'       => 'periodicidad_pago',
-        'Banco'                  => 'banco',
-        'CuentaBancaria'         => 'cuenta_bancaria',
-        'SalarioBaseCotApor'     => 'salario_base',
-        'SalarioDiarioIntegrado' => 'salario_diario_integrado',
-        'ClaveEntFed'            => 'clave_entidad_federativa',
-        'emailCliente'           => 'email',
+        'Rfc'                    => 'rfc',
+        'Nombre'                 => 'nombre',
+        'UsoCFDI'                => 'uso_cfdi',
       }
     end
 

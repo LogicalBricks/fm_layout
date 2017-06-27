@@ -2,7 +2,7 @@ module FmLayout
   module Nomina
     class Percepcion
 
-      include ::FmLayout::FmSeccionNomina
+      include ::FmLayout::FmSeccion
 
       def initialize num_percepcion
         @titulo= "Percepcion##{num_percepcion}"

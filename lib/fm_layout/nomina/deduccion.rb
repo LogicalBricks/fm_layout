@@ -2,7 +2,7 @@ module FmLayout
   module Nomina
     class Deduccion
 
-      include ::FmLayout::FmSeccionNomina
+      include ::FmLayout::FmSeccion
 
       def initialize num_deduccion
         @titulo = "Deduccion##{num_deduccion}"

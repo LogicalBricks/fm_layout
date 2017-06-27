@@ -4,8 +4,7 @@ module FmLayout
   class Emisor
     include FmSeccion
 
-    def initialize separador = '|'
-      @separador = separador
+    def initialize
       @titulo = 'Emisor'
       @datos = {}
       valores_iniciales
@@ -13,12 +12,9 @@ module FmLayout
 
     def self.campos_vs_metodos
       {
-        'rfc'              => 'rfc',
-        'nombre'           => 'nombre',
-        'Regimen'          => 'regimen',
+        'Rfc'              => 'rfc',
+        'Nombre'           => 'nombre',
         'RegimenFiscal'    => 'regimen_fiscal',
-        'Curp'             => 'curp',
-        'RegistroPatronal' => 'registro_patronal',
       }
     end
 
@@ -32,8 +28,8 @@ module FmLayout
     private
 
     def valores_iniciales
-      @datos['rfc'] = nil
-      @datos['nombre'] = nil
+      @datos['Rfc'] = nil
+      @datos['Nombre'] = nil
     end
 
   end

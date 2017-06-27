@@ -1,7 +1,7 @@
 module FmLayout
   class EntidadSNCF
 
-    include ::FmLayout::FmSeccionNomina
+    include ::FmLayout::FmSeccion
 
     def initialize
       @titulo = "EntidadSNCF"

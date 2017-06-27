@@ -4,9 +4,8 @@ module FmLayout
   class DatosAdicionales
     include FmSeccion
 
-    def initialize separador = '|'
-      @separador = separador
-      @titulo = "Datos Adicionales"
+    def initialize
+      @titulo = "DatosAdicionales"
       @datos= {}
       valores_iniciales
     end

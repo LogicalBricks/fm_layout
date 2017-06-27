@@ -1,4 +1,4 @@
-require 'fm_layout/encabezado'
+require 'fm_layout/comprobante_fiscal_digital'
 require 'fm_layout/datos_adicionales'
 require 'fm_layout/emisor'
 require 'fm_layout/receptor'
@@ -14,16 +14,18 @@ require 'fm_layout/entidad_ine'
 module FmLayout
   class FmLayout
     def initialize
-      @encabezado = Encabezado.new
+      @encabezado = ComprobanteFiscalDigital.new
       @datos_adicionales = DatosAdicionales.new
       @emisor = Emisor.new
       @receptor= Receptor.new
       @conceptos = []
-      @impuestos_trasladados =  []
-      @impuestos_trasladados_locales =  []
-      @impuestos_retenidos =  []
-      @impuestos_retenidos_locales = []
-      @entidades_ine   = []
+      @entidades_ine  = []
+      @num_concepto = 0
+
+      @impuesto_trasladado = ImpuestoTrasladado.new
+      @impuesto_retenido = ImpuestoRetenido.new
+      @impuesto_trasladado_local = ImpuestoTrasladadoLocal.new
+      @impuesto_retenido_local = ImpuestoRetenidoLocal.new
     end
 
     def encabezado
@@ -86,7 +88,8 @@ module FmLayout
     end
 
     def concepto
-      concepto = Concepto.new '|', nil
+      @num_concepto += 1
+      concepto = Concepto.new @num_concepto
       if block_given?
         yield(concepto)
         @conceptos << concepto
@@ -96,42 +99,34 @@ module FmLayout
     end
 
     def impuesto_trasladado
-      impuesto = ImpuestoTrasladado.new
       if block_given?
-        yield(impuesto)
-        @impuestos_trasladados << impuesto
+        yield(@impuesto_trasladado)
       else
-       impuesto
+       @impuesto_trasladado
       end
     end
 
     def impuesto_trasladado_local
-      impuesto = ImpuestoTrasladadoLocal.new
       if block_given?
-        yield(impuesto)
-        @impuestos_trasladados_locales << impuesto
+        yield(@impuesto_trasladado_local)
       else
-       impuesto
+       @impuesto_trasladado_local
       end
     end
 
     def impuesto_retenido
-      impuesto = ImpuestoRetenido.new
       if block_given?
-        yield(impuesto)
-        @impuestos_retenidos << impuesto
+        yield(@impuesto_retenido)
       else
-       impuesto
+       @impuesto_retenido
       end
     end
 
-    def impuesto_retenido_local 
-      impuesto = ImpuestoRetenidoLocal.new
+    def impuesto_retenido_local
       if block_given?
-        yield(impuesto)
-        @impuestos_retenidos_locales << impuesto
+        yield(@impuesto_retenido_local)
       else
-        impuesto
+        @impuesto_retenido_local
       end
     end
 
@@ -157,10 +152,10 @@ module FmLayout
     def to_s
       salida = @encabezado.to_s + @datos_adicionales.to_s + @emisor.to_s + @domicilio_fiscal.to_s + @expedido_en.to_s + @receptor.to_s + @domicilio.to_s
       salida += @conceptos.map(&:to_s).reduce(:+).to_s
-      salida += @impuestos_trasladados.map(&:to_s).reduce(:+).to_s
-      salida += @impuestos_retenidos.map(&:to_s).reduce(:+).to_s
-      salida += @impuestos_trasladados_locales.map(&:to_s).reduce(:+).to_s
-      salida += @impuestos_retenidos_locales.map(&:to_s).reduce(:+).to_s
+      salida += @impuesto_trasladado.to_s if @impuesto_trasladado.con_impuestos?
+      salida += @impuesto_retenido.to_s if @impuesto_retenido.con_impuestos?
+      salida += @impuesto_trasladado_local.to_s if @impuesto_trasladado_local.con_impuestos?
+      salida += @impuesto_retenido_local.to_s if @impuesto_retenido_local.con_impuestos?
       salida += @complemento_ine.to_s
       salida += @entidades_ine.map(&:to_s).reduce(:+).to_s
       salida
@@ -190,19 +185,19 @@ module FmLayout
     end
 
     def obtener_hash_retenciones
-      {'ImpuestosRetenidos' => @impuestos_retenidos.map(&:to_h) }
+      {'ImpuestosRetenidos' => @impuesto_retenido.to_h }
     end
 
     def obtener_hash_traslados
-      { 'ImpuestosTrasladados' => @impuestos_trasladados.map(&:to_h) }
+      { 'ImpuestosTrasladados' => @impuesto_trasladado.to_h }
     end
 
     def obtener_hash_traslados_locales
-      { 'ImpuestosTrasladadosLocales' => @impuestos_trasladados_locales.map(&:to_h) }
+      { 'ImpuestosTrasladadosLocales' => @impuesto_trasladado_local.to_h }
     end
 
     def obtener_hash_retenciones_locales
-      { 'ImpuestosRetenidosLocales' => @impuestos_retenidos_locales.map(&:to_h) }
+      { 'ImpuestosRetenidosLocales' => @impuesto_retenido_local.to_h }
     end
 
     def obtener_hash_entidades_ine
