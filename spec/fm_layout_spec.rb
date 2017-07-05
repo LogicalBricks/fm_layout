@@ -23,6 +23,10 @@ describe 'DSL para generar el layout de Facturación moderna' do
             e.metodo_de_pago 'PUE'
             e.lugar_de_expedicion '68000'
           end
+          f.cfdi_relacionados do |cfdi|
+            cfdi.tipo_relacion '04'
+            cfdi.uuids "FCA37E7F-80FF-4CAE-9A03-37E095233F23,6424C23D-77B7-4F13-AD01-8CA0092D9623"
+          end
           f.datos_adicionales do |d|
             d.tipo_de_documento 'Factura'
             d.observaciones 'Efectos Fiscales al Pago'
@@ -162,6 +166,12 @@ describe 'DSL para generar el layout de Facturación moderna' do
         it{ expect(comprobante_fiscal_digital['MetodoPago']).to eq('PUE') }
         it{ expect(comprobante_fiscal_digital['LugarExpedicion']).to eq('68000') }
       end
+
+      context "cfdi relacionados" do
+        let(:cfdi_relacionado) { prueba.to_h['CfdiRelacionados'] }
+        it{ expect(cfdi_relacionado['TipoRelacion']).to eq('04') }
+        it{ expect(cfdi_relacionado['UUID']).to eq('[FCA37E7F-80FF-4CAE-9A03-37E095233F23,6424C23D-77B7-4F13-AD01-8CA0092D9623]') }
+      end # context cfdi relacionados
 
       context 'datos adicionales' do
         let(:datos_adicionales){ prueba.to_h['DatosAdicionales'] }

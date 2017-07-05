@@ -10,6 +10,7 @@ require 'fm_layout/impuesto_retenido'
 require 'fm_layout/impuesto_retenido_local'
 require 'fm_layout/complemento_ine'
 require 'fm_layout/entidad_ine'
+require 'fm_layout/cfdi_relacionados'
 
 module FmLayout
   class FmLayout
@@ -26,6 +27,7 @@ module FmLayout
       @impuesto_retenido = ImpuestoRetenido.new
       @impuesto_trasladado_local = ImpuestoTrasladadoLocal.new
       @impuesto_retenido_local = ImpuestoRetenidoLocal.new
+      @cfdi_relacionados = CfdiRelacionados.new
     end
 
     def encabezado
@@ -149,8 +151,20 @@ module FmLayout
       end
     end
 
+    def cfdi_relacionados
+      if block_given?
+        yield(@cfdi_relacionados)
+      else
+        @cfdi_relacionados
+      end
+    end
+
     def to_s
-      salida = @encabezado.to_s + @datos_adicionales.to_s + @emisor.to_s + @domicilio_fiscal.to_s + @expedido_en.to_s + @receptor.to_s + @domicilio.to_s
+      salida = @encabezado.to_s
+      salida += @cfdi_relacionados.to_s if @cfdi_relacionados.con_relaciones?
+      salida += @datos_adicionales.to_s
+      salida += @emisor.to_s
+      salida += @receptor.to_s
       salida += @conceptos.map(&:to_s).reduce(:+).to_s
       salida += @impuesto_trasladado.to_s if @impuesto_trasladado.con_impuestos?
       salida += @impuesto_retenido.to_s if @impuesto_retenido.con_impuestos?
@@ -165,16 +179,14 @@ module FmLayout
       encabezado.to_h
         .merge(@datos_adicionales.to_h)
         .merge(@emisor.to_h)
-        .merge(@domicilio_fiscal.to_h)
-        .merge(@expedido_en.to_h)
         .merge(@receptor.to_h)
-        .merge(@domicilio.to_h)
         .merge(obtener_hash_conceptos)
         .merge(obtener_hash_traslados)
         .merge(obtener_hash_retenciones)
         .merge(obtener_hash_traslados_locales)
         .merge(obtener_hash_retenciones_locales)
         .merge(@complemento_ine.to_h)
+        .merge(@cfdi_relacionados.to_h)
         .merge(obtener_hash_entidades_ine)
     end
 
