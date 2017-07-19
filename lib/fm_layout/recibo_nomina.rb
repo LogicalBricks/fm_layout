@@ -34,6 +34,7 @@ module FmLayout
     private
 
     def valores_iniciales
+      @datos['Version'] = '3.3'
       @datos['serie'] = nil
       @datos['folio'] = 'asignarFolio'
       @datos['fecha'] = nil
