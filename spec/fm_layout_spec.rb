@@ -331,8 +331,7 @@ describe 'DSL para generar el layout de Facturación moderna' do
 
       context 'encabezado' do
         let(:encabezado){ prueba.to_h['ComprobanteFiscalDigital'] }
-        it{ expect(encabezado['Fecha']).to eq('asignarFecha') }
-        it{ expect(encabezado['Folio']).to eq('asignarFolio') }
+        it{ expect(encabezado['Version']).to eq('3.3') }
       end
 
       context 'datos adicionales' do

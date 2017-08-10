@@ -40,9 +40,8 @@ module FmLayout
 
     def valores_iniciales
       @datos['Version'] = '3.3'
-      @datos['Fecha'] = 'asignarFecha'
-      @datos['Folio'] = 'asignarFolio'
-      #@datos['NumCtaPago'] = 'No identificado'
+      @datos['fecha'] = nil
+      @datos['folio'] = nil
       @datos['NoCertificado'] = nil
       @datos['SubTotal'] = nil
       @datos['Descuento'] = nil
