@@ -79,7 +79,6 @@ module FmLayout
 
     def valores_iniciales
       @datos['Cantidad']    = 1
-      @datos['Unidad']      = 'ACT'
     end
   end
 end
