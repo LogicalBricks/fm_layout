@@ -5,8 +5,8 @@ module FmLayout
   class Pago
     include FmSeccion
 
-    def initialize
-      @titulo = "Pago#1"
+    def initialize num_pago
+      @titulo = "Pago##{num_pago}"
       @datos = {}
       @documento_relacionado = DocumentoRelacionado.new
     end

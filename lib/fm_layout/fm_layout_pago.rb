@@ -7,12 +7,19 @@ module FmLayout
     def initialize
       super
       @encabezado = ReciboPago.new
-      @pago = Pago.new
+      @pagos = []
+      @num_pago = 0
     end
 
     def pago
-      yield(@pago) if block_given?
-      @pago
+      @num_pago += 1
+      pago = Pago.new @num_pago
+      if block_given?
+        yield(pago) if block_given?
+        @pagos << pago
+      else
+        pago
+      end
     end
 
     def to_h
@@ -21,14 +28,14 @@ module FmLayout
 
     def to_s
       salida = super
-      salida += @pago.to_s
+      salida += @pagos.map(&:to_s).reduce(:+).to_s
       salida
     end
 
     private
 
     def obtener_hash_pago
-      {'Pago' => @pago.to_h }
+      { 'Pagos' => @pagos.map(&:to_h) }
     end
   end
 end

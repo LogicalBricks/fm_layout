@@ -73,6 +73,35 @@ describe 'DSL para generar el layout_recibo_pago de Facturación moderna' do
               dr.importe_saldo_insoluto 3000
             end
           end
+          f.pago do |p|
+            p.fecha_pago '2017-07-02T16:47:00'
+            p.forma_de_pago '01'
+            p.moneda 'MXN'
+            p.monto '1800'
+            p.numero_operacion '1'
+            p.rfc_emisor_cuenta_ordenante 'XAXX010101000'
+            p.nombre_banco_ordenante 'Banamex'
+            p.numero_cuenta_ordenante '1234-1234-1234-1234'
+            p.rfc_emisor_cuenta_beneficiario 'TUMG620310R95'
+            p.numero_cuenta_beneficiario '4321-4321-4321-4321'
+            p.tipo_cadena_pago 'tipo_cadena'
+            p.cetificado_pago 'certificado'
+            p.cadena_pago 'cadena'
+            p.sello_pago 'sello'
+
+            p.documento_relacionado do |dr|
+              dr.id_documento "00000000-0000-0000-0000-000000000000"
+              dr.serie 'RP'
+              dr.folio '01'
+              dr.moneda 'MXN'
+              dr.tipo_cambio
+              dr.metodo_pago 'PPD'
+              dr.numero_parcialidad '1'
+              dr.importe_saldo_anterior 2500
+              dr.importe_pagado 2000
+              dr.importe_saldo_insoluto 500
+            end
+          end
         end
       end
 
@@ -107,8 +136,8 @@ describe 'DSL para generar el layout_recibo_pago de Facturación moderna' do
         it{ expect(receptor['Nombre']).to eq('PUBLICO EN GENERAL') }
       end
 
-      context "pago" do
-        let(:pago){ prueba.to_h['Pago']['Pago#1'] }
+      context "pago#1" do
+        let(:pago){ prueba.to_h['Pagos'][0]['Pago#1'] }
         it { expect(pago['FechaPago']).to eq '2017-07-02T16:47:00' }
         it { expect(pago['FormaDePagoP']).to eq '01' }
         it { expect(pago['MonedaP']).to eq 'MXN' }
@@ -134,6 +163,35 @@ describe 'DSL para generar el layout_recibo_pago de Facturación moderna' do
         it { expect(pago['DoctoRelacionado.ImpSaldoAnt']).to eq '[2500,3500]' }
         it { expect(pago['DoctoRelacionado.ImpPagado']).to eq '[2000,500]' }
         it { expect(pago['DoctoRelacionado.ImpSaldoInsoluto']).to eq '[500,3000]' }
+      end # context Pago1
+
+      context "pago#2" do
+        let(:pago){ prueba.to_h['Pagos'][1]['Pago#2'] }
+        it { expect(pago['FechaPago']).to eq '2017-07-02T16:47:00' }
+        it { expect(pago['FormaDePagoP']).to eq '01' }
+        it { expect(pago['MonedaP']).to eq 'MXN' }
+        it { expect(pago['Monto']).to eq '1800' }
+        it { expect(pago['NumOperacion']).to eq '1' }
+        it { expect(pago['RfcEmisorCtaOrd']).to eq 'XAXX010101000' }
+        it { expect(pago['NomBancoOrdExt']).to eq 'Banamex' }
+        it { expect(pago['CtaOrdenante']).to eq '1234-1234-1234-1234' }
+        it { expect(pago['RfcEmisorCtaBen']).to eq 'TUMG620310R95' }
+        it { expect(pago['CtaBeneficiario']).to eq '4321-4321-4321-4321' }
+        it { expect(pago['TipoCadPago']).to eq 'tipo_cadena' }
+        it { expect(pago['CertPago']).to eq 'certificado' }
+        it { expect(pago['CadPago']).to eq 'cadena' }
+        it { expect(pago['SelloPago']).to eq 'sello' }
+
+        it { expect(pago['DoctoRelacionado.IdDocumento']).to eq '[00000000-0000-0000-0000-000000000000]' }
+        it { expect(pago['DoctoRelacionado.Serie']).to eq '[RP]' }
+        it { expect(pago['DoctoRelacionado.Folio']).to eq '[01]' }
+        it { expect(pago['DoctoRelacionado.MonedaDR']).to eq '[MXN]' }
+        it { expect(pago['DoctoRelacionado.TipoCambioDR']).to eq '[]' }
+        it { expect(pago['DoctoRelacionado.MetodoDePagoDR']).to eq '[PPD]' }
+        it { expect(pago['DoctoRelacionado.NumParcialidad']).to eq '[1]' }
+        it { expect(pago['DoctoRelacionado.ImpSaldoAnt']).to eq '[2500]' }
+        it { expect(pago['DoctoRelacionado.ImpPagado']).to eq '[2000]' }
+        it { expect(pago['DoctoRelacionado.ImpSaldoInsoluto']).to eq '[500]' }
       end # context Pago1
 
       context 'salida en texto' do
@@ -182,7 +240,6 @@ describe 'DSL para generar el layout_recibo_pago de Facturación moderna' do
         it{ expect(salida).to match("TransID|5") }
         it{ expect(salida).to match(/\[Emisor\]/) }
         it{ expect(salida).to match(/\[Receptor\]/) }
-        it{ expect(salida).to match(/\[Pago#1\]/) }
       end
     end
   end
