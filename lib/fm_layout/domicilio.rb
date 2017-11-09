@@ -1,9 +1,9 @@
 # encoding: utf-8
-require 'fm_layout/fm_seccion'
+require 'fm_layout/inversion/fm_seccion'
 
 module FmLayout
   class Domicilio
-    include FmSeccion
+    include Inversion::FmSeccion
 
     def initialize(titulo = 'Domicilio', separador = '|')
       @separador = separador

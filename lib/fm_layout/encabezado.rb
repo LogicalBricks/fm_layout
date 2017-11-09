@@ -1,7 +1,8 @@
-require 'fm_layout/fm_seccion'
+require 'fm_layout/inversion/fm_seccion'
+
 module FmLayout
   class Encabezado
-    include FmSeccion
+    include Inversion::FmSeccion
 
     def initialize
       @titulo= 'Encabezado'
