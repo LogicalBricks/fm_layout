@@ -23,24 +23,29 @@ describe 'DSL para generar el layout de Facturación moderna' do
             e.metodo_de_pago 'PUE'
             e.lugar_de_expedicion '68000'
           end
+
           f.cfdi_relacionados do |cfdi|
             cfdi.tipo_relacion '04'
             cfdi.uuids "FCA37E7F-80FF-4CAE-9A03-37E095233F23,6424C23D-77B7-4F13-AD01-8CA0092D9623"
           end
+
           f.datos_adicionales do |d|
             d.tipo_de_documento 'Factura'
             d.observaciones 'Efectos Fiscales al Pago'
             d.id_transaccion 5
           end
+
           f.emisor do |e|
             e.rfc 'TUMG620310R95'
             e.nombre 'FACTURACION MODERNA S.A de C.V.'
             e.regimen_fiscal '612'
           end
+
           f.receptor do |r|
             r.rfc 'XAXX010101000'
             r.nombre 'PUBLICO EN GENERAL'
           end
+
           f.concepto do |c|
             c.clave_producto_servicio '01010101'
             c.numero_de_identificacion '111222333'
@@ -85,6 +90,7 @@ describe 'DSL para generar el layout de Facturación moderna' do
               i.importe 20
             end
           end
+
           f.concepto do |c|
             c.clave_producto_servicio '10101502'
             c.numero_de_identificacion '111222334'
@@ -111,6 +117,7 @@ describe 'DSL para generar el layout de Facturación moderna' do
               i.importe 4
             end
           end
+
           f.impuesto_trasladado do |i|
             i.total_impuestos 19.2
             i.impuesto "002"
@@ -118,30 +125,36 @@ describe 'DSL para generar el layout de Facturación moderna' do
             i.tasa_o_cuota 0.16
             i.importe  19.2
           end
+
           f.impuesto_trasladado_local do |i|
             i.impuesto 'ISH'
             i.importe  110.0
             i.tasa 0.11
           end
+
           f.impuesto_retenido do |i|
             i.total_impuestos 24
             i.impuesto "001"
             i.importe  24
           end
+
           f.impuesto_retenido_local do |i|
             i.impuesto 'IVA LOCAL'
             i.importe 110.00
             i.tasa 0.16
           end
+
           f.impuesto_retenido_local do |i|
             i.impuesto 'ISR LOCAL'
             i.importe 110.00
             i.tasa 0.16
           end
+
           f.complemento_ine do |i|
             i.tipo_proceso 'Ordinario'
             i.tipo_comite  'Ejecutivo Estatal'
           end
+
           f.entidad_ine do |e|
             e.clave_entidad  'OAX'
             e.id_contabilidad '000516'
@@ -313,39 +326,45 @@ describe 'DSL para generar el layout de Facturación moderna' do
         FmLayout.define_layout do |f|
           f.encabezado do |e|
           end
+
           f.datos_adicionales do |d|
             d.id_transaccion 5
           end
+
           f.emisor do |e|
           end
+
           f.receptor do |r|
           end
+
           f.concepto do |c|
           end
+
           f.impuesto_trasladado do |i|
           end
+
           f.impuesto_retenido do |i|
           end
         end
       end
 
       context 'encabezado' do
-        let(:encabezado){ prueba.to_h['ComprobanteFiscalDigital'] }
+        let(:encabezado) { prueba.to_h['ComprobanteFiscalDigital'] }
         it{ expect(encabezado['Version']).to eq('3.3') }
       end
 
       context 'datos adicionales' do
-        let(:datos_adicionales){ prueba.to_h['DatosAdicionales'] }
+        let(:datos_adicionales) { prueba.to_h['DatosAdicionales'] }
         it{ expect(datos_adicionales['tipoDocumento']).to eq('Factura') }
       end
 
       context 'primer concepto' do
-        let(:concepto){ prueba.to_h['Conceptos'].first['Concepto#1'] }
+        let(:concepto) { prueba.to_h['Conceptos'].first['Concepto#1'] }
         it{ expect(concepto['Cantidad']).to eq(1) }
       end
 
       context 'salida en texto' do
-        let(:salida){ prueba.to_s }
+        let(:salida) { prueba.to_s }
         it{ expect(salida).to match(/\[ComprobanteFiscalDigital\]/) }
         it{ expect(salida).to match(/\[DatosAdicionales\]/) }
         it{ expect(salida).to match("TransID|5") }
