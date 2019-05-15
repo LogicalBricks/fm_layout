@@ -4,17 +4,16 @@ module FmLayout
 
       include ::FmLayout::FmSeccion
 
-      def initialize
-        @titulo= 'Incapacidad'
-        @datos= {}
-        #valores_iniciales
+      def initialize num_incapacidad
+        @titulo = "Incapacidad##{num_incapacidad}"
+        @datos  = {}
       end
 
       def self.campos_vs_metodos
         {
-          'DiasIncapacidad'      => 'dias',
-          'TipoIncapacidad'      => 'tipo',
-          'Descuento'            => 'descuento',
+          'DiasIncapacidad'  => 'dias',
+          'TipoIncapacidad'  => 'tipo',
+          'ImporteMonetario' => 'importe_monetario',
         }
       end
 

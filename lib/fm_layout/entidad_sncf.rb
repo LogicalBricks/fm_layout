@@ -1,19 +1,17 @@
-require 'fm_layout/fm_seccion'
-
 module FmLayout
-  class Receptor
-    include FmSeccion
+  class EntidadSNCF
+
+    include ::FmLayout::FmSeccion
 
     def initialize
-      @titulo = 'Receptor'
-      @datos = {}
+      @titulo = "EntidadSNCF"
+      @datos  = {}
     end
 
     def self.campos_vs_metodos
       {
-        'Rfc'                    => 'rfc',
-        'Nombre'                 => 'nombre',
-        'UsoCFDI'                => 'uso_cfdi',
+        'OrigenRecurso'      => 'origen_recurso',
+        'MontoRecursoPropio' => 'monto_recurso_propio',
       }
     end
 

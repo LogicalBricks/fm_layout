@@ -11,22 +11,22 @@ module FmLayout
 
     def self.campos_vs_metodos
       {
-        'serie'               => 'serie',
-        'fecha'               => 'fecha',
-        'folio'               => 'folio',
-        'tipoDeComprobante'   => 'tipo_de_comprobante',
-        'formaDePago'         => 'forma_de_pago',
-        'metodoDePago'        => 'metodo_de_pago',
-        'condicionesDePago'   => 'condiciones_de_pago',
-        'NumCtaPago'          => 'numero_de_cuenta_de_pago',
-        'subTotal'            => 'subtotal',
-        'descuento'           => 'descuento',
-        'motivoDescuento'     => 'motivo_de_descuento',
-        'total'               => 'total',
-        'Moneda'              => 'moneda',
-        'TipoCambio'          => 'tipo_de_cambio',
-        'noCertificado'       => 'numero_de_certificado',
-        'LugarExpedicion'     => 'lugar_de_expedicion'
+        'serie'             => 'serie',
+        'fecha'             => 'fecha',
+        'folio'             => 'folio',
+        'tipoDeComprobante' => 'tipo_de_comprobante',
+        'formaDePago'       => 'forma_de_pago',
+        'metodoDePago'      => 'metodo_de_pago',
+        'condicionesDePago' => 'condiciones_de_pago',
+        'NumCtaPago'        => 'numero_de_cuenta_de_pago',
+        'subTotal'          => 'subtotal',
+        'descuento'         => 'descuento',
+        'motivoDescuento'   => 'motivo_de_descuento',
+        'total'             => 'total',
+        'Moneda'            => 'moneda',
+        'TipoCambio'        => 'tipo_de_cambio',
+        'noCertificado'     => 'numero_de_certificado',
+        'LugarExpedicion'   => 'lugar_de_expedicion'
       }
     end
 

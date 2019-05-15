@@ -1,19 +1,19 @@
 require 'fm_layout/fm_seccion'
 
 module FmLayout
-  class Receptor
+  class EntidadINE
     include FmSeccion
 
     def initialize
-      @titulo = 'Receptor'
+      @titulo = 'Entidad'
       @datos = {}
     end
 
     def self.campos_vs_metodos
       {
-        'Rfc'                    => 'rfc',
-        'Nombre'                 => 'nombre',
-        'UsoCFDI'                => 'uso_cfdi',
+        'ClaveEntidad'   => 'clave_entidad',
+        'Ambito'         => 'ambito',
+        'IdContabilidad' => 'id_contabilidad',
       }
     end
 

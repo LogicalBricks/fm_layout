@@ -5,7 +5,7 @@ module FmLayout
     include FmSeccion
 
     def initialize
-      @titulo = "Datos Adicionales"
+      @titulo = "DatosAdicionales"
       @datos= {}
       valores_iniciales
     end

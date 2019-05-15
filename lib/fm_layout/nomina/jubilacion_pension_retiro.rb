@@ -1,22 +1,21 @@
 module FmLayout
   module Nomina
-    class HorasExtra
+    class JubilacionPensionRetiro
 
       include ::FmLayout::FmSeccion
-      attr_reader :datos
 
       def initialize
-        @titulo= 'HorasExtra'
-        @datos= {}
-        #valores_iniciales
+        @titulo = 'JubilacionPensionRetiro'
+        @datos  = {}
       end
 
       def self.campos_vs_metodos
         {
-          'Dias'           => 'dias',
-          'TipoHoras'      => 'tipo',
-          'HorasExtra'     => 'horas_extra',
-          'ImportePagado'  => 'importe',
+          'TotalUnaExhibicion'  => 'total_una_exhibicion',
+          'TotalParcialidad'    => 'total_parcialidad',
+          'MontoDiario'         => 'monto_diario',
+          'IngresoAcumulable'   => 'ingreso_acumulable',
+          'IngresoNoAcumulable' => 'ingreso_no_acumulable',
         }
       end
 

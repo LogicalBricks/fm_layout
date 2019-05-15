@@ -1,25 +1,71 @@
 require 'fm_layout/fm_seccion'
+require 'fm_layout/parte'
 
 module FmLayout
   class Concepto
     include FmSeccion
 
-    def initialize
-      @titulo = 'Concepto'
+    def initialize num_concepto
+      @titulo = "Concepto##{num_concepto}"
       @datos = {}
       valores_iniciales
+      @impuesto_t = ImpuestoTrasladado.new
+      @impuesto_r = ImpuestoRetenido.new
+      @parte      = Parte.new
     end
 
     def self.campos_vs_metodos
       {
-        'cantidad'            => 'cantidad',
-        'unidad'              => 'unidad',
-        'noIdentificacion'    => 'numero_de_identificacion',
-        'descripcion'         => 'descripcion',
-        'valorUnitario'       => 'valor_unitario',
-        'importe'             => 'importe',
+        'ClaveProdServ'       => 'clave_producto_servicio',
+        'NoIdentificacion'    => 'numero_de_identificacion',
+        'Cantidad'            => 'cantidad',
+        'ClaveUnidad'         => 'clave_unidad',
+        'Unidad'              => 'unidad',
+        'Descripcion'         => 'descripcion',
+        'ValorUnitario'       => 'valor_unitario',
+        'Importe'             => 'importe',
+        'Descuento'           => 'descuento',
         'CuentaPredial'       => 'cuenta_predial',
       }
+    end
+
+    def partes
+      if block_given?
+        yield @parte
+        @datos["Parte.ClaveProdServ"] = @parte.datos["ClaveProdServ"]
+        @datos["Parte.NoIdentificacion"] = @parte.datos["NoIdentificacion"]
+        @datos["Parte.Cantidad"] = @parte.datos["Cantidad"]
+        @datos["Parte.Unidad"] = @parte.datos["Unidad"]
+        @datos["Parte.Descripcion"] = @parte.datos["Descripcion"]
+      else
+        @parte
+      end
+    end
+
+    def impuesto_trasladado
+      if block_given?
+        yield @impuesto_t
+        @datos["Impuestos.Traslados.Base"] = @impuesto_t.datos["Base"]
+        @datos["Impuestos.Traslados.Impuesto"] = @impuesto_t.datos["Impuesto"]
+        @datos["Impuestos.Traslados.TipoFactor"] = @impuesto_t.datos["TipoFactor"]
+        @datos["Impuestos.Traslados.TasaOCuota"] = @impuesto_t.datos["TasaOCuota"]
+        @datos["Impuestos.Traslados.Importe"] = @impuesto_t.datos["Importe"]
+      else
+        @impuesto_t
+      end
+    end
+
+    def impuesto_retenido
+      if block_given?
+        yield @impuesto_r
+        @datos["Impuestos.Retenciones.Base"] = @impuesto_r.datos["Base"]
+        @datos["Impuestos.Retenciones.Impuesto"] = @impuesto_r.datos["Impuesto"]
+        @datos["Impuestos.Retenciones.TipoFactor"] = @impuesto_r.datos["TipoFactor"]
+        @datos["Impuestos.Retenciones.TasaOCuota"] = @impuesto_r.datos["TasaOCuota"]
+        @datos["Impuestos.Retenciones.Importe"] = @impuesto_r.datos["Importe"]
+      else
+        @impuesto_r
+      end
     end
 
     # Creación de los métodos de acceso dinámicamente
@@ -32,7 +78,7 @@ module FmLayout
     private
 
     def valores_iniciales
-      @datos['cantidad'] = 1
+      @datos['Cantidad']    = 1
     end
   end
 end
