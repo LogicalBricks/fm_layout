@@ -24,7 +24,8 @@ module FmLayout
         'TipoDeComprobante' => 'tipo_de_comprobante',
         'MetodoPago'        => 'metodo_de_pago',
         'LugarExpedicion'   => 'lugar_de_expedicion',
-        'TipoCambio'        => 'tipo_de_cambio'
+        'TipoCambio'        => 'tipo_de_cambio',
+        'Exportacion'       => 'exportacion'
       }
     end
 
@@ -39,13 +40,14 @@ module FmLayout
     private
 
     def valores_iniciales
-      @datos['Version'] = '3.3'
+      @datos['Version'] = '4.0'
       @datos['Fecha'] = nil
       @datos['Folio'] = nil
       @datos['NoCertificado'] = nil
       @datos['SubTotal'] = nil
       @datos['Descuento'] = nil
       @datos['Total'] = nil
+      @datos['Exportacion'] = '01'
     end
   end
 

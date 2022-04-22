@@ -26,6 +26,7 @@ module FmLayout
         'Importe'             => 'importe',
         'Descuento'           => 'descuento',
         'CuentaPredial'       => 'cuenta_predial',
+        'ObjetoImp'           => 'objeto_imp'
       }
     end
 
@@ -78,7 +79,8 @@ module FmLayout
     private
 
     def valores_iniciales
-      @datos['Cantidad']    = 1
+      @datos['Cantidad'] = 1
+      @datos['ObjetoImp'] = '02'
     end
   end
 end

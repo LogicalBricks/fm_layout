@@ -36,7 +36,7 @@ describe 'DSL para generar el layout de Facturación moderna' do
           end
 
           f.emisor do |e|
-            e.rfc 'TUMG620310R95'
+            e.rfc 'XIA190128J61'
             e.nombre 'FACTURACION MODERNA S.A de C.V.'
             e.regimen_fiscal '612'
           end
@@ -44,6 +44,9 @@ describe 'DSL para generar el layout de Facturación moderna' do
           f.receptor do |r|
             r.rfc 'XAXX010101000'
             r.nombre 'PUBLICO EN GENERAL'
+            r.uso_cfdi 'G03'
+            r.domicilio_fiscal '71243'
+            r.regimen_fiscal '616'
           end
 
           f.concepto do |c|
@@ -56,6 +59,7 @@ describe 'DSL para generar el layout de Facturación moderna' do
             c.valor_unitario 110.00
             c.importe 110.00
             c.descuento 10.00
+            c.objeto_imp '02'
             #c.cuenta_predial '123-132123'
 
             c.partes do |c|
@@ -124,6 +128,7 @@ describe 'DSL para generar el layout de Facturación moderna' do
             i.tipo_factor "Tasa"
             i.tasa_o_cuota 0.16
             i.importe  19.2
+            i.base 120
           end
 
           f.impuesto_trasladado_local do |i|
@@ -164,7 +169,7 @@ describe 'DSL para generar el layout de Facturación moderna' do
 
       context 'comprobante fiscal digital' do
         let(:comprobante_fiscal_digital){ prueba.to_h['ComprobanteFiscalDigital'] }
-        it{ expect(comprobante_fiscal_digital['Version']).to eq('3.3') }
+        it{ expect(comprobante_fiscal_digital['Version']).to eq('4.0') }
         it{ expect(comprobante_fiscal_digital['Serie']).to eq('A') }
         it{ expect(comprobante_fiscal_digital['Folio']).to eq(10) }
         it{ expect(comprobante_fiscal_digital['Fecha']).to eq(hora) }
@@ -178,6 +183,7 @@ describe 'DSL para generar el layout de Facturación moderna' do
         it{ expect(comprobante_fiscal_digital['TipoDeComprobante']).to eq('I') }
         it{ expect(comprobante_fiscal_digital['MetodoPago']).to eq('PUE') }
         it{ expect(comprobante_fiscal_digital['LugarExpedicion']).to eq('68000') }
+        it{ expect(comprobante_fiscal_digital['Exportacion']).to eq('01') }
       end
 
       context "cfdi relacionados" do
@@ -195,7 +201,7 @@ describe 'DSL para generar el layout de Facturación moderna' do
 
       context 'emisor' do
         let(:emisor){ prueba.to_h['Emisor'] }
-        it{ expect(emisor['Rfc']).to eq('TUMG620310R95') }
+        it{ expect(emisor['Rfc']).to eq('XIA190128J61') }
         it{ expect(emisor['Nombre']).to eq('FACTURACION MODERNA S.A de C.V.') }
         it{ expect(emisor['RegimenFiscal']).to eq('612') }
       end
@@ -203,7 +209,10 @@ describe 'DSL para generar el layout de Facturación moderna' do
       context 'receptor' do
         let(:receptor){ prueba.to_h['Receptor'] }
         it{ expect(receptor['Rfc']).to eq('XAXX010101000') }
+        it{ expect(receptor['UsoCFDI']).to eq('G03') }
         it{ expect(receptor['Nombre']).to eq('PUBLICO EN GENERAL') }
+        it{ expect(receptor['DomicilioFiscalReceptor']).to eq('71243') }
+        it{ expect(receptor['RegimenFiscalReceptor']).to eq('616') }
       end
 
       context 'primer concepto' do
@@ -318,6 +327,14 @@ describe 'DSL para generar el layout de Facturación moderna' do
         it{ expect(salida).to match(/\[ComplementoINE\]/) }
         it{ expect(salida).to match(/\[Entidad\]/) }
       end
+
+      context 'put file' do
+        it {
+          file = File.open('template.txt', 'w')
+          file.write(prueba)
+          file.close
+        }
+      end
     end
 
     context 'llenado sin campos' do
@@ -350,7 +367,7 @@ describe 'DSL para generar el layout de Facturación moderna' do
 
       context 'encabezado' do
         let(:encabezado) { prueba.to_h['ComprobanteFiscalDigital'] }
-        it{ expect(encabezado['Version']).to eq('3.3') }
+        it{ expect(encabezado['Version']).to eq('4.0') }
       end
 
       context 'datos adicionales' do

@@ -11,9 +11,11 @@ module FmLayout
 
     def self.campos_vs_metodos
       {
-        'Rfc'                    => 'rfc',
-        'Nombre'                 => 'nombre',
-        'UsoCFDI'                => 'uso_cfdi',
+        'Rfc'                      => 'rfc',
+        'Nombre'                   => 'nombre',
+        'UsoCFDI'                  => 'uso_cfdi',
+        'DomicilioFiscalReceptor'  => 'domicilio_fiscal',
+        'RegimenFiscalReceptor'    => 'regimen_fiscal'
       }
     end
 

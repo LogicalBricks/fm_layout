@@ -11,6 +11,7 @@ require 'fm_layout/impuesto_retenido_local'
 require 'fm_layout/complemento_ine'
 require 'fm_layout/entidad_ine'
 require 'fm_layout/cfdi_relacionados'
+require 'pry'
 
 module FmLayout
   class FmLayout
