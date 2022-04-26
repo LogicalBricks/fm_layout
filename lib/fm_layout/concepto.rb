@@ -12,6 +12,7 @@ module FmLayout
       @impuesto_t = ImpuestoTrasladado.new
       @impuesto_r = ImpuestoRetenido.new
       @parte      = Parte.new
+      
     end
 
     def self.campos_vs_metodos
@@ -25,8 +26,8 @@ module FmLayout
         'ValorUnitario'       => 'valor_unitario',
         'Importe'             => 'importe',
         'Descuento'           => 'descuento',
-        'CuentaPredial'       => 'cuenta_predial',
-        'ObjetoImp'           => 'objeto_imp'
+        'ObjetoImp'           => 'objeto_imp',
+        'CuentaPredial'       => 'cuenta_predial'
       }
     end
 
@@ -64,6 +65,18 @@ module FmLayout
         @datos["Impuestos.Retenciones.TipoFactor"] = @impuesto_r.datos["TipoFactor"]
         @datos["Impuestos.Retenciones.TasaOCuota"] = @impuesto_r.datos["TasaOCuota"]
         @datos["Impuestos.Retenciones.Importe"] = @impuesto_r.datos["Importe"]
+      else
+        @impuesto_r
+      end
+    end
+
+    def a_cuenta_terceros
+      if block_given?
+        yield @impuesto_r
+        @datos["ACuentaTerceros.RfcACuentaTerceros"] = @impuesto_r.datos["RfcACuentaTerceros"]
+        @datos["ACuentaTerceros.NombreACuentaTerceros"] = @impuesto_r.datos["NombreACuentaTerceros"]
+        @datos["ACuentaTerceros.RegimenFiscalACuentaTerceros"] = @impuesto_r.datos["RegimenFiscalACuentaTerceros"]
+        @datos["ACuentaTerceros.DomicilioFiscalACuentaTerceros"] = @impuesto_r.datos["DomicilioFiscalACuentaTerceros"]
       else
         @impuesto_r
       end
