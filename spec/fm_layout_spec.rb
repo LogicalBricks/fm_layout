@@ -26,7 +26,7 @@ describe 'DSL para generar el layout de Facturación moderna' do
 
           f.informacion_global do |e|
             e.periodicidad '01'
-            e.meses '1'
+            e.meses '01'
             e.anio '2022'
           end
 
@@ -195,7 +195,7 @@ describe 'DSL para generar el layout de Facturación moderna' do
       context 'informacion global' do
         let(:informacion_global){ prueba.to_h['InformacionGlobal'] }
         it{ expect(informacion_global['Periodicidad']).to eq('01') }
-        it{ expect(informacion_global['Meses']).to eq('1') }
+        it{ expect(informacion_global['Meses']).to eq('01') }
         it{ expect(informacion_global['Año']).to eq('2022') }
       end
 
