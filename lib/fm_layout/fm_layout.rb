@@ -1,4 +1,5 @@
 require 'fm_layout/comprobante_fiscal_digital'
+require 'fm_layout/informacion_global'
 require 'fm_layout/datos_adicionales'
 require 'fm_layout/emisor'
 require 'fm_layout/receptor'
@@ -17,6 +18,7 @@ module FmLayout
   class FmLayout
     def initialize
       @encabezado = ComprobanteFiscalDigital.new
+      @informacion_global = InformacionGlobal.new
       @datos_adicionales = DatosAdicionales.new
       @emisor = Emisor.new
       @receptor= Receptor.new
@@ -36,6 +38,14 @@ module FmLayout
         yield(@encabezado)
       else
         @encabezado
+      end
+    end
+
+    def informacion_global
+      if block_given?
+        yield(@informacion_global)
+      else
+        @informacion_global
       end
     end
 
@@ -162,6 +172,7 @@ module FmLayout
 
     def to_s
       salida = @encabezado.to_s
+      salida += @informacion_global.to_s
       salida += @cfdi_relacionados.to_s if @cfdi_relacionados.con_relaciones?
       salida += @datos_adicionales.to_s
       salida += @emisor.to_s
@@ -178,6 +189,7 @@ module FmLayout
 
     def to_h
       encabezado.to_h
+        .merge(informacion_global.to_h)
         .merge(@datos_adicionales.to_h)
         .merge(@emisor.to_h)
         .merge(@receptor.to_h)

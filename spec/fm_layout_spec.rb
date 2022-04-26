@@ -24,6 +24,12 @@ describe 'DSL para generar el layout de Facturación moderna' do
             e.lugar_de_expedicion '68000'
           end
 
+          f.informacion_global do |e|
+            e.periodicidad '01'
+            e.meses '1'
+            e.anio '2022'
+          end
+
           f.cfdi_relacionados do |cfdi|
             cfdi.tipo_relacion '04'
             cfdi.uuids "FCA37E7F-80FF-4CAE-9A03-37E095233F23,6424C23D-77B7-4F13-AD01-8CA0092D9623"
@@ -186,6 +192,13 @@ describe 'DSL para generar el layout de Facturación moderna' do
         it{ expect(comprobante_fiscal_digital['Exportacion']).to eq('01') }
       end
 
+      context 'informacion global' do
+        let(:informacion_global){ prueba.to_h['InformacionGlobal'] }
+        it{ expect(informacion_global['Periodicidad']).to eq('01') }
+        it{ expect(informacion_global['Meses']).to eq('1') }
+        it{ expect(informacion_global['Año']).to eq('2022') }
+      end
+
       context "cfdi relacionados" do
         let(:cfdi_relacionado) { prueba.to_h['CfdiRelacionados'] }
         it{ expect(cfdi_relacionado['TipoRelacion']).to eq('04') }
@@ -315,6 +328,7 @@ describe 'DSL para generar el layout de Facturación moderna' do
       context 'salida en texto' do
         let(:salida){ prueba.to_s }
         it{ expect(salida).to match(/\[ComprobanteFiscalDigital\]/) }
+        it{ expect(salida).to match(/\[InformacionGlobal\]/) }
         it{ expect(salida).to match(/\[DatosAdicionales\]/) }
         it{ expect(salida).to match(/\[Emisor\]/) }
         it{ expect(salida).to match(/\[Receptor\]/) }

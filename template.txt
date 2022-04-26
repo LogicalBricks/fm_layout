@@ -1,7 +1,7 @@
 [ComprobanteFiscalDigital]
 
 Version=4.0
-Fecha=2022-04-22T03:12:58
+Fecha=2022-04-25T23:56:47
 Folio=10
 NoCertificado=111222111
 SubTotal=100.0
@@ -15,6 +15,12 @@ Moneda=MXN
 TipoDeComprobante=I
 MetodoPago=PUE
 LugarExpedicion=68000
+
+[InformacionGlobal]
+
+Periodicidad=01
+Meses=1
+Año=2022
 
 [CfdiRelacionados]
 
