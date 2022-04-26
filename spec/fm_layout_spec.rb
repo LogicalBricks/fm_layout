@@ -45,6 +45,7 @@ describe 'DSL para generar el layout de Facturación moderna' do
             e.rfc 'XIA190128J61'
             e.nombre 'FACTURACION MODERNA S.A de C.V.'
             e.regimen_fiscal '612'
+            e.fac_atr_adquirente '0123456789'
           end
 
           f.receptor do |r|
@@ -217,6 +218,7 @@ describe 'DSL para generar el layout de Facturación moderna' do
         it{ expect(emisor['Rfc']).to eq('XIA190128J61') }
         it{ expect(emisor['Nombre']).to eq('FACTURACION MODERNA S.A de C.V.') }
         it{ expect(emisor['RegimenFiscal']).to eq('612') }
+        it{ expect(emisor['FacAtrAdquirente']).to eq('0123456789') }
       end
 
       context 'receptor' do
