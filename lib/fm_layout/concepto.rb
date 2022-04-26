@@ -1,5 +1,6 @@
 require 'fm_layout/fm_seccion'
 require 'fm_layout/parte'
+require 'fm_layout/a_cuenta_terceros'
 
 module FmLayout
   class Concepto
@@ -9,6 +10,7 @@ module FmLayout
       @titulo = "Concepto##{num_concepto}"
       @datos = {}
       valores_iniciales
+      @cuenta_terceros = ACuentaTerceros.new
       @impuesto_t = ImpuestoTrasladado.new
       @impuesto_r = ImpuestoRetenido.new
       @parte      = Parte.new
@@ -72,13 +74,13 @@ module FmLayout
 
     def a_cuenta_terceros
       if block_given?
-        yield @impuesto_r
-        @datos["ACuentaTerceros.RfcACuentaTerceros"] = @impuesto_r.datos["RfcACuentaTerceros"]
-        @datos["ACuentaTerceros.NombreACuentaTerceros"] = @impuesto_r.datos["NombreACuentaTerceros"]
-        @datos["ACuentaTerceros.RegimenFiscalACuentaTerceros"] = @impuesto_r.datos["RegimenFiscalACuentaTerceros"]
-        @datos["ACuentaTerceros.DomicilioFiscalACuentaTerceros"] = @impuesto_r.datos["DomicilioFiscalACuentaTerceros"]
+        yield @cuenta_terceros
+        @datos["ACuentaTerceros.RfcACuentaTerceros"] = @cuenta_terceros.datos["RfcACuentaTerceros"]
+        @datos["ACuentaTerceros.NombreACuentaTerceros"] = @cuenta_terceros.datos["NombreACuentaTerceros"]
+        @datos["ACuentaTerceros.RegimenFiscalACuentaTerceros"] = @cuenta_terceros.datos["RegimenFiscalACuentaTerceros"]
+        @datos["ACuentaTerceros.DomicilioFiscalACuentaTerceros"] = @cuenta_terceros.datos["DomicilioFiscalACuentaTerceros"]
       else
-        @impuesto_r
+        @cuenta_terceros
       end
     end
 

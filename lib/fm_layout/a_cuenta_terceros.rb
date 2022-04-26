@@ -4,21 +4,23 @@ module FmLayout
   class ACuentaTerceros
     include FmSeccion
     attr_reader :datos
-    attr_accessor :arr_base, :arr_impuesto, :arr_tipo_factor, :arr_tasa_o_cuota, :arr_importe
+    attr_accessor :rfc_cuenta_terceros, :nombre_cuenta_terceros, :regimen_fiscal_cuenta_terceros, :domicilio_fiscal_cuenta_terceros
 
     def initialize
-      @titulo = 'Retenciones'
-      @arr_base = []
-      @arr_impuesto = []
-      @arr_tipo_factor = []
-      @arr_tasa_o_cuota = []
-      @arr_importe = []
+      @titulo = 'ACuentaTerceros'
+      @rfc_cuenta_terceros = ''
+      @nombre_cuenta_terceros = ''
+      @regimen_fiscal_cuenta_terceros = ''
+      @domicilio_fiscal_cuenta_terceros = ''
       @datos = {}
     end
 
     def self.campos_vs_metodos
       {
-        'TotalImpuestosRetenidos'    => 'total_impuestos',
+        'RfcACuentaTerceros'    => 'rfc_cuenta_terceros',
+        'NombreACuentaTerceros' => 'nombre_cuenta_terceros',
+        'RegimenFiscalACuentaTerceros' => 'regimen_fiscal_cuenta_terceros',
+        'DomicilioFiscalACuentaTerceros' => 'domicilio_fiscal_cuenta_terceros'
       }
     end
 
@@ -27,35 +29,6 @@ module FmLayout
       define_method(metodo) do |dato|
         @datos[campo] = dato
       end
-    end
-
-    def base value
-      arr_base.push value
-      @datos["Base"] = "[#{arr_base.join(',')}]"
-    end
-
-    def impuesto value
-      arr_impuesto.push value
-      @datos["Impuesto"] = "[#{arr_impuesto.join(',')}]"
-    end
-
-    def tipo_factor value
-      arr_tipo_factor.push value
-      @datos["TipoFactor"] = "[#{arr_tipo_factor.join(',')}]"
-    end
-
-    def tasa_o_cuota value
-      arr_tasa_o_cuota.push value
-      @datos["TasaOCuota"] = "[#{arr_tasa_o_cuota.join(',')}]"
-    end
-
-    def importe value
-      arr_importe.push value
-      @datos["Importe"] = "[#{arr_importe.join(',')}]"
-    end
-
-    def con_impuestos?
-      @datos.any?
     end
   end
 end

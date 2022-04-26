@@ -69,6 +69,13 @@ describe 'DSL para generar el layout de Facturación moderna' do
             c.objeto_imp '02'
             #c.cuenta_predial '123-132123'
 
+            c.a_cuenta_terceros do |c|
+              c.rfc_cuenta_terceros 'XAXX010101000'
+              c.nombre_cuenta_terceros 'PUBLICO EN GENERAL'
+              c.regimen_fiscal_cuenta_terceros  '612'
+              c.domicilio_fiscal_cuenta_terceros  '71243'
+            end
+
             c.partes do |c|
               c.clave_producto_servicio '01010101'
               c.numero_de_identificacion '112233'
@@ -241,6 +248,11 @@ describe 'DSL para generar el layout de Facturación moderna' do
         it{ expect(concepto['ValorUnitario']).to eq(110.00) }
         it{ expect(concepto['Importe']).to eq(110.00) }
         it{ expect(concepto['Descuento']).to eq(10.00) }
+
+        it{ expect(concepto['ACuentaTerceros.RfcACuentaTerceros']).to eq("XAXX010101000") }
+        it{ expect(concepto['ACuentaTerceros.NombreACuentaTerceros']).to eq("PUBLICO EN GENERAL") }
+        it{ expect(concepto['ACuentaTerceros.RegimenFiscalACuentaTerceros']).to eq("612") }
+        it{ expect(concepto['ACuentaTerceros.DomicilioFiscalACuentaTerceros']).to eq("71243") }
 
         it{ expect(concepto['Parte.ClaveProdServ']).to eq("[01010101,01010101]") }
         it{ expect(concepto['Parte.NoIdentificacion']).to eq("[112233,112234]") }
