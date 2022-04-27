@@ -35,6 +35,11 @@ describe 'DSL para generar el layout de Facturación moderna' do
             cfdi.uuids "FCA37E7F-80FF-4CAE-9A03-37E095233F23,6424C23D-77B7-4F13-AD01-8CA0092D9623"
           end
 
+          f.cfdi_relacionados do |cfdi|
+            cfdi.tipo_relacion '01'
+            cfdi.uuids "FCA37E7F-80FF-4CAE-9A03-37E095233F23,6424C23D-77B7-4F13-AD01-8CA0092D9623"
+          end
+
           f.datos_adicionales do |d|
             d.tipo_de_documento 'Factura'
             d.observaciones 'Efectos Fiscales al Pago'
@@ -207,9 +212,15 @@ describe 'DSL para generar el layout de Facturación moderna' do
         it{ expect(informacion_global['Año']).to eq('2022') }
       end
 
-      context "cfdi relacionados" do
-        let(:cfdi_relacionado) { prueba.to_h['CfdiRelacionados'] }
+      context "cfdi relacionado 01" do
+        let(:cfdi_relacionado) { prueba.to_h['CfdiRelacionados'].first['CfdiRelacionados#1'] }
         it{ expect(cfdi_relacionado['TipoRelacion']).to eq('04') }
+        it{ expect(cfdi_relacionado['UUID']).to eq('[FCA37E7F-80FF-4CAE-9A03-37E095233F23,6424C23D-77B7-4F13-AD01-8CA0092D9623]') }
+      end # context cfdi relacionados
+
+      context "cfdi relacionado 02" do
+        let(:cfdi_relacionado) { prueba.to_h['CfdiRelacionados'].last['CfdiRelacionados#2'] }
+        it{ expect(cfdi_relacionado['TipoRelacion']).to eq('01') }
         it{ expect(cfdi_relacionado['UUID']).to eq('[FCA37E7F-80FF-4CAE-9A03-37E095233F23,6424C23D-77B7-4F13-AD01-8CA0092D9623]') }
       end # context cfdi relacionados
 

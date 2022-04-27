@@ -30,7 +30,8 @@ module FmLayout
       @impuesto_retenido = ImpuestoRetenido.new
       @impuesto_trasladado_local = ImpuestoTrasladadoLocal.new
       @impuesto_retenido_local = ImpuestoRetenidoLocal.new
-      @cfdi_relacionados = CfdiRelacionados.new
+      @cfdi_relacionados = []
+      @num_cfdi_relacionados = 0
     end
 
     def encabezado
@@ -163,17 +164,20 @@ module FmLayout
     end
 
     def cfdi_relacionados
+      @num_cfdi_relacionados += 1
+      relacionado = CfdiRelacionados.new @num_cfdi_relacionados
       if block_given?
-        yield(@cfdi_relacionados)
+        yield(relacionado)
+        @cfdi_relacionados << relacionado
       else
-        @cfdi_relacionados
+        relacionado
       end
     end
 
     def to_s
       salida = @encabezado.to_s
       salida += @informacion_global.to_s
-      salida += @cfdi_relacionados.to_s if @cfdi_relacionados.con_relaciones?
+      salida += @cfdi_relacionados.map(&:to_s).reduce(:+).to_s if @num_cfdi_relacionados > 0
       salida += @datos_adicionales.to_s
       salida += @emisor.to_s
       salida += @receptor.to_s
@@ -199,7 +203,7 @@ module FmLayout
         .merge(obtener_hash_traslados_locales)
         .merge(obtener_hash_retenciones_locales)
         .merge(@complemento_ine.to_h)
-        .merge(@cfdi_relacionados.to_h)
+        .merge(obtener_hash_cfdi_relacionados)
         .merge(obtener_hash_entidades_ine)
     end
 
@@ -227,6 +231,10 @@ module FmLayout
 
     def obtener_hash_entidades_ine
       { 'EntidadesINE' => @entidades_ine.map(&:to_h) }
+    end
+
+    def obtener_hash_cfdi_relacionados
+      { 'CfdiRelacionados' => @cfdi_relacionados.map(&:to_h) }
     end
   end
 end
