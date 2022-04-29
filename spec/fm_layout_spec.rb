@@ -26,12 +26,17 @@ describe 'DSL para generar el layout de Facturación moderna' do
 
           f.informacion_global do |e|
             e.periodicidad '01'
-            e.meses '1'
+            e.meses '01'
             e.anio '2022'
           end
 
           f.cfdi_relacionados do |cfdi|
             cfdi.tipo_relacion '04'
+            cfdi.uuids "FCA37E7F-80FF-4CAE-9A03-37E095233F23,6424C23D-77B7-4F13-AD01-8CA0092D9623"
+          end
+
+          f.cfdi_relacionados do |cfdi|
+            cfdi.tipo_relacion '01'
             cfdi.uuids "FCA37E7F-80FF-4CAE-9A03-37E095233F23,6424C23D-77B7-4F13-AD01-8CA0092D9623"
           end
 
@@ -45,6 +50,7 @@ describe 'DSL para generar el layout de Facturación moderna' do
             e.rfc 'XIA190128J61'
             e.nombre 'FACTURACION MODERNA S.A de C.V.'
             e.regimen_fiscal '612'
+            e.fac_atr_adquirente '0123456789'
           end
 
           f.receptor do |r|
@@ -67,6 +73,13 @@ describe 'DSL para generar el layout de Facturación moderna' do
             c.descuento 10.00
             c.objeto_imp '02'
             #c.cuenta_predial '123-132123'
+
+            c.a_cuenta_terceros do |c|
+              c.rfc_cuenta_terceros 'XAXX010101000'
+              c.nombre_cuenta_terceros 'PUBLICO EN GENERAL'
+              c.regimen_fiscal_cuenta_terceros  '612'
+              c.domicilio_fiscal_cuenta_terceros  '71243'
+            end
 
             c.partes do |c|
               c.clave_producto_servicio '01010101'
@@ -195,13 +208,19 @@ describe 'DSL para generar el layout de Facturación moderna' do
       context 'informacion global' do
         let(:informacion_global){ prueba.to_h['InformacionGlobal'] }
         it{ expect(informacion_global['Periodicidad']).to eq('01') }
-        it{ expect(informacion_global['Meses']).to eq('1') }
+        it{ expect(informacion_global['Meses']).to eq('01') }
         it{ expect(informacion_global['Año']).to eq('2022') }
       end
 
-      context "cfdi relacionados" do
-        let(:cfdi_relacionado) { prueba.to_h['CfdiRelacionados'] }
+      context "cfdi relacionado 01" do
+        let(:cfdi_relacionado) { prueba.to_h['CfdiRelacionados'].first['CfdiRelacionados#1'] }
         it{ expect(cfdi_relacionado['TipoRelacion']).to eq('04') }
+        it{ expect(cfdi_relacionado['UUID']).to eq('[FCA37E7F-80FF-4CAE-9A03-37E095233F23,6424C23D-77B7-4F13-AD01-8CA0092D9623]') }
+      end # context cfdi relacionados
+
+      context "cfdi relacionado 02" do
+        let(:cfdi_relacionado) { prueba.to_h['CfdiRelacionados'].last['CfdiRelacionados#2'] }
+        it{ expect(cfdi_relacionado['TipoRelacion']).to eq('01') }
         it{ expect(cfdi_relacionado['UUID']).to eq('[FCA37E7F-80FF-4CAE-9A03-37E095233F23,6424C23D-77B7-4F13-AD01-8CA0092D9623]') }
       end # context cfdi relacionados
 
@@ -217,6 +236,7 @@ describe 'DSL para generar el layout de Facturación moderna' do
         it{ expect(emisor['Rfc']).to eq('XIA190128J61') }
         it{ expect(emisor['Nombre']).to eq('FACTURACION MODERNA S.A de C.V.') }
         it{ expect(emisor['RegimenFiscal']).to eq('612') }
+        it{ expect(emisor['FacAtrAdquirente']).to eq('0123456789') }
       end
 
       context 'receptor' do
@@ -239,6 +259,11 @@ describe 'DSL para generar el layout de Facturación moderna' do
         it{ expect(concepto['ValorUnitario']).to eq(110.00) }
         it{ expect(concepto['Importe']).to eq(110.00) }
         it{ expect(concepto['Descuento']).to eq(10.00) }
+
+        it{ expect(concepto['ACuentaTerceros.RfcACuentaTerceros']).to eq("XAXX010101000") }
+        it{ expect(concepto['ACuentaTerceros.NombreACuentaTerceros']).to eq("PUBLICO EN GENERAL") }
+        it{ expect(concepto['ACuentaTerceros.RegimenFiscalACuentaTerceros']).to eq("612") }
+        it{ expect(concepto['ACuentaTerceros.DomicilioFiscalACuentaTerceros']).to eq("71243") }
 
         it{ expect(concepto['Parte.ClaveProdServ']).to eq("[01010101,01010101]") }
         it{ expect(concepto['Parte.NoIdentificacion']).to eq("[112233,112234]") }

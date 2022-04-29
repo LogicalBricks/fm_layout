@@ -411,7 +411,7 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
         end
 
         context "#cfdi_relacionados" do
-          let(:cfdi_relacionados) { prueba.to_h['CfdiRelacionados'] }
+          let(:cfdi_relacionados) { prueba.to_h['CfdiRelacionados'].first['CfdiRelacionados#1'] }
 
           it { expect(cfdi_relacionados['TipoRelacion']).to eq("Un tipo de relacion")}
           it { expect(cfdi_relacionados['UUID']).to eq("[UUIDS]")}
@@ -432,7 +432,7 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
         it{ expect(salida).to match(/\[SeparacionIndemnizacion\]/) }
         it{ expect(salida).to match(/\[Deduccion#1\]/) }
         it{ expect(salida).to match(/\[Incapacidad#1\]/) }
-        it { expect(salida).to match(/\[CfdiRelacionados\]/) }
+        it { expect(salida).to match(/\[CfdiRelacionados#1\]/) }
         it { expect(salida).to match(/TipoRelacion=Un tipo de relacion/) }
         it { expect(salida).to match(/UUID=\[UUIDS\]/) }
       end

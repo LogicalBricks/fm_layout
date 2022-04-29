@@ -11,7 +11,8 @@ module FmLayout
       @datos_adicionales = DatosAdicionales.new
       @emisor = Nomina::Emisor.new
       @receptor= Nomina::Receptor.new
-      @cfdi_relacionados = CfdiRelacionados.new
+      @cfdi_relacionados = []
+      @num_cfdi_relacionados = 0
       @conceptos = []
       @num_concepto = 0
     end
@@ -78,16 +79,19 @@ module FmLayout
     end
 
     def cfdi_relacionados
+      @num_cfdi_relacionados += 1
+      relacionado = CfdiRelacionados.new @num_cfdi_relacionados
       if block_given?
-        yield(@cfdi_relacionados)
+        yield(relacionado)
+        @cfdi_relacionados << relacionado
       else
-        @cfdi_relacionados
+        relacionado
       end
     end
 
     def to_s
       salida = @recibo_nomina.to_s
-      salida += @cfdi_relacionados.to_s if @cfdi_relacionados.con_relaciones?
+      salida += @cfdi_relacionados.map(&:to_s).reduce(:+).to_s if @num_cfdi_relacionados > 0
       salida += @datos_adicionales.to_s + @emisor.to_s + @entidad_sncf.to_s + @receptor.to_s
       salida += @conceptos.map(&:to_s).reduce(:+).to_s
       salida += @nomina.to_s
@@ -97,7 +101,7 @@ module FmLayout
     def to_h
       recibo_nomina.to_h
         .merge(@datos_adicionales.to_h)
-        .merge(@cfdi_relacionados.to_h)
+        .merge(obtener_hash_cfdi_relacionados)
         .merge(@emisor.to_h)
         .merge(@entidad_sncf.to_h)
         .merge(@expedido_en.to_h)
@@ -112,5 +116,8 @@ module FmLayout
       { 'Conceptos' => @conceptos.map(&:to_h) }
     end
 
+    def obtener_hash_cfdi_relacionados
+      { 'CfdiRelacionados' => @cfdi_relacionados.map(&:to_h) }
+    end
   end
 end

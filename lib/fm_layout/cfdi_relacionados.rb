@@ -5,8 +5,8 @@ module FmLayout
     include FmSeccion
     attr_reader :datos
 
-    def initialize
-      @titulo = 'CfdiRelacionados'
+    def initialize num_relacionado
+      @titulo = "CfdiRelacionados##{num_relacionado}"
       @datos = {}
     end
 

@@ -15,6 +15,7 @@ module FmLayout
         'Rfc'              => 'rfc',
         'Nombre'           => 'nombre',
         'RegimenFiscal'    => 'regimen_fiscal',
+        'FacAtrAdquirente' => 'fac_atr_adquirente'
       }
     end
 

@@ -1,5 +1,6 @@
 require 'fm_layout/fm_seccion'
 require 'fm_layout/parte'
+require 'fm_layout/a_cuenta_terceros'
 
 module FmLayout
   class Concepto
@@ -9,9 +10,11 @@ module FmLayout
       @titulo = "Concepto##{num_concepto}"
       @datos = {}
       valores_iniciales
+      @cuenta_terceros = ACuentaTerceros.new
       @impuesto_t = ImpuestoTrasladado.new
       @impuesto_r = ImpuestoRetenido.new
       @parte      = Parte.new
+      
     end
 
     def self.campos_vs_metodos
@@ -25,8 +28,8 @@ module FmLayout
         'ValorUnitario'       => 'valor_unitario',
         'Importe'             => 'importe',
         'Descuento'           => 'descuento',
-        'CuentaPredial'       => 'cuenta_predial',
-        'ObjetoImp'           => 'objeto_imp'
+        'ObjetoImp'           => 'objeto_imp',
+        'CuentaPredial'       => 'cuenta_predial'
       }
     end
 
@@ -66,6 +69,18 @@ module FmLayout
         @datos["Impuestos.Retenciones.Importe"] = @impuesto_r.datos["Importe"]
       else
         @impuesto_r
+      end
+    end
+
+    def a_cuenta_terceros
+      if block_given?
+        yield @cuenta_terceros
+        @datos["ACuentaTerceros.RfcACuentaTerceros"] = @cuenta_terceros.datos["RfcACuentaTerceros"]
+        @datos["ACuentaTerceros.NombreACuentaTerceros"] = @cuenta_terceros.datos["NombreACuentaTerceros"]
+        @datos["ACuentaTerceros.RegimenFiscalACuentaTerceros"] = @cuenta_terceros.datos["RegimenFiscalACuentaTerceros"]
+        @datos["ACuentaTerceros.DomicilioFiscalACuentaTerceros"] = @cuenta_terceros.datos["DomicilioFiscalACuentaTerceros"]
+      else
+        @cuenta_terceros
       end
     end
 
