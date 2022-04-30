@@ -6,7 +6,7 @@ require "fm_layout/fm_layout_pago"
 module FmLayout
   def self.define_layout
     layout = FmLayout.new
-    yield(layout) if block_given?
+    yield(layout) if block_given? 
     layout
   end
 

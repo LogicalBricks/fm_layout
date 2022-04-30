@@ -58,8 +58,9 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
             r.salario_base 200
             r.salario_diario_integrado 209.04
             r.clave_entidad_federativa 'OAX'
-            r.regimen_fiscal '605'
-            r.domicilio_fiscal '01001'
+            r.uso_cfdi 'CN01'
+            r.regimen_fiscal_receptor '605'
+            r.domicilio_fiscal_receptor '01001'
           end
 
           f.concepto do |c|

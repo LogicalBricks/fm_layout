@@ -31,8 +31,8 @@ module FmLayout
           'ClaveEntFed'            => 'clave_entidad_federativa',
           'emailCliente'           => 'email',
           'UsoCFDI'                  => 'uso_cfdi',
-          'DomicilioFiscalReceptor'  => 'domicilio_fiscal',
-          'RegimenFiscalReceptor'    => 'regimen_fiscal'
+          'DomicilioFiscalReceptor'  => 'domicilio_fiscal_receptor',
+          'RegimenFiscalReceptor'    => 'regimen_fiscal_receptor'
         }
       end
 
