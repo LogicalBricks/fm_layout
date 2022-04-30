@@ -21,6 +21,7 @@ module FmLayout
         'Moneda'              => 'moneda',
         'noCertificado'       => 'numero_de_certificado',
         'LugarExpedicion'     => 'lugar_de_expedicion',
+        'Exportacion'         => 'exportacion'
       }
     end
 
@@ -42,6 +43,7 @@ module FmLayout
       @datos['descuento'] = nil
       @datos['total'] = nil
       @datos['noCertificado'] = nil
+      @datos['Exportacion'] = '01'
     end
   end
 

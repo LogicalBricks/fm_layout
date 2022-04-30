@@ -18,6 +18,7 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
             e.subtotal '4420.00'
             e.descuento '193.43'
             e.total '4226.57'
+            e.exportacion '01'
           end
 
           f.datos_adicionales do |d|
@@ -57,6 +58,8 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
             r.salario_base 200
             r.salario_diario_integrado 209.04
             r.clave_entidad_federativa 'OAX'
+            r.regimen_fiscal '605'
+            r.domicilio_fiscal '01001'
           end
 
           f.concepto do |c|
@@ -197,6 +200,7 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
         it{ expect(recibo_nomina['subTotal']).to eq('4420.00') }
         it{ expect(recibo_nomina['descuento']).to eq('193.43') }
         it{ expect(recibo_nomina['total']).to eq('4226.57') }
+        it{ expect(recibo_nomina['Exportacion']).to eq('01') }
       end
 
       context 'datos adicionales' do
@@ -244,6 +248,8 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
         it { expect(receptor['SalarioBaseCotApor']).to eq(200.0)}
         it { expect(receptor['SalarioDiarioIntegrado']).to eq(209.04)}
         it { expect(receptor['ClaveEntFed']).to eq('OAX')}
+        it { expect(receptor['DomicilioFiscalReceptor']).to eq('01001')}
+        it { expect(receptor['RegimenFiscalReceptor']).to eq('605')}
       end
 
       context 'concepto' do
@@ -435,6 +441,14 @@ describe 'DSL para generar el layout de Facturación Moderna para nómina' do
         it { expect(salida).to match(/\[CfdiRelacionados#1\]/) }
         it { expect(salida).to match(/TipoRelacion=Un tipo de relacion/) }
         it { expect(salida).to match(/UUID=\[UUIDS\]/) }
+      end
+
+      context 'put file' do
+        it {
+          file = File.open('nomina.txt', 'w')
+          file.write(prueba)
+          file.close
+        }
       end
     end
   end

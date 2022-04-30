@@ -30,6 +30,9 @@ module FmLayout
           'SalarioDiarioIntegrado' => 'salario_diario_integrado',
           'ClaveEntFed'            => 'clave_entidad_federativa',
           'emailCliente'           => 'email',
+          'UsoCFDI'                  => 'uso_cfdi',
+          'DomicilioFiscalReceptor'  => 'domicilio_fiscal',
+          'RegimenFiscalReceptor'    => 'regimen_fiscal'
         }
       end
 
