@@ -12,9 +12,10 @@ module FmLayout
 
     def self.campos_vs_metodos
       {
-        'rfc'           => 'rfc',
-        'nombre'        => 'nombre',
-        'RegimenFiscal' => 'regimen_fiscal',
+        'Rfc'              => 'rfc',
+        'Nombre'           => 'nombre',
+        'RegimenFiscal'    => 'regimen_fiscal',
+        'FacAtrAdquirente' => 'fac_atr_adquirente'
       }
     end
 
@@ -28,9 +29,8 @@ module FmLayout
     private
 
     def valores_iniciales
-      @datos['rfc'] = nil
-      @datos['nombre'] = nil
-      @datos['RegimenFiscal'] = nil
+      @datos['Rfc'] = nil
+      @datos['Nombre'] = nil
     end
 
   end

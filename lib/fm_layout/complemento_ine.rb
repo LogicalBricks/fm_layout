@@ -1,21 +1,19 @@
 require 'fm_layout/fm_seccion'
 
 module FmLayout
-  class Receptor
+  class ComplementoIne
     include FmSeccion
 
     def initialize
-      @titulo = 'Receptor'
+      @titulo = 'ComplementoINE'
       @datos = {}
     end
 
     def self.campos_vs_metodos
       {
-        'Rfc'                      => 'rfc',
-        'Nombre'                   => 'nombre',
-        'UsoCFDI'                  => 'uso_cfdi',
-        'DomicilioFiscalReceptor'  => 'domicilio_fiscal',
-        'RegimenFiscalReceptor'    => 'regimen_fiscal'
+        'TipoProceso'    => 'tipo_proceso',
+        'TipoComite'     => 'tipo_comite',
+        'IdContabilidad' => 'id_contabilidad',
       }
     end
 
@@ -25,6 +23,8 @@ module FmLayout
         @datos[campo] = dato
       end
     end
+
+    private
 
   end
 end

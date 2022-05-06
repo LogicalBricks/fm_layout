@@ -1,21 +1,20 @@
 require 'fm_layout/fm_seccion'
-
 module FmLayout
-  class Receptor
+  class InformacionGlobal
     include FmSeccion
 
     def initialize
-      @titulo = 'Receptor'
-      @datos = {}
+      @titulo= 'InformacionGlobal'
+      @datos= {}
+      valores_iniciales
     end
 
     def self.campos_vs_metodos
       {
-        'Rfc'                      => 'rfc',
-        'Nombre'                   => 'nombre',
-        'UsoCFDI'                  => 'uso_cfdi',
-        'DomicilioFiscalReceptor'  => 'domicilio_fiscal',
-        'RegimenFiscalReceptor'    => 'regimen_fiscal'
+        'Periodicidad'             => 'periodicidad',
+        'Meses'             => 'meses',
+        'Año'             => 'anio',
+        
       }
     end
 
@@ -26,5 +25,11 @@ module FmLayout
       end
     end
 
+
+    private
+
+    def valores_iniciales   
+    end
   end
+
 end

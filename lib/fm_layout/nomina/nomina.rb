@@ -1,8 +1,14 @@
+require 'fm_layout/nomina/emisor'
+require 'fm_layout/nomina/receptor'
+require 'fm_layout/nomina/concepto'
 require 'fm_layout/nomina/complemento_nomina'
 require 'fm_layout/nomina/percepcion'
 require 'fm_layout/nomina/deduccion'
 require 'fm_layout/nomina/incapacidad'
 require 'fm_layout/nomina/horas_extra'
+require 'fm_layout/nomina/jubilacion_pension_retiro'
+require 'fm_layout/nomina/separacion_indemnizacion'
+require 'fm_layout/nomina/otro_pago'
 
 module FmLayout
   module Nomina
@@ -10,10 +16,16 @@ module FmLayout
 
       def initialize
         @complemento_nomina = ComplementoNomina.new
-        @percepciones =  []
-        @deducciones =  []
-        @incapacidades =  []
-        @horas_extras =  []
+        @percepciones = []
+        @jubilacion_pension_retiro = []
+        @separacion_indemnizacion = []
+        @deducciones     = []
+        @incapacidades   = []
+        @otro_pagos      = []
+        @num_otro_pago   = 0
+        @num_percepcion  = 0
+        @num_deduccion   = 0
+        @num_incapacidad = 0
       end
 
       def complemento_nomina
@@ -25,7 +37,8 @@ module FmLayout
       end
 
       def percepcion
-        percepcion = Percepcion.new
+        @num_percepcion += 1
+        percepcion = Percepcion.new @num_percepcion
         if block_given?
           yield(percepcion)
           @percepciones << percepcion
@@ -34,8 +47,29 @@ module FmLayout
         end
       end
 
+      def jubilacion_pension_retiro
+        jubilacion_pension_retiro = JubilacionPensionRetiro.new
+        if block_given?
+          yield(jubilacion_pension_retiro)
+          @jubilacion_pension_retiro << jubilacion_pension_retiro
+        else
+          jubilacion_pension_retiro
+        end
+      end
+
+      def separacion_indemnizacion
+        separacion_indemnizacion = SeparacionIndemnizacion.new
+        if block_given?
+          yield(separacion_indemnizacion)
+          @separacion_indemnizacion << separacion_indemnizacion
+        else
+          separacion_indemnizacion
+        end
+      end
+
       def deduccion
-        deduccion = Deduccion.new
+        @num_deduccion += 1
+        deduccion = Deduccion.new @num_deduccion
         if block_given?
           yield(deduccion)
           @deducciones << deduccion
@@ -44,8 +78,20 @@ module FmLayout
         end
       end
 
+      def otro_pago
+        @num_otro_pago += 1
+        otro_pago = OtroPago.new @num_otro_pago
+        if block_given?
+          yield(otro_pago)
+          @otro_pagos << otro_pago
+        else
+          otro_pago
+        end
+      end
+
       def incapacidad
-        incapacidad = Incapacidad.new
+        @num_incapacidad += 1
+        incapacidad = Incapacidad.new @num_incapacidad
         if block_given?
           yield(incapacidad)
           @incapacidades << incapacidad
@@ -54,23 +100,12 @@ module FmLayout
         end
       end
 
-      def horas_extra
-        horas_extra = HorasExtra.new
-        if block_given?
-          yield(horas_extra)
-          @horas_extras << horas_extra
-        else
-          horas_extra
-        end
-      end
-
-
       def to_h
-        { 'Nomina' => {}.merge( @complemento_nomina.to_h).merge(obtener_hash_percepciones).merge(obtener_hash_deducciones).merge(obtener_hash_incapacidades).merge(obtener_hash_horas_extra) }
+        { 'Nomina' => {}.merge( @complemento_nomina.to_h).merge(obtener_hash_percepciones).merge(obtener_hash_jubilacion_pension_retiro).merge(obtener_hash_separacion_indemnizacion).merge(obtener_hash_deducciones).merge(obtener_hash_otro_pagos).merge(obtener_hash_incapacidades) }
       end
 
       def to_s
-        @complemento_nomina.to_s + @percepciones.map(&:to_s).inject(:+).to_s + @deducciones.map(&:to_s).inject(:+).to_s + @incapacidades.map(&:to_s).inject(:+).to_s + @horas_extras.map(&:to_s).inject(:+).to_s
+        @complemento_nomina.to_s + @percepciones.map(&:to_s).inject(:+).to_s + @jubilacion_pension_retiro.map(&:to_s).inject(:+).to_s + @separacion_indemnizacion.map(&:to_s).inject(:+).to_s + @deducciones.map(&:to_s).inject(:+).to_s + @otro_pagos.map(&:to_s).inject(:+).to_s + @incapacidades.map(&:to_s).inject(:+).to_s
       end
 
       private
@@ -79,8 +114,20 @@ module FmLayout
         { 'Percepciones' => @percepciones.map(&:to_h) }
       end
 
+      def obtener_hash_jubilacion_pension_retiro
+        @jubilacion_pension_retiro.map(&:to_h).first || {}
+      end
+
+      def obtener_hash_separacion_indemnizacion
+        @separacion_indemnizacion.map(&:to_h).first || {}
+      end
+
       def obtener_hash_deducciones
         { 'Deducciones' => @deducciones.map(&:to_h) }
+      end
+
+      def obtener_hash_otro_pagos
+        { 'OtroPagos' => @otro_pagos.map(&:to_h) }
       end
 
       def obtener_hash_incapacidades
